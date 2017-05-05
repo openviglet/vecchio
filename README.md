@@ -1,4 +1,4 @@
-![banner_vecchio.jpg](https://raw.githubusercontent.com/openviglet/vecchio/master/img/banner_vecchio.jpg)
+![banner_vecchio.jpg](https://openviglet.github.io/vecchio/img/banner_vecchio.jpg)
 ------
 **Viglet Vecchio** allows create a authentication layer to access API
 
