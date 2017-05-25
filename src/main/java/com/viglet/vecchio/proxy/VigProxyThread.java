@@ -26,10 +26,10 @@ public class VigProxyThread extends Thread {
 
             String inputLine, outputLine;
             int cnt = 0;
-            String urlToCall = "";
+            String urlToCall = "http://www.recygram.com";
             ///////////////////////////////////
             //begin get request from client
-            while ((inputLine = in.readLine()) != null) {
+     /*       while ((inputLine = in.readLine()) != null) {
                 try {
                     StringTokenizer tok = new StringTokenizer(inputLine);
                     tok.nextToken();
@@ -45,7 +45,7 @@ public class VigProxyThread extends Thread {
                 }
 
                 cnt++;
-            }
+            }*/
             //end get request from client
             ///////////////////////////////////
 
