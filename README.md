@@ -22,4 +22,10 @@ tracking requests and bugs.**
 
 ## Test
 
-* Ready! You can access: [http://localhost:8080](http://localhost:8080)
+Ready! You can access the following APIs: 
+
+* Viglet Turing - Entity:
+[http://localhost:8080/turing/entity](http://localhost:8080/turing/entity)
+
+* GitHub - openviglet:
+[http://localhost:8080/github/openviglet](http://localhost:8080/github/openviglet)
