@@ -56,5 +56,9 @@
 		<servlet-name>default</servlet-name>
 		<url-pattern>/console/*</url-pattern>
 	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>/login/*</url-pattern>
+	</servlet-mapping>
 
 </web-app>
