@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletResponse;
 
 import com.viglet.vecchio.proxy.VigProxy;
 
@@ -24,23 +23,16 @@ public class VigRestRequest {
 	private Integer id;
 
 	public VigRestRequest(String pathInfo, OutputStream ops) throws ServletException {
-		final List<VigRestMap> vigRestMaps = new ArrayList<VigRestMap>();
-		try {
-			vigRestMaps.add(
-					new VigRestMap(Pattern.compile("/turing/entity"), new URL("https://api.viglet.ai/turing/entity")));
-			vigRestMaps.add(new VigRestMap(Pattern.compile("/github/openviglet"),
-					new URL("https://api.github.com/users/openviglet")));
 
-			for (VigRestMap vigRestMap : vigRestMaps) {
+		try {
+			VigRestMaps vigRestMaps = new VigRestMaps();
+			for (VigRestMap vigRestMap : vigRestMaps.getVigRestMaps()) {
 				if (vigRestMap.getPattern().matcher(pathInfo).matches()) {
-				
+
 					VigProxy vigProxy = new VigProxy(vigRestMap.getUrl(), ops);
 					return;
 				}
 			}
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
