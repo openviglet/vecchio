@@ -1,6 +1,7 @@
 package com.viglet.vecchio;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
@@ -19,21 +20,21 @@ public class VigVecchio extends HttpServlet {
 	}
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		PrintWriter out = response.getWriter();
+	//	PrintWriter out = response.getWriter();
 
-		out.println("GET request handling");
-		out.println(request.getPathInfo());
-		out.println(request.getParameterMap());
+//		out.println("GET request handling");
+//		out.println(request.getPathInfo());
+//		out.println(request.getParameterMap());
 		try {
-			VigRestRequest resourceValues = new VigRestRequest(request.getPathInfo());
-			out.println(resourceValues.getId());
+			VigRestRequest resourceValues = new VigRestRequest(request.getPathInfo(), response.getOutputStream());
+	//		out.println(resourceValues.getId());
 		} catch (ServletException e) {
 			response.setStatus(400);
 			response.resetBuffer();
 			e.printStackTrace();
-			out.println(e.toString());
+	//		out.println(e.toString());
 		}
-		out.close();
+	//	out.close();
 
 		// VigProxy vigProxy = new VigProxy(request, response);
 	}

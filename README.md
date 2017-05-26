@@ -15,7 +15,7 @@ tracking requests and bugs.**
 
 ## Execute
 
-* To run Viglet Vecchio, execute the following commands:
+* To run Viglet Vecchio, execute the following command:
 
 `$ mvn jetty:run
 `

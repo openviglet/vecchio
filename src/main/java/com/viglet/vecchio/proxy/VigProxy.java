@@ -9,40 +9,34 @@ import javax.servlet.http.*;
 
 public class VigProxy {
 	private static final int BUFFER_SIZE = 32768;
-	public VigProxy (HttpServletRequest request, HttpServletResponse response)  throws IOException{
-		
+
+	public VigProxy(URL url, OutputStream ops) throws IOException {
+
 		try {
 
-			DataOutputStream out = new DataOutputStream(response.getOutputStream());
-			String urlToCall = request.getParameter("url");
+			DataOutputStream out = new DataOutputStream(ops);
 			BufferedReader rd = null;
 			try {
-				URL url = new URL(urlToCall);
 				URLConnection conn = url.openConnection();
 				conn.setDoInput(true);
 				// not doing HTTP posts
-				conn.setDoOutput(false);
-				// System.out.println("Type is: "
-				// + conn.getContentType());
-				// System.out.println("content length: "
-				// + conn.getContentLength());
-				// System.out.println("allowed user interaction: "
-				// + conn.getAllowUserInteraction());
-				// System.out.println("content encoding: "
-				// + conn.getContentEncoding());
-				// System.out.println("content type: "
-				// + conn.getContentType());
+				conn.setDoOutput(false);				
+				System.out.println("Type is: " + conn.getContentType());
+				System.out.println("content length: " + conn.getContentLength());
+				System.out.println("allowed user interaction: " + conn.getAllowUserInteraction());
+				System.out.println("content encoding: " + conn.getContentEncoding());
+				System.out.println("content type: " + conn.getContentType());
 
 				// Get the response
 				InputStream is = null;
-				if (conn.getContentLength() > 0) {
+//				if (conn.getContentLength() > 0) {
 					try {
 						is = conn.getInputStream();
 						rd = new BufferedReader(new InputStreamReader(is));
 					} catch (IOException ioe) {
 						System.out.println("********* IO EXCEPTION **********: " + ioe);
 					}
-				}
+//				}
 				byte by[] = new byte[BUFFER_SIZE];
 				int index = is.read(by, 0, BUFFER_SIZE);
 				while (index != -1) {
