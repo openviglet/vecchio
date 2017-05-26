@@ -1,326 +1,142 @@
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
+@import url(https://fonts.googleapis.com/css?family=Vibur);
+* {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  font-family: arial;
 }
-/* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section {
-	display: block;
-}
+
 body {
-	line-height: 1;
-}
-ol, ul {
-	list-style: none;
-}
-blockquote, q {
-	quotes: none;
-}
-blockquote:before, blockquote:after,
-q:before, q:after {
-	content: '';
-	content: none;
-}
-table {
-	border-collapse: collapse;
-	border-spacing: 0;
+  background: #FF9000;
 }
 
-/* Reset End */
-.clr { clear: both;}
-body {
-	background: #2ca1cc;
-	margin: 0 auto;
-	padding: 0 auto;
-	font-family: 'Open Sans', sans-serif;
-	color: #777;
-	font-weight:300;
-	font-size: 16px;
-}
-#wrapper {
-	margin: 50px auto;
-	width: 540px;
-	height:460px;
-	background: #fff;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	-o-border-radius: 5px;
-	-ms-border-radius: 5px;
-	border-radius: 5px;
-	padding: 40px;
+h1 {
+  color: #ccc;
+  text-align: center;
+  font-size: 50px;
 }
 
-.join {
-	color: #222;
-	font-size: 44px;
-	font-weight:700;
-	float: left;
-	text-shadow: 1px 0 1px #777;
-}
-.lock {
-	float: right;
-	background:url("https://i.imgur.com/Jsq8WUM.png") no-repeat;
-	width:14px;
-	height:18px;
-	margin-top: 12px;
-}
-.login-options {
-	margin-top: 15px;
-	color: #9c9c9c;
-	margin-bottom: 25px;
+.login-form {
+  width: 350px;
+  padding: 40px 30px;
+  background: #eee;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  margin: auto;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 
-.twitter {
-    display: inline-block;
-    text-align: center;
-    vertical-align: middle;
-	width: 160px;
-	height:40px;
-	padding-top: 10px;
-    border: 0px solid #178bb6;
-    border-radius: 8px;
-    background: #992828;
-    background: -webkit-gradient(linear, left top, left bottom, from(#1daee3), to(#1daee3));
-    background: -moz-linear-gradient(top, #1daee3, #1daee3);
-    background: linear-gradient(to bottom, #1daee3, #1daee3);
-    font-family: 'Open Sans', sans-serif;
-	font-weight:700;
-    color: #ffffff;
-    text-decoration: none;
-	margin-right: 10px;
-}
-.twitter:hover,
-.twitter:focus {
-    background: #1ca4d6;
-    color: #ffffff;
-    text-decoration: none;
-}
-.twitter:active {
-    background: #1ca4d6;
-}
-.twitter:before{
-    content:  "\0000a0";
-    display: inline-block;
-    height: 50px;
-    width: 45px;
-    line-height: 24px;
-    margin: 0 4px -6px -4px;
-    position: relative;
-	padding-left: 10px;
-    top: -10px;
-    left: -21px;
-    background: url("https://i.imgur.com/2ATElSK.png") no-repeat center center #1ca4d6;
-    background-size: 29px 24px;
-	-webkit-border-radius: 8px 0px 0px 8px;
-	-moz-border-radius: 8px 0px 0px 8px;
-	-o-border-radius: 8px 0px 0px 8px;
-	-ms-border-radius: 8px 0px 0px 8px;
-	border-radius: 8px 0px 0px 8px;
-}
-.facebook {
-    display: inline-block;
-    text-align: center;
-    vertical-align: middle;
-	width: 160px;
-	height:40px;
-	padding-top: 10px;
-    border: 0px solid #178bb6;
-    border-radius: 8px;
-    background: #3b5998;
-    font-family: 'Open Sans', sans-serif;
-	font-weight:700;
-    color: #ffffff;
-    text-decoration: none;
-	margin-right: 10px;
-}
-.facebook:hover,
-.facebook:focus {
-    background: #37528c;
-    color: #ffffff;
-    text-decoration: none;
-}
-.facebook:active {
-    background: #1ca4d6;
-}
-.facebook:before{
-    content:  "\0000a0";
-    display: inline-block;
-    height: 50px;
-    width: 45px;
-    line-height: 24px;
-    margin: 0 4px -6px -4px;
-    position: relative;
-	padding-left: 10px;
-    top: -10px;
-    left: -10px;
-    background: url("https://i.imgur.com/0bcxkOD.png") no-repeat center center #37528c;
-    background-size: 13px 24px;
-	-webkit-border-radius: 8px 0px 0px 8px;
-	-moz-border-radius: 8px 0px 0px 8px;
-	-o-border-radius: 8px 0px 0px 8px;
-	-ms-border-radius: 8px 0px 0px 8px;
-	border-radius: 8px 0px 0px 8px;
-}
-.google {
-    display: inline-block;
-    text-align: center;
-    vertical-align: middle;
-	width: 160px;
-	height:40px;
-	padding-top: 10px;
-    border: 0px solid #178bb6;
-    border-radius: 8px;
-    background: #d34836;
-    font-family: 'Open Sans', sans-serif;
-	font-weight:700;
-    color: #ffffff;
-    text-decoration: none;
-}
-.google:hover,
-.google:focus {
-    background: #c74534;
-    color: #ffffff;
-    text-decoration: none;
-}
-.google:active {
-    background: #1ca4d6;
-}
-.google:before{
-    content:  "\0000a0";
-    display: inline-block;
-    height: 50px;
-    width: 45px;
-    line-height: 24px;
-    margin: 0 4px -6px -4px;
-    position: relative;
-	padding-left: 10px;
-    top: -10px;
-    left: -15px;
-    background: url("https://i.imgur.com/GxFF74f.png") no-repeat center center #c74534;
-    background-size: 24px 24px;
-	-webkit-border-radius: 8px 0px 0px 8px;
-	-moz-border-radius: 8px 0px 0px 8px;
-	-o-border-radius: 8px 0px 0px 8px;
-	-ms-border-radius: 8px 0px 0px 8px;
-	border-radius: 8px 0px 0px 8px;
+.form-group {
+  position: relative;
+  margin-bottom: 15px;
 }
 
-.clr hr {
-	border: 1px solid #e9e9e9;
-	margin:25px 0;
+.form-control {
+  width: 100%;
+  height: 50px;
+  border: none;
+  padding: 5px 7px 5px 15px;
+  background: #fff;
+  color: #666;
+  border: 2px solid #ddd;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
 }
-.mail-text {
-	color: #777;
-}
-.forms {
-	margin-top: 20px;
-	width:500px;
-}
-.forms input {
-	border: 1px solid #d9d9d9 !important;
-	color: #bebebe;
-	padding: 7px 0px 7px 50px;
-	outline:none;
-    transition: all 0.25s ease-in-out;
-    -webkit-transition: all 0.25s ease-in-out;
-    -moz-transition: all 0.25s ease-in-out;
-	margin-bottom: 15px;
-}
-.forms input:focus {
-    box-shadow: 0 0 5px rgba(48, 168, 218, 1);
-    -webkit-box-shadow: 0 0 5px rgba(48, 168, 218, 1); 
-    -moz-box-shadow: 0 0 5px rgba(48, 168, 218, 1);
-    border:1px solid rgba(48, 168, 218, 1) !important; 
-}
-.forms #username {
-	background:url("https://i.imgur.com/n6engUt.png") no-repeat left center;
-	background-position: 10px 5px;
-	border-right: 1px solid #f1f1f1;
-}
-.forms #mail {
-	background:url("https://i.imgur.com/xCWr97f.png") no-repeat left center;
-	background-position: 10px 10px;
-	border-right: 1px solid #f1f1f1;
-}
-.forms #password {
-	background:url("https://i.imgur.com/69UwNcl.png") no-repeat left center;
-	background-position: 10px 5px;
-	border-right: 1px solid #f1f1f1;
+.form-control:focus, .form-control:focus + .fa {
+  border-color: #10CE88;
+  color: #10CE88;
 }
 
-.create-acc {
-    display: inline-block;
-    text-align: center;
-    vertical-align: middle;
-    padding: 10px 11px;
-    border: 0px solid #b96529;
-    border-radius: 8px;
-    background: #992828;
-    background: -webkit-gradient(linear, left top, left bottom, from(#e77e33), to(#e77e33));
-    background: -moz-linear-gradient(top, #e77e33, #e77e33);
-    background: linear-gradient(to bottom, #e77e33, #e77e33);
-    font-family: 'Open Sans', sans-serif;
-	font-weight:700;
-    color: #ffffff;
-    text-decoration: none;
-	height: 31px;
-	margin-top: 20px;
+.form-group .fa {
+  position: absolute;
+  right: 15px;
+  top: 17px;
+  color: #999;
 }
-.create-acc:hover,
-.create-acc:focus {
-    border: 0px solid #e77e33;
-    background: #db7830;
-    color: #ffffff;
-    text-decoration: none;
+
+.log-status.wrong-entry {
+  -moz-animation: wrong-log 0.3s;
+  -webkit-animation: wrong-log 0.3s;
+  animation: wrong-log 0.3s;
 }
-.create-acc:active {
-    background: #982727;
-    background: -webkit-gradient(linear, left top, left bottom, from(#8b4c1f), to(#e77e33));
-    background: -moz-linear-gradient(top, #8b4c1f, #e77e33);
-    background: linear-gradient(to bottom, #8b4c1f, #e77e33);
+
+.log-status.wrong-entry .form-control, .wrong-entry .form-control + .fa {
+  border-color: #ed1c24;
+  color: #ed1c24;
 }
-.create-acc:after{
-    content:  "\0000a0";
-    display: inline-block;
-    height: 50px;
-    width: 50px;
-    line-height: 24px;
-    margin: 0 4px -6px -4px;
-    position: relative;
-	padding-left: 10px;
-    top: -10px;
-    right: -15px;
-    background: url("https://i.imgur.com/ZcP5IpD.png") no-repeat center center #db7830;
-    background-size: 8px 11px;
-	-webkit-border-radius: 0px 8px 8px 0px;
-	-moz-border-radius: 0px 8px 8px 0px;
-	-o-border-radius: 0px 8px 8px 0px;
-	-ms-border-radius: 0px 8px 8px 0px;
-	border-radius: 0px 8px 8px 0px;
-}
-.footer {
-  width: 610px;
-  margin: 0 auto;
+
+.log-btn {
+  background: #0AC986;
+  dispaly: inline-block;
+  width: 100%;
+  font-size: 16px;
+  height: 50px;
   color: #fff;
-  margin-top: -40px
+  text-decoration: none;
+  border: none;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
 }
-.footer a {
-  color: #fff;
+
+.link {
+  text-decoration: none;
+  color: #C6C6C6;
+  float: right;
+  font-size: 12px;
+  margin-bottom: 15px;
+}
+.link:hover {
   text-decoration: underline;
+  color: #8C918F;
+}
+
+.alert {
+  display: none;
+  font-size: 12px;
+  color: #f00;
+  float: left;
+}
+
+@-moz-keyframes wrong-log {
+  0%, 100% {
+    left: 0px;
+  }
+  20% , 60% {
+    left: 15px;
+  }
+  40% , 80% {
+    left: -15px;
+  }
+}
+@-webkit-keyframes wrong-log {
+  0%, 100% {
+    left: 0px;
+  }
+  20% , 60% {
+    left: 15px;
+  }
+  40% , 80% {
+    left: -15px;
+  }
+}
+@keyframes wrong-log {
+  0%, 100% {
+    left: 0px;
+  }
+  20% , 60% {
+    left: 15px;
+  }
+  40% , 80% {
+    left: -15px;
+  }
 }
