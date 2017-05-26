@@ -22,10 +22,14 @@ tracking requests and bugs.**
 
 ## Test
 
-Ready! You can access the following APIs: 
+Ready! You can access the following APIs using the token `access_token_valid` , if you use different token, returns empty response.
 
 * Viglet Turing - Entity:
-[http://localhost:8080/turing/entity](http://localhost:8080/turing/entity)
+
+`curl -X GET "http://localhost:8080/turing/entity" -H  "accept: application/json" -H  "content-type: application/json" -H  "authorization: Bearer access_token_valid"
+`
 
 * GitHub - openviglet:
-[http://localhost:8080/github/openviglet](http://localhost:8080/github/openviglet)
+
+` curl -X GET "localhost:8080/github/openviglet" -H  "accept: application/json" -H  "content-type: application/json" -H  "authorization: Bearer access_token_valid"
+`
