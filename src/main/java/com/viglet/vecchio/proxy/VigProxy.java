@@ -2,21 +2,14 @@
 package com.viglet.vecchio.proxy;
 
 import java.io.*;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 
-import javax.servlet.*;
 import javax.servlet.http.*;
 
-public class VigProxy extends HttpServlet {
-	private String message;
+public class VigProxy {
 	private static final int BUFFER_SIZE = 32768;
-
-	public void init() throws ServletException {
-	}
-
-	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public VigProxy (HttpServletRequest request, HttpServletResponse response)  throws IOException{
 		
 		try {
 
