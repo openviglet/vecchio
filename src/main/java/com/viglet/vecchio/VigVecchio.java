@@ -19,7 +19,7 @@ public class VigVecchio extends HttpServlet {
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 			if (request.getPathInfo().equals("/")) {
-				VigRestIndex.index(response.getWriter());
+				VigRestIndex.index(response);
 			} else {
 				try {
 					VigRestRequest vigRestRequest = new VigRestRequest(request.getPathInfo(),

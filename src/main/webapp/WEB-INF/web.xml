@@ -29,7 +29,17 @@
 		<servlet-name>vecchio</servlet-name>
 		<url-pattern>/*</url-pattern>
 	</servlet-mapping>
-
+	<servlet>
+		<description>
+		JAX-RS Tools Generated - Do not modify</description>
+		<servlet-name>JAX-RS Servlet</servlet-name>
+		<servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>	
+	<servlet-mapping>
+		<servlet-name>JAX-RS Servlet</servlet-name>
+		<url-pattern>/api/*</url-pattern>
+	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>default</servlet-name>
 		<url-pattern>/html/*</url-pattern>
@@ -38,4 +48,13 @@
 		<servlet-name>default</servlet-name>
 		<url-pattern>/js/*</url-pattern>
 	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>jsp</servlet-name>
+		<url-pattern>/jsp/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>/console/*</url-pattern>
+	</servlet-mapping>
+
 </web-app>
