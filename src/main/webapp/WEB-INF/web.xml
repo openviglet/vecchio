@@ -21,12 +21,21 @@
 		<welcome-file>index.htm</welcome-file>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
-		<servlet>
+	<servlet>
 		<servlet-name>vecchio</servlet-name>
 		<servlet-class>com.viglet.vecchio.VigVecchio</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>vecchio</servlet-name>
 		<url-pattern>/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>/html/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>/js/*</url-pattern>
 	</servlet-mapping>
 </web-app>
