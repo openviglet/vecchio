@@ -15,8 +15,7 @@ public class VigOAuthClient implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="client_id", unique=true, nullable=false, length=50)
+	@Column(name="client_id", nullable=false, length=50)
 	private String clientId;
 
 	@Column(name="client_secret", nullable=false, length=20)

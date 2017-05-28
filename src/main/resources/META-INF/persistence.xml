@@ -1,24 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-	<persistence-unit name="vecchio" transaction-type="RESOURCE_LOCAL">
-	<provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>
-	<class>com.viglet.vecchio.persistence.model.VigOAuthAccessToken</class>
-	<class>com.viglet.vecchio.persistence.model.VigOAuthAccessTokenPK</class>
-	<class>com.viglet.vecchio.persistence.model.VigOAuthAuthorizationCode</class>
-	<class>com.viglet.vecchio.persistence.model.VigOAuthAuthorizationCodePK</class>
-	<class>com.viglet.vecchio.persistence.model.VigOAuthClient</class>
-	<class>com.viglet.vecchio.persistence.model.VigOAuthPublicKey</class>
-	<class>com.viglet.vecchio.persistence.model.VigOAuthRefreshToken</class>
-	<class>com.viglet.vecchio.persistence.model.VigOAuthRefreshTokenPK</class>
-	<class>com.viglet.vecchio.persistence.model.VigOAuthScope</class>
-	<properties>
-        <property name="openjpa.jdbc.SynchronizeMappings" 
-                 value="buildSchema"/>
-        <property name="openjpa.ConnectionURL" 
-                 value="jdbc:derby://localhost:1527/StoreSystem"/>
-        <property name="openjpa.ConnectionDriverName" 
-                 value="org.apache.derby.jdbc.ClientDriver"/>
-<property name="openjpa.DynamicEnhancementAgent" value="false"/>                 
-    </properties>
+<persistence version="2.1"
+	xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="vecchio-app" transaction-type="RESOURCE_LOCAL">
+		<provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>
+		<class>com.viglet.vecchio.persistence.model.VigOAuthAccessToken</class>
+		<class>com.viglet.vecchio.persistence.model.VigOAuthAccessTokenPK</class>
+		<class>com.viglet.vecchio.persistence.model.VigOAuthAuthorizationCode</class>
+		<class>com.viglet.vecchio.persistence.model.VigOAuthAuthorizationCodePK</class>
+		<class>com.viglet.vecchio.persistence.model.VigOAuthClient</class>
+		<class>com.viglet.vecchio.persistence.model.VigOAuthPublicKey</class>
+		<class>com.viglet.vecchio.persistence.model.VigOAuthRefreshToken</class>
+		<class>com.viglet.vecchio.persistence.model.VigOAuthRefreshTokenPK</class>
+		<class>com.viglet.vecchio.persistence.model.VigOAuthScope</class>
+		<properties>
+			<property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema" />
+			<property name="openjpa.ConnectionURL" value="jdbc:derby:vecchioDb;create=true" />
+			<property name="openjpa.ConnectionDriverName" value="org.apache.derby.jdbc.EmbeddedDriver" />
+			<property name="openjpa.DynamicEnhancementAgent" value="false" />
+		</properties>
 	</persistence-unit>
 </persistence>
