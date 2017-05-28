@@ -31,7 +31,10 @@ public class VigProxy {
 				// Get the response
 				InputStream is = null;
 				try {
+					long startTime = System.currentTimeMillis();
 					is = conn.getInputStream();
+					long elapsedTime = System.currentTimeMillis() - startTime;
+					System.out.println("Total elapsed http request/response time in milliseconds: " + elapsedTime);
 					rd = new BufferedReader(new InputStreamReader(is));
 				} catch (IOException ioe) {
 					System.out.println("********* IO EXCEPTION **********: " + ioe);
