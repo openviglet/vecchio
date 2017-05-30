@@ -1,19 +1,5 @@
-<?xml version="1.0"?>
-<!DOCTYPE Configure PUBLIC "-//Mort Bay Consulting//DTD Configure//EN" "http://jetty.mortbay.org/configure.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Configure PUBLIC "-//Mort Bay Consulting//DTD Configure//EN" "http://www.eclipse.org/jetty/configure.dtd">
 
-<Configure class="org.eclipse.jetty.webapp.WebAppContext">
-
-	<!-- Add an EnvEntry only valid for this webapp -->
-	<New id="gargle" class="org.eclipse.jetty.plus.jndi.EnvEntry">
-		<Arg>gargle</Arg>
-		<Arg type="java.lang.Double">100</Arg>
-		<Arg type="boolean">true</Arg>
-	</New>
-
-	<!-- Add an override for a global EnvEntry -->
-	<New id="wiggle" class="org.eclipse.jetty.plus.jndi.EnvEntry">
-		<Arg>wiggle</Arg>
-		<Arg type="java.lang.Double">55.0</Arg>
-		<Arg type="boolean">true</Arg>
-	</New>
+<Configure class="org.eclipse.jetty.webapp.WebAppContext">    
 </Configure>
