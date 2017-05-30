@@ -13,10 +13,18 @@
 		<class>com.viglet.vecchio.persistence.model.VigOAuthRefreshToken</class>
 		<class>com.viglet.vecchio.persistence.model.VigOAuthRefreshTokenPK</class>
 		<class>com.viglet.vecchio.persistence.model.VigOAuthScope</class>
+		<!-- <properties> <property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema" 
+			/> <property name="openjpa.ConnectionURL" value="jdbc:derby:vecchioDb;create=true" 
+			/> <property name="openjpa.ConnectionDriverName" value="org.apache.derby.jdbc.EmbeddedDriver" 
+			/> <property name="openjpa.DynamicEnhancementAgent" value="false" /> </properties> -->
+
 		<properties>
 			<property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema" />
-			<property name="openjpa.ConnectionURL" value="jdbc:derby:vecchioDb;create=true" />
-			<property name="openjpa.ConnectionDriverName" value="org.apache.derby.jdbc.EmbeddedDriver" />
+			<property name="openjpa.ConnectionURL" value="jdbc:hsqldb:store/vecchioDB" />
+			<property name="openjpa.ConnectionDriverName" value="org.hsqldb.jdbcDriver" />
+			<property name="openjpa.ConnectionUserName" value="sa" />
+			<property name="openjpa.ConnectionPassword" value="" />
+			<property name="openjpa.Log" value="DefaultLevel=WARN, Tool=INFO" />
 			<property name="openjpa.DynamicEnhancementAgent" value="false" />
 		</properties>
 	</persistence-unit>
