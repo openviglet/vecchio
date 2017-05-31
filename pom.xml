@@ -74,13 +74,11 @@
 			<artifactId>org.apache.oltu.oauth2.dynamicreg.client</artifactId>
 			<version>1.0.0</version>
 		</dependency>
-		
-<dependency>
-    <groupId>hsqldb</groupId>
-    <artifactId>hsqldb</artifactId>
-    <version>1.8.0.10</version>
-</dependency>
-		
+		<dependency>
+			<groupId>hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+			<version>1.8.0.10</version>
+		</dependency>
 		<dependency>
 			<groupId>org.apache.derby</groupId>
 			<artifactId>derby</artifactId>
@@ -148,7 +146,7 @@
 			<plugin>
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
-				<version>9.4.5.v20170502</version>				
+				<version>9.4.5.v20170502</version>
 			</plugin>
 		</plugins>
 		<finalName>vecchio</finalName>
