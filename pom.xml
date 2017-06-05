@@ -148,6 +148,27 @@
 				<artifactId>jetty-maven-plugin</artifactId>
 				<version>9.4.5.v20170502</version>
 			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.6.0</version>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<executable>bower</executable>
+					<arguments>
+						<argument>install</argument>
+						<argument>--allow-root</argument>
+					</arguments>
+					<workingDirectory>${basedir}</workingDirectory>
+				</configuration>
+			</plugin>
 		</plugins>
 		<finalName>vecchio</finalName>
 	</build>
