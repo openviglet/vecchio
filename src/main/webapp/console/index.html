@@ -176,56 +176,7 @@ navbar-default .navbar-left>li:focus, .navbar-default .navbar-left>li {
 			<!-- /.container-fluid -->
 		</nav>
 		<div class="container">
-			<div id="configuration" class="row row-centered"
-				style="margin-top: 80px">
-				<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 col-centered">
-					<div class="list-group" style="margin-bottom: 10px">
-						<a href="#" class="list-group-item" style="color: rgb(51, 51, 51)">
-							<b class="ng-binding">Mapping</b> <span
-							class="glyphicon glyphicon-chevron-right" aria-hidden="true"
-							style="float: right; position: relative"></span>
-
-						</a> <a href="#" class="list-group-item ng-binding"
-							style="color: rgb(51, 51, 51)"> Profile<span
-							class="glyphicon glyphicon-chevron-right" aria-hidden="true"
-							style="float: right; position: relative; color: gray"></span>
-						</a>
-					</div>
-				</div>
-				<div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 col-centered">
-					<div class="panel panel-default"
-						style="font-weight: 400; min-height: 175px; margin-bottom: 0px; padding-bottom: 0px;">
-						<div class="panel-title"
-							style="padding: 10px; border-bottom-color: rgb(217, 217, 217); border-bottom-style: solid; border-bottom-width: thin;">
-							<p style="font-size: 18px; color: #f0ad4e; margin: 0px;"
-								class="ng-binding">Mapping</p>
-							<p
-								style="font-size: 14px; color: rgb(182, 182, 182); margin: 0px;"
-								class="ng-binding">Mapping the Viglet Vecchio Contexts</p>
-						</div>
-						<div class="panel-body" style="padding: 0px;">
-							<table class="table table-striped table-hover"
-								ng-controller="VecMappingCtrl">
-								<thead>
-									<tr>
-										<th>URL</th>
-										<th>Proxy</th>
-										<th>Action</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr ng-repeat="mapping in mappings">
-										<td><a ng-href="{{mapping.pattern}}">{{mapping.pattern}}</a></td>
-										<td><a ng-href="{{mapping.url}}" target="_blank">{{mapping.url}}</a></td>
-										<td><a href="#" class="btn btn-warning" role="button"
-											aria-pressed="true" style="margin-bottom: 5px">Edit</a></td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					</div>
-				</div>
-			</div>
+			<div ui-view></div>
 		</div>
 	</div>
 	<!-- 	<div id="footer">
@@ -238,7 +189,9 @@ navbar-default .navbar-left>li:focus, .navbar-default .navbar-left>li {
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
 	<script src="../thirdparty/bootstrap/dist/js/bootstrap.min.js"></script>
 	<script src="../thirdparty/moment/min/moment-with-locales.min.js"></script>
-	<script src="../thirdparty/angular/angular.min.js?v=3.1.83"></script>
+	<script src="../thirdparty/angular/angular.min.js"></script>
+	<script
+		src="../thirdparty/angular-ui-router/release/angular-ui-router.min.js"></script>
 	<script src="js/vecchio.js?v=3.1.83"></script>
 	<script src="js/viglet.js"></script>
 	<script>

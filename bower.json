@@ -18,6 +18,7 @@
 	"dependencies": {
 		"bootstrap": "*",
 		"moment": "*",
-		"angular": "*"
+		"angular": "*",
+		"angular-ui-router": "*"
 	}
 }
