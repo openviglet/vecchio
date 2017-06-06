@@ -3,18 +3,13 @@ package com.viglet.vecchio.rest;
 import java.util.regex.Pattern;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Matcher;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.core.Response;
 
-import org.apache.oltu.oauth2.common.OAuth;
 import org.apache.oltu.oauth2.common.error.OAuthError;
 import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
@@ -25,13 +20,14 @@ import org.apache.oltu.oauth2.rs.request.OAuthAccessResourceRequest;
 import org.apache.oltu.oauth2.rs.response.OAuthRSResponse;
 
 import com.viglet.vecchio.api.oauth2.demo.TestContent;
+import com.viglet.vecchio.persistence.model.VecMapping;
+import com.viglet.vecchio.persistence.service.VecMappingService;
 import com.viglet.vecchio.proxy.VigProxy;
 
 public class VigRestRequest {
 
 	// Accommodate two requests, one for all resources, another for a specific
 	// resource
-	private Pattern regExAllPattern = Pattern.compile("/turing/entity");
 	private Pattern regExIdPattern = Pattern.compile("/resource/([0-9]*)");
 
 	private Integer id;
@@ -39,9 +35,10 @@ public class VigRestRequest {
 	public VigRestRequest(String pathInfo, OutputStream ops, HttpServletRequest request) throws ServletException, OAuthSystemException {
 
 		try {
-			VigRestMaps vigRestMaps = new VigRestMaps();
-			for (VigRestMap vigRestMap : vigRestMaps.getVigRestMaps()) {
-				if (vigRestMap.getPattern().matcher(pathInfo).matches()) {
+			VecMappingService vecMappingService = new VecMappingService();
+			for (VecMapping vecMapping : vecMappingService.listAll()) {
+				
+				if (Pattern.compile(vecMapping.getPattern()).matcher(pathInfo).matches()) {
 					// Match Pattern!
 
 					try {
@@ -73,7 +70,7 @@ public class VigRestRequest {
 						}
 
 						// Return the resource
-						VigProxy vigProxy = new VigProxy(vigRestMap.getUrl(), ops);
+						VigProxy vigProxy = new VigProxy(new URL(vecMapping.getUrl()), ops);
 						return;
 						//return Response.status(Response.Status.OK).entity(accessToken).build();
 

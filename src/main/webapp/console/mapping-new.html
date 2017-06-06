@@ -13,15 +13,15 @@
 		<div class="form-group">
 			<label for="context">Context</label> 
 			<input
-				type="input" class="form-control" id="context"
+				type="input" class="form-control" id="context" ng-model="mapping.pattern"
 				placeholder="Context Pattern">
 		</div>
 		<div class="form-group">
 			<label for="context">Proxy</label> 
 			<input
-				type="input" class="form-control" id="proxy"
+				type="input" class="form-control" id="proxy" ng-model="mapping.url"
 				placeholder="URL">
 		</div>
-		 <button type="submit" class="btn btn-warning">Save</button>
+		 <button type="submit" ng-click="mappingSave()" class="btn btn-warning">Save</button>
 	</div>
 </div>

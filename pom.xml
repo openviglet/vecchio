@@ -5,7 +5,7 @@
 	<artifactId>vecchio</artifactId>
 	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>vecchio-test Maven Webapp</name>
+	<name>vecchio</name>
 	<url>http://maven.apache.org</url>
 	<dependencies>
 		<dependency>
@@ -32,6 +32,11 @@
 		<dependency>
 			<groupId>com.sun.jersey</groupId>
 			<artifactId>jersey-server</artifactId>
+			<version>1.19.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-json</artifactId>
 			<version>1.19.1</version>
 		</dependency>
 		<dependency>
@@ -148,6 +153,7 @@
 				<artifactId>jetty-maven-plugin</artifactId>
 				<version>9.4.5.v20170502</version>
 			</plugin>
+
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
