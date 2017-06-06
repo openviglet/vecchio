@@ -9,6 +9,7 @@
 <!-- Bootstrap -->
 <link href="../thirdparty/bootstrap/dist/css/bootstrap.min.css"
 	rel="stylesheet">
+<link href="../thirdparty/nvd3/build/nv.d3.min.css" rel="stylesheet">
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>
@@ -168,8 +169,9 @@ navbar-default .navbar-left>li:focus, .navbar-default .navbar-left>li {
 				<nav class="collapse navbar-collapse bs-navbar-collapse"
 					role="navigation">
 					<ul class="nav navbar-nav navbar-left">
-						<li><a href="#configuration">Configuration</a></li>
-						<li><a href="#monitoring">Monitoring</a></li>
+						<li><a ui-sref="home.dashboard">Dashboard</a></li>
+						<li><a ui-sref="home.config.mapping">Configuration</a></li>
+
 					</ul>
 				</nav>
 			</div>
@@ -190,6 +192,9 @@ navbar-default .navbar-left>li:focus, .navbar-default .navbar-left>li {
 	<script src="../thirdparty/bootstrap/dist/js/bootstrap.min.js"></script>
 	<script src="../thirdparty/moment/min/moment-with-locales.min.js"></script>
 	<script src="../thirdparty/angular/angular.min.js"></script>
+	<script src="../thirdparty/d3/d3.min.js"></script>
+	<script src="../thirdparty/nvd3/build/nv.d3.min.js"></script>
+	<script src="../thirdparty/angular-nvd3/dist/angular-nvd3.min.js"></script>
 	<script
 		src="../thirdparty/angular-ui-router/release/angular-ui-router.min.js"></script>
 	<script src="js/vecchio.js?v=3.1.83"></script>
@@ -203,28 +208,6 @@ navbar-default .navbar-left>li:focus, .navbar-default .navbar-left>li {
 	<script>
 		var currentFullYear = new Date().getFullYear();
 		$('#footerMessage').html("© " + currentFullYear + " Viglet");
-	</script>
-	<script>
-		$(function() {
-			$('a[href*="#"]:not([href="#"])')
-					.click(
-							function() {
-								if (location.pathname.replace(/^\//, '') == this.pathname
-										.replace(/^\//, '')
-										&& location.hostname == this.hostname) {
-									var target = $(this.hash);
-									target = target.length ? target
-											: $('[name=' + this.hash.slice(1)
-													+ ']');
-									if (target.length) {
-										$('html, body').animate({
-											scrollTop : target.offset().top
-										}, 1000);
-										return false;
-									}
-								}
-							});
-		});
 	</script>
 	<script>
 		window.twttr = (function(d, s, id) {

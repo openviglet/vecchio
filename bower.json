@@ -19,6 +19,7 @@
 		"bootstrap": "*",
 		"moment": "*",
 		"angular": "*",
-		"angular-ui-router": "*"
+		"angular-ui-router": "*",
+		"angular-nvd3": "*"
 	}
 }
