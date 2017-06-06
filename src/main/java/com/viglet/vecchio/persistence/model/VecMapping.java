@@ -2,6 +2,7 @@ package com.viglet.vecchio.persistence.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
 import java.util.List;
 
 /**
@@ -24,7 +25,11 @@ public class VecMapping implements Serializable {
 
 	@Column(nullable = false, length = 255)
 	private String url;
-
+	
+	// bi-directional many-to-one association to VecAccess
+	@OneToMany(mappedBy="vecMapping")
+	private List<VecAccess> vecAccesses;
+	
 	public VecMapping() {
 	}
 
@@ -50,6 +55,28 @@ public class VecMapping implements Serializable {
 
 	public void setUrl(String url) {
 		this.url = url;
+	}
+
+	public List<VecAccess> getVecAccesses() {
+		return vecAccesses;
+	}
+
+	public void setVecAccesses(List<VecAccess> vecAccesses) {
+		this.vecAccesses = vecAccesses;
+	}
+
+	public VecAccess addVigTermAttribute(VecAccess vecAccess) {
+		getVecAccesses().add(vecAccess);
+		vecAccess.setVecMapping(this);;
+
+		return vecAccess;
+	}
+
+	public VecAccess removeVigTermAttribute(VecAccess vecAccess) {
+		getVecAccesses().remove(vecAccess);
+		vecAccess.setVecMapping(null);
+
+		return vecAccess;
 	}
 
 }

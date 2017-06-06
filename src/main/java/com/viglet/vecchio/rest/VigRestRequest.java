@@ -70,7 +70,7 @@ public class VigRestRequest {
 						}
 
 						// Return the resource
-						VigProxy vigProxy = new VigProxy(new URL(vecMapping.getUrl()), ops);
+						VigProxy vigProxy = new VigProxy(new URL(vecMapping.getUrl()), ops, vecMapping);
 						return;
 						//return Response.status(Response.Status.OK).entity(accessToken).build();
 

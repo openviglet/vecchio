@@ -4,11 +4,16 @@ package com.viglet.vecchio.proxy;
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Calendar;
+
+import com.viglet.vecchio.persistence.model.VecAccess;
+import com.viglet.vecchio.persistence.model.VecMapping;
+import com.viglet.vecchio.persistence.service.VecAccessService;
 
 public class VigProxy {
 	private static final int BUFFER_SIZE = 32768;
 
-	public VigProxy(URL url, OutputStream ops) throws IOException {
+	public VigProxy(URL url, OutputStream ops, VecMapping vecMapping) throws IOException {
 
 		try {
 
@@ -34,7 +39,15 @@ public class VigProxy {
 					long startTime = System.currentTimeMillis();
 					is = conn.getInputStream();
 					long elapsedTime = System.currentTimeMillis() - startTime;
-					System.out.println("Total elapsed http request/response time in milliseconds: " + elapsedTime);
+					VecAccess vecAccess = new VecAccess();
+					vecAccess.setDateRequest(Calendar.getInstance().getTime());
+					vecAccess.setRequest(conn.getURL().toString());
+					vecAccess.setResponseTime(elapsedTime);
+					vecAccess.setVecMapping(null);
+
+					VecAccessService vecAccessModel = new VecAccessService();
+					vecAccessModel.save(vecAccess);
+					
 					rd = new BufferedReader(new InputStreamReader(is));
 				} catch (IOException ioe) {
 					System.out.println("********* IO EXCEPTION **********: " + ioe);
