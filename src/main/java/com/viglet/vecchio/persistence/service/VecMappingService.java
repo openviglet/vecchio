@@ -7,6 +7,9 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import com.viglet.vecchio.persistence.model.VecMapping;
 
 public class VecMappingService {
@@ -35,5 +38,7 @@ public class VecMappingService {
 		em.getTransaction().commit();
 		return true;
 	}
+	
+	
 
 }

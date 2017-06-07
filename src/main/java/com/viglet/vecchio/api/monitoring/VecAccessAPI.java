@@ -10,6 +10,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.json.JSONArray;
+
 import com.viglet.vecchio.persistence.model.VecAccess;
 import com.viglet.vecchio.persistence.model.VecMapping;
 import com.viglet.vecchio.persistence.service.VecAccessService;
@@ -32,5 +34,12 @@ public class VecAccessAPI {
 		String result = "Access saved : " + vecAccess;
 		return Response.status(201).entity(result).build();
 
+	}
+
+	@Path("/response_time")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response responseTime() throws Exception {
+		return Response.status(200).entity(vecAccessService.responseTime().toString()).build();
 	}
 }
