@@ -7,9 +7,12 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import javax.ws.rs.core.MediaType;
@@ -28,6 +31,31 @@ public class VecMappingAPI {
 		return vecMappingService.listAll();
 	}
 
+	@Path("/{mappingId}")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public VecMapping edit(@PathParam("mappingId") int id) throws Exception {
+		return vecMappingService.getMapping(id);
+	}
+
+	@Path("/{mappingId}")
+	@PUT
+	@Produces(MediaType.APPLICATION_JSON)
+	public VecMapping update(@PathParam("mappingId") int id, VecMapping vecMapping) throws Exception {
+		VecMapping vecMappingEdit = vecMappingService.getMapping(id);
+		vecMappingEdit.setPattern(vecMapping.getPattern());
+		vecMappingEdit.setUrl(vecMapping.getUrl());
+		vecMappingService.save(vecMappingEdit);
+		return vecMappingEdit;
+	}
+
+	@Path("/{mappingId}")
+	@DELETE
+	@Produces(MediaType.APPLICATION_JSON)
+	public boolean delete(@PathParam("mappingId") int id) throws Exception {
+		return vecMappingService.deleteMapping(id);
+	}
+	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response add(VecMapping vecMapping) throws Exception {

@@ -12,15 +12,28 @@ import com.viglet.vecchio.persistence.model.VecMapping;
 public class VecMappingService {
 	EntityManagerFactory factory = Persistence.createEntityManagerFactory("vecchio-app");
 	EntityManager em = factory.createEntityManager();
-	
-	public void save (VecMapping vecMapping) {
+
+	public void save(VecMapping vecMapping) {
 		em.getTransaction().begin();
 		em.persist(vecMapping);
 		em.getTransaction().commit();
 	}
-	public List<VecMapping> listAll () {
+
+	public List<VecMapping> listAll() {
 		TypedQuery<VecMapping> q = em.createNamedQuery("VecMapping.findAll", VecMapping.class);
 		return q.getResultList();
 	}
-	
+
+	public VecMapping getMapping(int mappingId) {
+		return em.find(VecMapping.class, mappingId);
+	}
+
+	public boolean deleteMapping(int mappingId) {
+		VecMapping vecMapping = em.find(VecMapping.class, mappingId);
+		em.getTransaction().begin();
+		em.remove(vecMapping);
+		em.getTransaction().commit();
+		return true;
+	}
+
 }
