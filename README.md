@@ -37,13 +37,23 @@ More details: [https://bower.io/#install-bower](https://bower.io/#install-bower)
 
 ## Execute
 
-execute the following command to run Viglet Vecchio:
+Execute the following command to run Viglet Vecchio:
 
 ```shell
 $ mvn jetty:run
 ```
 
 # Test
+For example, in Mapping Console ([http://localhost:8080/console/#!/home/config/mapping](http://localhost:8080/console/#!/home/config/mapping)) add the following URLs:
+
+1. Viglet Turing Entity
+	- URL: [/turing/entity](http://localhost:8080/turing/entity)
+	- Proxy: [https://api.viglet.ai/turing/entity](https://api.viglet.ai/turing/entity)
+2. GitHub - openviglet
+	- URL: [/github/openviglet](http://localhost:8080/github/openviglet)
+	- Proxy: [https://api.github.com/users/openviglet](https://api.github.com/users/openviglet)
+
+![mapping.png](https://openviglet.github.io/vecchio/img/mapping.png)
 
 Ready! You can access the following APIs using the token `access_token_valid` , if you use different token, returns empty response.
 
@@ -58,3 +68,9 @@ curl -X GET "http://localhost:8080/turing/entity" -H  "accept: application/json"
 ```shell
 curl -X GET "localhost:8080/github/openviglet" -H  "accept: application/json" -H  "content-type: application/json" -H  "authorization: Bearer access_token_valid"
 ```
+
+# Dashboard
+
+In Dashboard Console ([http://localhost:8080/console/#!/home/dashboard](http://localhost:8080/console/#!/home/dashboard)) shows response time report.
+
+![dashboard.png](https://openviglet.github.io/vecchio/img/dashboard.png)
