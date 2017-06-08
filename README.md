@@ -22,7 +22,7 @@ $ docker run -d -p 8080:8080 --name vecchio viglet/vecchio
 # Option 2. Installing manually 
 
 ## Maven
-* Install Apache Maven. [https://maven.apache.org/install.html](https://maven.apache.org/install.html)
+Install Apache Maven. [https://maven.apache.org/install.html](https://maven.apache.org/install.html)
 
 ## Bower
 Bower is a command line utility. Install it with npm.
@@ -37,7 +37,7 @@ More details: [https://bower.io/#install-bower](https://bower.io/#install-bower)
 
 ## Execute
 
-* To run Viglet Vecchio, execute the following command:
+execute the following command to run Viglet Vecchio:
 
 ```shell
 $ mvn jetty:run
