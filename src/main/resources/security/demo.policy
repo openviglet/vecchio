@@ -1,0 +1,20 @@
+/* AUTOMATICALLY GENERATED ON Thu Sep 16 16:13:15 CEST 2004*/
+/* DO NOT EDIT */
+
+grant codeBase "file:./classes/-" {
+  permission javax.security.auth.AuthPermission "createLoginContext.CourseDemo";
+  permission javax.security.auth.AuthPermission "modifyPrincipals";
+  permission java.io.FilePermission "resources\\demo.xml", "read, write, delete, execute";
+  permission java.util.PropertyPermission "java.security.debug", "read";
+  permission java.util.PropertyPermission "security.securitydomain.*", "read";
+  permission java.util.PropertyPermission "user.dir", "read";
+  permission java.lang.RuntimePermission "shutdownHooks";
+  permission javax.security.auth.AuthPermission "doAsPrivileged";
+};
+
+grant
+  principal security.jaas.XMLUserPrincipal  "jenny"
+  codeBase "file:./classes/-" {
+
+    permission java.io.FilePermission "resources\\JenniferFile.txt", "read, write, delete, execute";
+};

@@ -40,7 +40,7 @@ More details: [https://bower.io/#install-bower](https://bower.io/#install-bower)
 Execute the following command to run Viglet Vecchio:
 
 ```shell
-$ mvn jetty:run
+$ mvn jetty:run-forked
 ```
 
 # Test

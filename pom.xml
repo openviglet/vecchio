@@ -9,6 +9,11 @@
 	<url>http://maven.apache.org</url>
 	<dependencies>
 		<dependency>
+			<groupId>org.jdom</groupId>
+			<artifactId>jdom</artifactId>
+			<version>1.1</version>
+		</dependency>
+		<dependency>
 			<groupId>org.apache.geronimo.specs</groupId>
 			<artifactId>geronimo-jpa_2.0_spec</artifactId>
 			<version>1.1</version>
@@ -152,6 +157,14 @@
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
 				<version>9.4.5.v20170502</version>
+				<configuration>
+					<jvmArgs>
+						-Djava.security.auth.login.config=security/xmlJAAS.config
+						-Dcom.viglet.vecchio.security.realmdir=security
+						-Djava.security.manager
+						-Djava.security.policy=security/demo.policy
+						-Djava.security.debug=failure</jvmArgs>
+				</configuration>
 			</plugin>
 
 			<plugin>
