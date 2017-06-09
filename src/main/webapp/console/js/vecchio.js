@@ -31,6 +31,21 @@ vecchioApp.config(function ($stateProvider, $urlRouterProvider) {
 			url: '/mapping/:mappingId',
 			templateUrl: 'mapping-item.html',
 			controller: 'VecMappingEditCtrl'
+		})
+		.state('home.config.user', {
+			url: '/user',
+			templateUrl: 'user.html',
+			controller: 'VecUserCtrl'
+		})
+		.state('home.config.user-new', {
+			url: '/user/new',
+			templateUrl: 'user-item.html',
+			controller: 'VecUserNewCtrl'
+		})
+		.state('home.config.user-edit', {
+			url: '/user/:userId',
+			templateUrl: 'user-item.html',
+			controller: 'VecUserEditCtrl'
 		});
 
 });
@@ -132,6 +147,91 @@ vecchioApp.controller('VecMappingEditCtrl', [
 		}
 	}
 ]);
+
+vecchioApp.controller('VecUserCtrl', [
+	"$scope",
+	"$http",
+	"$window",
+	function ($scope, $http, $window) {
+		$scope.users = null;
+
+		$scope.$evalAsync($http.get(
+			"http://localhost:8080/api/user/").then(
+			function (response) {
+				$scope.users = response.data;
+			}));
+
+		$scope.userDelete = function (userId) {
+			$http.delete("http://localhost:8080/api/user/" + userId).then(
+				function (data, status, headers, config) {
+					$http.get(
+						"http://localhost:8080/api/user/").then(
+						function (response) {
+							$scope.users = response.data;
+						});
+				}, function (data, status, headers, config) {
+					// called asynchronously if an error occurs
+					// or server returns response with an error
+					// status.
+				});
+		}
+	}]);
+
+vecchioApp.controller('VecUserNewCtrl', [
+	"$scope",
+	"$http",
+	"$window",
+	function ($scope, $http, $window) {
+		$scope.user = {};
+		$scope.userSave = function () {
+			var parameter = JSON.stringify($scope.user);
+			$http.post("http://localhost:8080/api/user/",
+				parameter).then(
+				function (data, status, headers, config) {
+					// this callback will be called
+					// asynchronously
+					// when the response is available
+					console.log(data);
+				}, function (data, status, headers, config) {
+					// called asynchronously if an error occurs
+					// or server returns response with an error
+					// status.
+				});
+		}
+	}
+]);
+
+vecchioApp.controller('VecUserEditCtrl', [
+	"$scope",
+	"$http",
+	"$window",
+	"$stateParams",
+	function ($scope, $http, $window, $stateParams) {
+		$scope.userId = $stateParams.userId;
+		$scope.$evalAsync($http.get(
+			"http://localhost:8080/api/user/" + $scope.userId).then(
+			function (response) {
+				$scope.user = response.data;
+			}));
+		$scope.userSave = function () {
+			$scope.users = null;
+			var parameter = JSON.stringify($scope.user);
+			$http.put("http://localhost:8080/api/user/" + $scope.userId,
+				parameter).then(
+				function (data, status, headers, config) {
+					// this callback will be called
+					// asynchronously
+					// when the response is available
+					console.log(data);
+				}, function (data, status, headers, config) {
+					// called asynchronously if an error occurs
+					// or server returns response with an error
+					// status.
+				});
+		}
+	}
+]);
+
 vecchioApp.controller('lineChartCtrl', function ($scope, $http, $window) {
 
 	$scope.options = {
