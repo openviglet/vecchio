@@ -4,18 +4,17 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Date;
 
-
 /**
  * The persistent class for the ShUser database table.
  * 
  */
 @Entity
-@NamedQuery(name="VecUser.findAll", query="SELECT u FROM VecUser u")
+@NamedQuery(name = "VecUser.findAll", query = "SELECT u FROM VecUser u")
 public class VecUser implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
 	private String confirmEmail;
@@ -38,6 +37,11 @@ public class VecUser implements Serializable {
 	private String recoverPassword;
 
 	private String username;
+
+	// bi-directional many-to-one association to VigEntity
+	@ManyToOne
+	@JoinColumn(name = "role_id")
+	private VecRole vecRole;
 
 	public VecUser() {
 	}
@@ -129,5 +133,11 @@ public class VecUser implements Serializable {
 	public void setUsername(String username) {
 		this.username = username;
 	}
+	public VecRole getVecRole() {
+		return vecRole;
+	}
 
+	public void setVecRole(VecRole vecRole) {
+		this.vecRole = vecRole;
+	}
 }

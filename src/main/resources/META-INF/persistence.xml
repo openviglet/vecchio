@@ -6,6 +6,7 @@
 		<provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>
 		<class>com.viglet.vecchio.persistence.model.VecAccess</class>
 		<class>com.viglet.vecchio.persistence.model.VecMapping</class>
+		<class>com.viglet.vecchio.persistence.model.VecRole</class>
 		<class>com.viglet.vecchio.persistence.model.VecUser</class>
 		<class>com.viglet.vecchio.persistence.model.VigOAuthAccessToken</class>
 		<class>com.viglet.vecchio.persistence.model.VigOAuthAccessTokenPK</class>

@@ -1,4 +1,4 @@
-  $(document).ready(function(){
+/*  $(document).ready(function(){
         $('.log-btn').click(function(){
             $('.log-status').addClass('wrong-entry');
            $('.alert').fadeIn(500);
@@ -8,4 +8,4 @@
             $('.log-status').removeClass('wrong-entry');
         });
 
-    });
+    });*/

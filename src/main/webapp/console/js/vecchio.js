@@ -46,6 +46,21 @@ vecchioApp.config(function ($stateProvider, $urlRouterProvider) {
 			url: '/user/:userId',
 			templateUrl: 'user-item.html',
 			controller: 'VecUserEditCtrl'
+		})
+		.state('home.config.role', {
+			url: '/role',
+			templateUrl: 'role.html',
+			controller: 'VecRoleCtrl'
+		})
+		.state('home.config.role-new', {
+			url: '/role/new',
+			templateUrl: 'role-item.html',
+			controller: 'VecRoleNewCtrl'
+		})
+		.state('home.config.role-edit', {
+			url: '/role/:roleId',
+			templateUrl: 'role-item.html',
+			controller: 'VecRoleEditCtrl'
 		});
 
 });
@@ -217,6 +232,90 @@ vecchioApp.controller('VecUserEditCtrl', [
 			$scope.users = null;
 			var parameter = JSON.stringify($scope.user);
 			$http.put("http://localhost:8080/api/user/" + $scope.userId,
+				parameter).then(
+				function (data, status, headers, config) {
+					// this callback will be called
+					// asynchronously
+					// when the response is available
+					console.log(data);
+				}, function (data, status, headers, config) {
+					// called asynchronously if an error occurs
+					// or server returns response with an error
+					// status.
+				});
+		}
+	}
+]);
+
+vecchioApp.controller('VecRoleCtrl', [
+	"$scope",
+	"$http",
+	"$window",
+	function ($scope, $http, $window) {
+		$scope.roles = null;
+
+		$scope.$evalAsync($http.get(
+			"http://localhost:8080/api/role/").then(
+			function (response) {
+				$scope.roles = response.data;
+			}));
+
+		$scope.roleDelete = function (roleId) {
+			$http.delete("http://localhost:8080/api/role/" + roleId).then(
+				function (data, status, headers, config) {
+					$http.get(
+						"http://localhost:8080/api/role/").then(
+						function (response) {
+							$scope.roles = response.data;
+						});
+				}, function (data, status, headers, config) {
+					// called asynchronously if an error occurs
+					// or server returns response with an error
+					// status.
+				});
+		}
+	}]);
+
+vecchioApp.controller('VecRoleNewCtrl', [
+	"$scope",
+	"$http",
+	"$window",
+	function ($scope, $http, $window) {
+		$scope.role = {};
+		$scope.roleSave = function () {
+			var parameter = JSON.stringify($scope.role);
+			$http.post("http://localhost:8080/api/role/",
+				parameter).then(
+				function (data, status, headers, config) {
+					// this callback will be called
+					// asynchronously
+					// when the response is available
+					console.log(data);
+				}, function (data, status, headers, config) {
+					// called asynchronously if an error occurs
+					// or server returns response with an error
+					// status.
+				});
+		}
+	}
+]);
+
+vecchioApp.controller('VecRoleEditCtrl', [
+	"$scope",
+	"$http",
+	"$window",
+	"$stateParams",
+	function ($scope, $http, $window, $stateParams) {
+		$scope.roleId = $stateParams.roleId;
+		$scope.$evalAsync($http.get(
+			"http://localhost:8080/api/role/" + $scope.roleId).then(
+			function (response) {
+				$scope.role = response.data;
+			}));
+		$scope.roleSave = function () {
+			$scope.roles = null;
+			var parameter = JSON.stringify($scope.role);
+			$http.put("http://localhost:8080/api/role/" + $scope.roleId,
 				parameter).then(
 				function (data, status, headers, config) {
 					// this callback will be called

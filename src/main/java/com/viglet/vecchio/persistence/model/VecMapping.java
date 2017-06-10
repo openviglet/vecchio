@@ -65,14 +65,14 @@ public class VecMapping implements Serializable {
 		this.vecAccesses = vecAccesses;
 	}
 
-	public VecAccess addVigTermAttribute(VecAccess vecAccess) {
+	public VecAccess addVecAccess(VecAccess vecAccess) {
 		getVecAccesses().add(vecAccess);
 		vecAccess.setVecMapping(this);;
 
 		return vecAccess;
 	}
 
-	public VecAccess removeVigTermAttribute(VecAccess vecAccess) {
+	public VecAccess removeVecAccess(VecAccess vecAccess) {
 		getVecAccesses().remove(vecAccess);
 		vecAccess.setVecMapping(null);
 
