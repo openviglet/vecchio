@@ -29,14 +29,14 @@ public class VecRoleAPI {
 	@Path("/{roleId}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public VecRole edit(@PathParam("userId") int id) throws Exception {
+	public VecRole edit(@PathParam("roleId") int id) throws Exception {
 		return vecRoleService.getRole(id);
 	}
 	
 	@Path("/{roleId}")
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON)
-	public VecRole update(@PathParam("userId") int id, VecRole vecRole) throws Exception {
+	public VecRole update(@PathParam("roleId") int id, VecRole vecRole) throws Exception {
 		VecRole vecRoleEdit = vecRoleService.getRole(id);
 		vecRoleEdit.setName(vecRole.getName());
 		vecRoleEdit.setDescription(vecRole.getDescription());

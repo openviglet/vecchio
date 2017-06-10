@@ -6,7 +6,7 @@ import javax.persistence.TypedQuery;
 
 import com.viglet.vecchio.persistence.model.VecRole;
 
-public class VecRoleService   extends VecBaseService{
+public class VecRoleService extends VecBaseService {
 
 	public void save(VecRole vecRole) {
 		em.getTransaction().begin();
@@ -19,12 +19,12 @@ public class VecRoleService   extends VecBaseService{
 		return q.getResultList();
 	}
 
-	public VecRole getRole(int userId) {
-		return em.find(VecRole.class, userId);
+	public VecRole getRole(int roleId) {
+		return em.find(VecRole.class, roleId);
 	}
 
-	public boolean deleteRole(int userId) {
-		VecRole vecRole = em.find(VecRole.class, userId);
+	public boolean deleteRole(int roleId) {
+		VecRole vecRole = em.find(VecRole.class, roleId);
 		em.getTransaction().begin();
 		em.remove(vecRole);
 		em.getTransaction().commit();

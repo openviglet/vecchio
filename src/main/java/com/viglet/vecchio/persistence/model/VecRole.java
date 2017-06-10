@@ -25,11 +25,15 @@ public class VecRole implements Serializable {
 
 	@Column(nullable = true, length = 255)
 	private String description;
-	
+
 	// bi-directional many-to-one association to VecAccess
-	@OneToMany(mappedBy="vecRole")
+	@OneToMany(mappedBy = "vecRole")
 	private List<VecUser> vecUsers;
-	
+
+	// bi-directional many-to-one association to VecAccess
+	@OneToMany(mappedBy = "vecRole")
+	private List<VecGroup> vecGroups;
+
 	public VecRole() {
 	}
 
@@ -67,7 +71,8 @@ public class VecRole implements Serializable {
 
 	public VecUser addVecUser(VecUser vecUser) {
 		getVecUsers().add(vecUser);
-		vecUser.setVecRole(this);;
+		vecUser.setVecRole(this);
+		;
 
 		return vecUser;
 	}
@@ -77,6 +82,29 @@ public class VecRole implements Serializable {
 		vecUser.setVecRole(null);
 
 		return vecUser;
+	}
+
+	public List<VecGroup> getVecGroups() {
+		return vecGroups;
+	}
+
+	public void setVecGroups(List<VecGroup> vecGroups) {
+		this.vecGroups = vecGroups;
+	}
+
+	public VecGroup addVecGroup(VecGroup vecGroup) {
+		getVecGroups().add(vecGroup);
+		vecGroup.setVecRole(this);
+		;
+
+		return vecGroup;
+	}
+
+	public VecGroup removeVecGroup(VecGroup vecGroup) {
+		getVecGroups().remove(vecGroup);
+		vecGroup.setVecRole(null);
+
+		return vecGroup;
 	}
 
 }

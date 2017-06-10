@@ -5,6 +5,7 @@
 	<persistence-unit name="vecchio-app" transaction-type="RESOURCE_LOCAL">
 		<provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>
 		<class>com.viglet.vecchio.persistence.model.VecAccess</class>
+		<class>com.viglet.vecchio.persistence.model.VecGroup</class>
 		<class>com.viglet.vecchio.persistence.model.VecMapping</class>
 		<class>com.viglet.vecchio.persistence.model.VecRole</class>
 		<class>com.viglet.vecchio.persistence.model.VecUser</class>

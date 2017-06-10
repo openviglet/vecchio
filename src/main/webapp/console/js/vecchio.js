@@ -61,6 +61,20 @@ vecchioApp.config(function ($stateProvider, $urlRouterProvider) {
 			url: '/role/:roleId',
 			templateUrl: 'role-item.html',
 			controller: 'VecRoleEditCtrl'
+		}).state('home.config.group', {
+			url: '/group',
+			templateUrl: 'group.html',
+			controller: 'VecGroupCtrl'
+		})
+		.state('home.config.group-new', {
+			url: '/group/new',
+			templateUrl: 'group-item.html',
+			controller: 'VecGroupNewCtrl'
+		})
+		.state('home.config.group-edit', {
+			url: '/group/:groupId',
+			templateUrl: 'group-item.html',
+			controller: 'VecGroupEditCtrl'
 		});
 
 });
@@ -316,6 +330,90 @@ vecchioApp.controller('VecRoleEditCtrl', [
 			$scope.roles = null;
 			var parameter = JSON.stringify($scope.role);
 			$http.put("http://localhost:8080/api/role/" + $scope.roleId,
+				parameter).then(
+				function (data, status, headers, config) {
+					// this callback will be called
+					// asynchronously
+					// when the response is available
+					console.log(data);
+				}, function (data, status, headers, config) {
+					// called asynchronously if an error occurs
+					// or server returns response with an error
+					// status.
+				});
+		}
+	}
+]);
+
+vecchioApp.controller('VecGroupCtrl', [
+	"$scope",
+	"$http",
+	"$window",
+	function ($scope, $http, $window) {
+		$scope.groups = null;
+
+		$scope.$evalAsync($http.get(
+			"http://localhost:8080/api/group/").then(
+			function (response) {
+				$scope.groups = response.data;
+			}));
+
+		$scope.groupDelete = function (groupId) {
+			$http.delete("http://localhost:8080/api/group/" + groupId).then(
+				function (data, status, headers, config) {
+					$http.get(
+						"http://localhost:8080/api/group/").then(
+						function (response) {
+							$scope.groups = response.data;
+						});
+				}, function (data, status, headers, config) {
+					// called asynchronously if an error occurs
+					// or server returns response with an error
+					// status.
+				});
+		}
+	}]);
+
+vecchioApp.controller('VecGroupNewCtrl', [
+	"$scope",
+	"$http",
+	"$window",
+	function ($scope, $http, $window) {
+		$scope.group = {};
+		$scope.groupSave = function () {
+			var parameter = JSON.stringify($scope.group);
+			$http.post("http://localhost:8080/api/group/",
+				parameter).then(
+				function (data, status, headers, config) {
+					// this callback will be called
+					// asynchronously
+					// when the response is available
+					console.log(data);
+				}, function (data, status, headers, config) {
+					// called asynchronously if an error occurs
+					// or server returns response with an error
+					// status.
+				});
+		}
+	}
+]);
+
+vecchioApp.controller('VecGroupEditCtrl', [
+	"$scope",
+	"$http",
+	"$window",
+	"$stateParams",
+	function ($scope, $http, $window, $stateParams) {
+		$scope.groupId = $stateParams.groupId;
+		$scope.$evalAsync($http.get(
+			"http://localhost:8080/api/group/" + $scope.groupId).then(
+			function (response) {
+				$scope.group = response.data;
+			}));
+		$scope.groupSave = function () {
+			$scope.groups = null;
+			var parameter = JSON.stringify($scope.group);
+			$http.put("http://localhost:8080/api/group/" + $scope.groupId,
 				parameter).then(
 				function (data, status, headers, config) {
 					// this callback will be called
