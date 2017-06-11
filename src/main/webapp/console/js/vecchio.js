@@ -2,76 +2,77 @@ var vecchioApp = angular.module('vecchioApp', ['ui.router', 'nvd3']);
 
 vecchioApp.config(function ($stateProvider, $urlRouterProvider) {
 
-	$urlRouterProvider.otherwise('/home/dashboard');
+	$urlRouterProvider.otherwise('/dashboard');
 	$stateProvider
 		.state('home', {
 			url: '/home',
 			templateUrl: 'home.html'
 		})
-		.state('home.dashboard', {
+		.state('dashboard', {
 			url: '/dashboard',
 			templateUrl: 'dashboard.html',
 			controller: 'VecDashboardCtrl'
 		})
-		.state('home.config', {
-			url: '/config',
-			templateUrl: 'config.html'
+		.state('organization', {
+			url: '/org',
+			templateUrl: 'organization.html'
 		})
-		.state('home.config.mapping', {
+		.state('mapping', {
 			url: '/mapping',
 			templateUrl: 'mapping.html',
 			controller: 'VecMappingCtrl'
 		})
-		.state('home.config.mapping-new', {
+		.state('mapping-new', {
 			url: '/mapping/new',
 			templateUrl: 'mapping-item.html',
 			controller: 'VecMappingNewCtrl'
 		})
-		.state('home.config.mapping-edit', {
+		.state('mapping-edit', {
 			url: '/mapping/:mappingId',
 			templateUrl: 'mapping-item.html',
 			controller: 'VecMappingEditCtrl'
 		})
-		.state('home.config.user', {
+		.state('organization.user', {
 			url: '/user',
 			templateUrl: 'user.html',
 			controller: 'VecUserCtrl'
 		})
-		.state('home.config.user-new', {
+		.state('organization.user-new', {
 			url: '/user/new',
 			templateUrl: 'user-item.html',
 			controller: 'VecUserNewCtrl'
 		})
-		.state('home.config.user-edit', {
+		.state('organization.user-edit', {
 			url: '/user/:userId',
 			templateUrl: 'user-item.html',
 			controller: 'VecUserEditCtrl'
 		})
-		.state('home.config.role', {
+		.state('organization.role', {
 			url: '/role',
 			templateUrl: 'role.html',
 			controller: 'VecRoleCtrl'
 		})
-		.state('home.config.role-new', {
+		.state('organization.role-new', {
 			url: '/role/new',
 			templateUrl: 'role-item.html',
 			controller: 'VecRoleNewCtrl'
 		})
-		.state('home.config.role-edit', {
+		.state('organization.role-edit', {
 			url: '/role/:roleId',
 			templateUrl: 'role-item.html',
 			controller: 'VecRoleEditCtrl'
-		}).state('home.config.group', {
+		})
+		.state('organization.group', {
 			url: '/group',
 			templateUrl: 'group.html',
 			controller: 'VecGroupCtrl'
 		})
-		.state('home.config.group-new', {
+		.state('organization.group-new', {
 			url: '/group/new',
 			templateUrl: 'group-item.html',
 			controller: 'VecGroupNewCtrl'
 		})
-		.state('home.config.group-edit', {
+		.state('organization.group-edit', {
 			url: '/group/:groupId',
 			templateUrl: 'group-item.html',
 			controller: 'VecGroupEditCtrl'
@@ -83,9 +84,11 @@ vecchioApp.controller('VecDashboardCtrl', [
 	"$scope",
 	"$http",
 	"$window",
-	function ($scope, $http, $window) {
+	"$state",
+	"$rootScope",
+	function ($scope, $http, $window, $state, $rootScope) {
 		$scope.accesses = null;
-
+		$rootScope.$state = $state;
 		$scope.$evalAsync($http.get(
 			"http://localhost:8080/api/access/").then(
 			function (response) {
@@ -97,9 +100,11 @@ vecchioApp.controller('VecMappingCtrl', [
 	"$scope",
 	"$http",
 	"$window",
-	function ($scope, $http, $window) {
+	"$state",
+	"$rootScope",
+	function ($scope, $http, $window, $state, $rootScope) {
 		$scope.mappings = null;
-
+		$rootScope.$state = $state;
 		$scope.$evalAsync($http.get(
 			"http://localhost:8080/api/mapping/").then(
 			function (response) {
@@ -126,21 +131,20 @@ vecchioApp.controller('VecMappingNewCtrl', [
 	"$scope",
 	"$http",
 	"$window",
-	function ($scope, $http, $window) {
+	"$state",
+	"$rootScope",
+	function ($scope, $http, $window, $state, $rootScope) {
+		$rootScope.$state = $state;
 		$scope.mapping = {};
 		$scope.mappingSave = function () {
 			var parameter = JSON.stringify($scope.mapping);
 			$http.post("http://localhost:8080/api/mapping/",
 				parameter).then(
 				function (data, status, headers, config) {
-					// this callback will be called
-					// asynchronously
-					// when the response is available
-					console.log(data);
+					$state.go('mapping');
 				}, function (data, status, headers, config) {
-					// called asynchronously if an error occurs
-					// or server returns response with an error
-					// status.
+					$state.go('mapping');
+
 				});
 		}
 	}
@@ -151,7 +155,10 @@ vecchioApp.controller('VecMappingEditCtrl', [
 	"$http",
 	"$window",
 	"$stateParams",
-	function ($scope, $http, $window, $stateParams) {
+	"$state",
+	"$rootScope",
+	function ($scope, $http, $window, $stateParams, $state, $rootScope) {
+		$rootScope.$state = $state;
 		$scope.mappingId = $stateParams.mappingId;
 		$scope.$evalAsync($http.get(
 			"http://localhost:8080/api/mapping/" + $scope.mappingId).then(
@@ -164,14 +171,9 @@ vecchioApp.controller('VecMappingEditCtrl', [
 			$http.put("http://localhost:8080/api/mapping/" + $scope.mappingId,
 				parameter).then(
 				function (data, status, headers, config) {
-					// this callback will be called
-					// asynchronously
-					// when the response is available
-					console.log(data);
+					   $state.go('mapping');
 				}, function (data, status, headers, config) {
-					// called asynchronously if an error occurs
-					// or server returns response with an error
-					// status.
+					   $state.go('mapping');
 				});
 		}
 	}
@@ -181,7 +183,10 @@ vecchioApp.controller('VecUserCtrl', [
 	"$scope",
 	"$http",
 	"$window",
-	function ($scope, $http, $window) {
+	"$state",
+	"$rootScope",
+	function ($scope, $http, $window, $state, $rootScope) {
+		$rootScope.$state = $state;
 		$scope.users = null;
 
 		$scope.$evalAsync($http.get(
@@ -210,21 +215,19 @@ vecchioApp.controller('VecUserNewCtrl', [
 	"$scope",
 	"$http",
 	"$window",
-	function ($scope, $http, $window) {
+	"$state",
+	"$rootScope",
+	function ($scope, $http, $window, $state, $rootScope) {
+		$rootScope.$state = $state;
 		$scope.user = {};
 		$scope.userSave = function () {
 			var parameter = JSON.stringify($scope.user);
 			$http.post("http://localhost:8080/api/user/",
 				parameter).then(
-				function (data, status, headers, config) {
-					// this callback will be called
-					// asynchronously
-					// when the response is available
-					console.log(data);
+				function (data, status, headers, config) {					
+			          $state.go('organization.user');
 				}, function (data, status, headers, config) {
-					// called asynchronously if an error occurs
-					// or server returns response with an error
-					// status.
+			          $state.go('organization.user');
 				});
 		}
 	}
@@ -235,7 +238,10 @@ vecchioApp.controller('VecUserEditCtrl', [
 	"$http",
 	"$window",
 	"$stateParams",
-	function ($scope, $http, $window, $stateParams) {
+	"$state",
+	"$rootScope",
+	function ($scope, $http, $window, $stateParams, $state, $rootScope) {
+		$rootScope.$state = $state;
 		$scope.userId = $stateParams.userId;
 		$scope.$evalAsync($http.get(
 			"http://localhost:8080/api/user/" + $scope.userId).then(
@@ -248,14 +254,9 @@ vecchioApp.controller('VecUserEditCtrl', [
 			$http.put("http://localhost:8080/api/user/" + $scope.userId,
 				parameter).then(
 				function (data, status, headers, config) {
-					// this callback will be called
-					// asynchronously
-					// when the response is available
-					console.log(data);
+					  $state.go('organization.user');
 				}, function (data, status, headers, config) {
-					// called asynchronously if an error occurs
-					// or server returns response with an error
-					// status.
+					  $state.go('organization.user');
 				});
 		}
 	}
@@ -265,7 +266,10 @@ vecchioApp.controller('VecRoleCtrl', [
 	"$scope",
 	"$http",
 	"$window",
-	function ($scope, $http, $window) {
+	"$state",
+	"$rootScope",
+	function ($scope, $http, $window, $state, $rootScope) {
+		$rootScope.$state = $state;
 		$scope.roles = null;
 
 		$scope.$evalAsync($http.get(
@@ -294,21 +298,19 @@ vecchioApp.controller('VecRoleNewCtrl', [
 	"$scope",
 	"$http",
 	"$window",
-	function ($scope, $http, $window) {
+	"$state",
+	"$rootScope",
+	function ($scope, $http, $window, $state, $rootScope) {
+		$rootScope.$state = $state;
 		$scope.role = {};
 		$scope.roleSave = function () {
 			var parameter = JSON.stringify($scope.role);
 			$http.post("http://localhost:8080/api/role/",
 				parameter).then(
 				function (data, status, headers, config) {
-					// this callback will be called
-					// asynchronously
-					// when the response is available
-					console.log(data);
+					  $state.go('organization.role');
 				}, function (data, status, headers, config) {
-					// called asynchronously if an error occurs
-					// or server returns response with an error
-					// status.
+					  $state.go('organization.role');
 				});
 		}
 	}
@@ -319,7 +321,10 @@ vecchioApp.controller('VecRoleEditCtrl', [
 	"$http",
 	"$window",
 	"$stateParams",
-	function ($scope, $http, $window, $stateParams) {
+	"$state",
+	"$rootScope",
+	function ($scope, $http, $window, $stateParams, $state, $rootScope) {
+		$rootScope.$state = $state;
 		$scope.roleId = $stateParams.roleId;
 		$scope.$evalAsync($http.get(
 			"http://localhost:8080/api/role/" + $scope.roleId).then(
@@ -332,14 +337,9 @@ vecchioApp.controller('VecRoleEditCtrl', [
 			$http.put("http://localhost:8080/api/role/" + $scope.roleId,
 				parameter).then(
 				function (data, status, headers, config) {
-					// this callback will be called
-					// asynchronously
-					// when the response is available
-					console.log(data);
+					  $state.go('organization.role');
 				}, function (data, status, headers, config) {
-					// called asynchronously if an error occurs
-					// or server returns response with an error
-					// status.
+					  $state.go('organization.role');
 				});
 		}
 	}
@@ -349,7 +349,10 @@ vecchioApp.controller('VecGroupCtrl', [
 	"$scope",
 	"$http",
 	"$window",
-	function ($scope, $http, $window) {
+	"$state",
+	"$rootScope",
+	function ($scope, $http, $window, $state, $rootScope) {
+		$rootScope.$state = $state;
 		$scope.groups = null;
 
 		$scope.$evalAsync($http.get(
@@ -378,21 +381,19 @@ vecchioApp.controller('VecGroupNewCtrl', [
 	"$scope",
 	"$http",
 	"$window",
-	function ($scope, $http, $window) {
+	"$state",
+	"$rootScope",
+	function ($scope, $http, $window, $state, $rootScope) {
+		$rootScope.$state = $state;
 		$scope.group = {};
 		$scope.groupSave = function () {
 			var parameter = JSON.stringify($scope.group);
 			$http.post("http://localhost:8080/api/group/",
 				parameter).then(
 				function (data, status, headers, config) {
-					// this callback will be called
-					// asynchronously
-					// when the response is available
-					console.log(data);
+					$state.go('organization.group');
 				}, function (data, status, headers, config) {
-					// called asynchronously if an error occurs
-					// or server returns response with an error
-					// status.
+					$state.go('organization.group');
 				});
 		}
 	}
@@ -403,7 +404,10 @@ vecchioApp.controller('VecGroupEditCtrl', [
 	"$http",
 	"$window",
 	"$stateParams",
-	function ($scope, $http, $window, $stateParams) {
+	"$state",
+	"$rootScope",
+	function ($scope, $http, $window, $stateParams, $state, $rootScope) {
+		$rootScope.$state = $state;
 		$scope.groupId = $stateParams.groupId;
 		$scope.$evalAsync($http.get(
 			"http://localhost:8080/api/group/" + $scope.groupId).then(
@@ -416,14 +420,9 @@ vecchioApp.controller('VecGroupEditCtrl', [
 			$http.put("http://localhost:8080/api/group/" + $scope.groupId,
 				parameter).then(
 				function (data, status, headers, config) {
-					// this callback will be called
-					// asynchronously
-					// when the response is available
-					console.log(data);
+					$state.go('organization.group');
 				}, function (data, status, headers, config) {
-					// called asynchronously if an error occurs
-					// or server returns response with an error
-					// status.
+					$state.go('organization.group');
 				});
 		}
 	}
@@ -491,7 +490,7 @@ vecchioApp.controller('lineChartCtrl', function ($scope, $http, $window) {
 		"http://localhost:8080/api/access/response_time").then(
 		function (response) {
 			$scope.data = response.data;
-		//	$scope.data = sinAndCos();
+		// $scope.data = sinAndCos();
 		}));
 
 

@@ -13,7 +13,7 @@
 			</div>
 			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"
 				style="text-align: right">
-				<a ui-sref="home.config.group-new" class="btn btn-warning"
+				<a ui-sref="organization.group-new" class="btn btn-warning"
 					role="button" aria-pressed="true"
 					style="margin-bottom: 5px; color: white">New</a>
 			</div>
@@ -30,11 +30,11 @@
 			</thead>
 			<tbody>
 				<tr ng-repeat="group in groups">
-					<td><a ui-sref="home.config.group-edit({groupId: group.id})" >{{group.name}}</a></td>
-					<td><a ui-sref="home.config.group-edit({groupId: group.id})" >{{group.description}}</a></td>
+					<td><a ui-sref="organization.group-edit({groupId: group.id})" >{{group.name}}</a></td>
+					<td><a ui-sref="organization.group-edit({groupId: group.id})" >{{group.description}}</a></td>
 					<td style="text-align: right">
 						<div class="btn-group">
-							<button type="button" ui-sref="home.config.group-edit({groupId: group.id})"
+							<button type="button" ui-sref="organization.group-edit({groupId: group.id})"
 								class="btn btn-warning">Edit</button>
 							<button type="button" class="btn btn-warning dropdown-toggle"
 								data-toggle="dropdown" aria-haspopup="true"

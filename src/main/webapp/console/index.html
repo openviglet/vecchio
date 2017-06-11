@@ -39,7 +39,7 @@
 	border-bottom-style: solid;
 }
 
-navbar-default .navbar-left>li:focus, .navbar-default .navbar-left>li {
+.navbar-default .navbar-left>li:focus, .navbar-default .navbar-left>li {
 	color: #333;
 	background-color: transparent;
 	border-bottom-color: transparent;
@@ -169,15 +169,18 @@ navbar-default .navbar-left>li:focus, .navbar-default .navbar-left>li {
 				<nav class="collapse navbar-collapse bs-navbar-collapse"
 					role="navigation">
 					<ul class="nav navbar-nav navbar-left">
-						<li><a ui-sref="home.dashboard">Dashboard</a></li>
-						<li><a ui-sref="home.config.mapping">Configuration</a></li>
+						<li ng-class="{'active':$state.current.name == 'dashboard'}"><a ui-sref="dashboard" >Dashboard</a></li>						
+						<li ng-class="{'active':$state.current.name.indexOf('mapping') == 0}"><a ui-sref="mapping">Mapping</a></li>
+						<li ng-class="{'active':$state.current.name.indexOf('organization') == 0}"><a ui-sref="organization">Organization</a></li>
 					</ul>
 				</nav>
 			</div>
 			<!-- /.container-fluid -->
 		</nav>
 		<div class="container">
-			<div ui-view></div>
+			<div id="home" class="row row-centered" style="margin-top: 80px">
+				<div class="col-lg-9 col-md-9col-sm-9 col-xs-9 col-centered" ui-view></div>
+			</div>
 		</div>
 	</div>
 	<!-- 	<div id="footer">
