@@ -40,11 +40,11 @@ More details: [https://bower.io/#install-bower](https://bower.io/#install-bower)
 Execute the following command to run Viglet Vecchio:
 
 ```shell
-$ mvn jetty:run-forked
+$ mvn jetty:run
 ```
 
 # Test
-For example, in Mapping Console ([http://localhost:8080/console/#!/home/config/mapping](http://localhost:8080/console/#!/home/config/mapping)) add the following URLs:
+For example, in Mapping Console ([http://localhost:8080/console/#!/mapping](http://localhost:8080/console/#!/mapping)) add the following URLs:
 
 1. Viglet Turing Entity
 	- URL: [/turing/entity](http://localhost:8080/turing/entity)
@@ -71,6 +71,6 @@ curl -X GET "localhost:8080/github/openviglet" -H  "accept: application/json" -H
 
 # Dashboard
 
-In Dashboard Console ([http://localhost:8080/console/#!/home/dashboard](http://localhost:8080/console/#!/home/dashboard)) shows response time report.
+Dashboard Console ([http://localhost:8080/console/#!/dashboard](http://localhost:8080/console/#!/dashboard)) shows response time report.
 
 ![dashboard.png](https://openviglet.github.io/vecchio/img/dashboard.png)

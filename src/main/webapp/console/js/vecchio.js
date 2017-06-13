@@ -76,6 +76,21 @@ vecchioApp.config(function ($stateProvider, $urlRouterProvider) {
 			url: '/group/:groupId',
 			templateUrl: 'group-item.html',
 			controller: 'VecGroupEditCtrl'
+		})
+		.state('app', {
+			url: '/app',
+			templateUrl: 'app.html',
+			controller: 'VecAppCtrl'
+		})
+		.state('app-new', {
+			url: '/app/new',
+			templateUrl: 'app-item.html',
+			controller: 'VecAppNewCtrl'
+		})
+		.state('app-edit', {
+			url: '/app/:appId',
+			templateUrl: 'app-item.html',
+			controller: 'VecAppEditCtrl'
 		});
 
 });
@@ -423,6 +438,89 @@ vecchioApp.controller('VecGroupEditCtrl', [
 					$state.go('organization.group');
 				}, function (data, status, headers, config) {
 					$state.go('organization.group');
+				});
+		}
+	}
+]);
+
+vecchioApp.controller('VecAppCtrl', [
+	"$scope",
+	"$http",
+	"$window",
+	"$state",
+	"$rootScope",
+	function ($scope, $http, $window, $state, $rootScope) {
+		$rootScope.$state = $state;
+		$scope.apps = null;
+
+		$scope.$evalAsync($http.get(
+			"http://localhost:8080/api/app/").then(
+			function (response) {
+				$scope.apps = response.data;
+			}));
+
+		$scope.appDelete = function (appId) {
+			$http.delete("http://localhost:8080/api/app/" + appId).then(
+				function (data, status, headers, config) {
+					$http.get(
+						"http://localhost:8080/api/app/").then(
+						function (response) {
+							$scope.apps = response.data;
+						});
+				}, function (data, status, headers, config) {
+					// called asynchronously if an error occurs
+					// or server returns response with an error
+					// status.
+				});
+		}
+	}]);
+
+vecchioApp.controller('VecAppNewCtrl', [
+	"$scope",
+	"$http",
+	"$window",
+	"$state",
+	"$rootScope",
+	function ($scope, $http, $window, $state, $rootScope) {
+		$rootScope.$state = $state;
+		$scope.app = {};
+		$scope.appSave = function () {
+			var parameter = JSON.stringify($scope.app);
+			$http.post("http://localhost:8080/api/app/",
+				parameter).then(
+				function (data, status, headers, config) {
+					$state.go('app');
+				}, function (data, status, headers, config) {
+					$state.go('app');
+				});
+		}
+	}
+]);
+
+vecchioApp.controller('VecAppEditCtrl', [
+	"$scope",
+	"$http",
+	"$window",
+	"$stateParams",
+	"$state",
+	"$rootScope",
+	function ($scope, $http, $window, $stateParams, $state, $rootScope) {
+		$rootScope.$state = $state;
+		$scope.appId = $stateParams.appId;
+		$scope.$evalAsync($http.get(
+			"http://localhost:8080/api/app/" + $scope.appId).then(
+			function (response) {
+				$scope.app = response.data;
+			}));
+		$scope.appSave = function () {
+			$scope.apps = null;
+			var parameter = JSON.stringify($scope.app);
+			$http.put("http://localhost:8080/api/app/" + $scope.appId,
+				parameter).then(
+				function (data, status, headers, config) {
+					$state.go('app');
+				}, function (data, status, headers, config) {
+					$state.go('app');
 				});
 		}
 	}
