@@ -4,93 +4,112 @@ vecchioApp.config(function ($stateProvider, $urlRouterProvider) {
 
 	$urlRouterProvider.otherwise('/dashboard');
 	$stateProvider
-		.state('home', {
-			url: '/home',
-			templateUrl: 'home.html'
-		})
 		.state('dashboard', {
 			url: '/dashboard',
 			templateUrl: 'dashboard.html',
-			controller: 'VecDashboardCtrl'
+			controller: 'VecDashboardCtrl',
+			data : { pageTitle: 'Dashboard | Viglet Vecchio' }
 		})
 		.state('organization', {
 			url: '/org',
-			templateUrl: 'organization.html'
+			templateUrl: 'organization.html',
+			data : { pageTitle: 'Organization | Viglet Vecchio' }
 		})
 		.state('mapping', {
 			url: '/mapping',
 			templateUrl: 'mapping.html',
-			controller: 'VecMappingCtrl'
+			controller: 'VecMappingCtrl',
+			data : { pageTitle: 'Mapping | Viglet Vecchio' }
 		})
 		.state('mapping-new', {
 			url: '/mapping/new',
 			templateUrl: 'mapping-item.html',
-			controller: 'VecMappingNewCtrl'
+			controller: 'VecMappingNewCtrl',
+			data : { pageTitle: 'New Mapping | Viglet Vecchio' }
 		})
 		.state('mapping-edit', {
 			url: '/mapping/:mappingId',
 			templateUrl: 'mapping-item.html',
-			controller: 'VecMappingEditCtrl'
+			controller: 'VecMappingEditCtrl',
+			data : { pageTitle: 'Edit Mapping | Viglet Vecchio' }
 		})
 		.state('organization.user', {
 			url: '/user',
 			templateUrl: 'user.html',
-			controller: 'VecUserCtrl'
+			controller: 'VecUserCtrl',
+			data : { pageTitle: 'Users | Viglet Vecchio' }
 		})
 		.state('organization.user-new', {
 			url: '/user/new',
 			templateUrl: 'user-item.html',
-			controller: 'VecUserNewCtrl'
+			controller: 'VecUserNewCtrl',
+			data : { pageTitle: 'New User | Viglet Vecchio' }
 		})
 		.state('organization.user-edit', {
 			url: '/user/:userId',
 			templateUrl: 'user-item.html',
-			controller: 'VecUserEditCtrl'
+			controller: 'VecUserEditCtrl',
+			data : { pageTitle: 'Edit User | Viglet Vecchio' }
 		})
 		.state('organization.role', {
 			url: '/role',
 			templateUrl: 'role.html',
-			controller: 'VecRoleCtrl'
+			controller: 'VecRoleCtrl',
+			data : { pageTitle: 'Roles | Viglet Vecchio' }
 		})
 		.state('organization.role-new', {
 			url: '/role/new',
 			templateUrl: 'role-item.html',
-			controller: 'VecRoleNewCtrl'
+			controller: 'VecRoleNewCtrl',
+			data : { pageTitle: 'New Role | Viglet Vecchio' }
 		})
 		.state('organization.role-edit', {
 			url: '/role/:roleId',
 			templateUrl: 'role-item.html',
-			controller: 'VecRoleEditCtrl'
+			controller: 'VecRoleEditCtrl',
+			data : { pageTitle: 'Edit Role | Viglet Vecchio' }
 		})
 		.state('organization.group', {
 			url: '/group',
 			templateUrl: 'group.html',
-			controller: 'VecGroupCtrl'
+			controller: 'VecGroupCtrl',
+			data : { pageTitle: 'Groups | Viglet Vecchio' }
 		})
 		.state('organization.group-new', {
 			url: '/group/new',
 			templateUrl: 'group-item.html',
-			controller: 'VecGroupNewCtrl'
+			controller: 'VecGroupNewCtrl',
+			data : { pageTitle: 'New Group | Viglet Vecchio' }
 		})
 		.state('organization.group-edit', {
 			url: '/group/:groupId',
 			templateUrl: 'group-item.html',
-			controller: 'VecGroupEditCtrl'
+			controller: 'VecGroupEditCtrl',
+			data : { pageTitle: 'Edit Group | Viglet Vecchio' }
 		})
 		.state('app', {
 			url: '/app',
 			templateUrl: 'app.html',
-			controller: 'VecAppCtrl'
+			controller: 'VecAppCtrl',
+			data : { pageTitle: 'Apps | Viglet Vecchio'}
 		})
 		.state('app-new', {
 			url: '/app/new',
 			templateUrl: 'app-item.html',
-			controller: 'VecAppNewCtrl'
+			controller: 'VecAppNewCtrl',
+			data : { pageTitle: 'New App | Viglet Vecchio', saveButton: 'Save'}
 		})
 		.state('app-edit', {
 			url: '/app/:appId',
 			templateUrl: 'app-item.html',
-			controller: 'VecAppEditCtrl'
+			controller: 'VecAppEditCtrl',
+			data : { pageTitle: 'Edit App | Viglet Vecchio', saveButton: 'Update Settings' }
+		})	
+		.state('app-edit.keys', {
+			url: '/keys',
+			templateUrl: 'app-item-keys.html',
+			controller: 'VecAppEditCtrl',
+			data : { pageTitle: 'Edit App Keys | Viglet Vecchio' }
 		});
 
 });

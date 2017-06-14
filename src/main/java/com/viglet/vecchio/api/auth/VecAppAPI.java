@@ -36,7 +36,7 @@ public class VecAppAPI {
 	@Path("/{appId}")
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON)
-	public VecApp update(@PathParam("groupId") int id, VecApp vecApp) throws Exception {
+	public VecApp update(@PathParam("appId") int id, VecApp vecApp) throws Exception {
 		VecApp vecAppEdit = vecAppService.getApp(id);
 		vecAppEdit.setName(vecApp.getName());
 		vecAppEdit.setDescription(vecApp.getDescription());
