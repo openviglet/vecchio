@@ -13,6 +13,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.apache.oltu.oauth2.as.issuer.MD5Generator;
+import org.apache.oltu.oauth2.as.issuer.OAuthIssuer;
+import org.apache.oltu.oauth2.as.issuer.OAuthIssuerImpl;
+
 import com.viglet.vecchio.persistence.model.VecApp;
 import com.viglet.vecchio.persistence.service.VecAppService;
 
@@ -33,6 +37,30 @@ public class VecAppAPI {
 		return vecAppService.getApp(id);
 	}
 	
+	@Path("/{appId}/gen_key")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public VecApp genKey(@PathParam("appId") int id) throws Exception {
+		VecApp vecAppEdit = vecAppService.getApp(id);
+		vecAppEdit.setApiKey((new MD5Generator()).generateValue());
+		vecAppEdit.setApiSecret((new MD5Generator()).generateValue());
+		vecAppService.save(vecAppEdit);
+		return vecAppEdit;
+	}
+	
+	@Path("/{appId}/gen_token")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public VecApp genToken(@PathParam("appId") int id) throws Exception {
+		MD5Generator tokenSecret = new MD5Generator();
+		OAuthIssuer oauthIssuerImpl = new OAuthIssuerImpl(tokenSecret);
+		VecApp vecAppEdit = vecAppService.getApp(id);
+		vecAppEdit.setAccessToken(tokenSecret.generateValue());
+		vecAppEdit.setAccessTokenSecret(oauthIssuerImpl.accessToken());
+		vecAppService.save(vecAppEdit);
+		return vecAppEdit;
+	}
+	
 	@Path("/{appId}")
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON)
@@ -40,8 +68,6 @@ public class VecAppAPI {
 		VecApp vecAppEdit = vecAppService.getApp(id);
 		vecAppEdit.setName(vecApp.getName());
 		vecAppEdit.setDescription(vecApp.getDescription());
-		vecAppEdit.setApiKey(vecApp.getApiKey());
-		vecAppEdit.setApiSecret(vecApp.getApiSecret());
 		vecAppEdit.setCallbackURL(vecApp.getCallbackURL());
 		vecAppService.save(vecAppEdit);
 		return vecAppEdit;
@@ -57,6 +83,12 @@ public class VecAppAPI {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response add(VecApp vecApp) throws Exception {
+		MD5Generator tokenSecret = new MD5Generator();
+		OAuthIssuer oauthIssuerImpl = new OAuthIssuerImpl(tokenSecret);
+		vecApp.setApiKey((new MD5Generator()).generateValue());
+		vecApp.setApiSecret((new MD5Generator()).generateValue());
+		vecApp.setAccessToken(tokenSecret.generateValue());
+		vecApp.setAccessTokenSecret(oauthIssuerImpl.accessToken());
 		vecAppService.save(vecApp);
 		String result = "App saved : " + vecApp;
 		return Response.status(201).entity(result).build();

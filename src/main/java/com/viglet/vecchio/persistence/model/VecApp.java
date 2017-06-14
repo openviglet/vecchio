@@ -28,6 +28,12 @@ public class VecApp implements Serializable {
 	@Column(name="api_secret", nullable=true, length=50)
 	private String apiSecret;
 	
+	@Column(name="access_token", nullable=true, length=50)
+	private String accessToken;
+	
+	@Column(name="access_token_secret", nullable=true, length=50)
+	private String accessTokenSecret;
+	
 	@Column(name="callback_url", nullable=true, length=255)
 	private String callbackURL;
 
@@ -69,6 +75,22 @@ public class VecApp implements Serializable {
 
 	public void setApiSecret(String apiSecret) {
 		this.apiSecret = apiSecret;
+	}
+
+	public String getAccessToken() {
+		return accessToken;
+	}
+
+	public void setAccessToken(String accessToken) {
+		this.accessToken = accessToken;
+	}
+
+	public String getAccessTokenSecret() {
+		return accessTokenSecret;
+	}
+
+	public void setAccessTokenSecret(String accessTokenSecret) {
+		this.accessTokenSecret = accessTokenSecret;
 	}
 
 	public String getCallbackURL() {
