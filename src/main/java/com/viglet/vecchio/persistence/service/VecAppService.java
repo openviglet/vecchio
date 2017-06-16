@@ -23,6 +23,10 @@ public class VecAppService   extends VecBaseService{
 		return em.find(VecApp.class, appId);
 	}
 
+	public VecApp getAppByAccessToken(String accessToken) {
+		TypedQuery<VecApp> q = em.createQuery("SELECT a FROM VecApp a where a.accessToken = :accessToken ", VecApp.class).setParameter("accessToken", accessToken);
+		return q.getSingleResult();
+	}
 	public boolean deleteApp(int appId) {
 		VecApp vecApp = em.find(VecApp.class, appId);
 		em.getTransaction().begin();

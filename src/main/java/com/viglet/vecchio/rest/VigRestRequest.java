@@ -21,6 +21,7 @@ import org.apache.oltu.oauth2.rs.response.OAuthRSResponse;
 
 import com.viglet.vecchio.api.oauth2.demo.TestContent;
 import com.viglet.vecchio.persistence.model.VecMapping;
+import com.viglet.vecchio.persistence.service.VecAppService;
 import com.viglet.vecchio.persistence.service.VecMappingService;
 import com.viglet.vecchio.proxy.VigProxy;
 
@@ -51,7 +52,9 @@ public class VigRestRequest {
 						String accessToken = oauthRequest.getAccessToken();
 
 						// Validate the access token
-						if (!TestContent.ACCESS_TOKEN_VALID.equals(accessToken)) {
+						VecAppService vecAppService = new VecAppService();
+						if (vecAppService.getAppByAccessToken(accessToken) == null) {
+						//if (!TestContent.ACCESS_TOKEN_VALID.equals(accessToken)) {
 
 							// Return the OAuth error message
 							OAuthResponse oauthResponse = OAuthRSResponse
