@@ -112,7 +112,7 @@ Location: http://localhost:8080/console/oauth2/receive_implicit_token?access_tok
 
 ## Using API Resources
 
-Ready! You can access the following API Resources using the **Access Token** from Authorization Code or Implicit Grant Types or App Settings (Your Access Token), for instance `fb803d96bb541ba658d514b3f4d88363`, if you use different an invalid Access Token will return empty response.
+Ready! You can access the following API Resources using the **Access Token** from Authorization Code or Implicit Grant Types or App Settings (Your Access Token), for instance `fb803d96bb541ba658d514b3f4d88363`, if you use an invalid Access Token, it will return empty response.
 
 * Viglet Turing - Entity:
 
