@@ -58,7 +58,8 @@ For example, in Mapping Console ([http://localhost:8080/console/#!/mapping](http
 
 ![mapping.png](https://openviglet.github.io/vecchio/img/mapping.png)
 
-## Grant Types
+## Apps
+
 Create a new App ([http://localhost:8080/console/#!/app/new](http://localhost:8080/console/#!/app/new)) and copy the values of  "Keys and Access Tokens" tab.
 
 ![vecchio_oauth2.png](https://openviglet.github.io/vecchio/img/vecchio_oauth2.png)
@@ -71,6 +72,10 @@ Will generate the following keys an tokens for your App, for instance:
 | Consumer Secret (API Secret) | c640f16520015c5a599f666107e4ce25 |
 | Access Token 					 | fb803d96bb541ba658d514b3f4d88363 |
 | Access Token Secret          | 43c713bcbdb7a54962a1b4abcfb8af58 |
+
+## Grant Types
+
+You can access the API Resources using your Access Token, ou generate new Access Token using the followings Grant Types:
 
 ### Authorization Code
 
@@ -107,18 +112,18 @@ Location: http://localhost:8080/console/oauth2/receive_implicit_token?access_tok
 
 ## Using API Resources
 
-Ready! You can access the following API Resources using the **Access Token**, for instance `b516216e45610d4be3716c8dfab70985`, if you use different invalid Access Token will return empty response.
+Ready! You can access the following API Resources using the **Access Token** from Authorization Code or Implicit Grant Types or App Settings (Your Access Token), for instance `fb803d96bb541ba658d514b3f4d88363`, if you use different an invalid Access Token will return empty response.
 
 * Viglet Turing - Entity:
 
 ```bash
-curl -X GET "http://localhost:8080/turing/entity" -H  "accept: application/json" -H  "content-type: application/json" -H  "authorization: Bearer b516216e45610d4be3716c8dfab70985"
+curl -X GET "http://localhost:8080/turing/entity" -H  "accept: application/json" -H  "content-type: application/json" -H  "authorization: Bearer fb803d96bb541ba658d514b3f4d88363"
 ```
 
 * GitHub - openviglet:
 
 ```bash
-curl -X GET "localhost:8080/github/openviglet" -H  "accept: application/json" -H  "content-type: application/json" -H  "authorization: Bearer b516216e45610d4be3716c8dfab70985"
+curl -X GET "localhost:8080/github/openviglet" -H  "accept: application/json" -H  "content-type: application/json" -H  "authorization: Bearer fb803d96bb541ba658d514b3f4d88363"
 ```
 
 # Dashboard
