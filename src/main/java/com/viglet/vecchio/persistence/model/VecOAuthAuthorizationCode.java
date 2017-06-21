@@ -10,13 +10,13 @@ import java.util.Date;
  * 
  */
 @Entity
-@Table(name="VigOAuthAuthorizationCodes")
-@NamedQuery(name="VigOAuthAuthorizationCode.findAll", query="SELECT v FROM VigOAuthAuthorizationCode v")
-public class VigOAuthAuthorizationCode implements Serializable {
+@Table(name="VecOAuthAuthorizationCodes")
+@NamedQuery(name="VecOAuthAuthorizationCode.findAll", query="SELECT v FROM VecOAuthAuthorizationCode v")
+public class VecOAuthAuthorizationCode implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId
-	private VigOAuthAuthorizationCodePK id;
+	private VecOAuthAuthorizationCodePK id;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(nullable=false)
@@ -34,14 +34,14 @@ public class VigOAuthAuthorizationCode implements Serializable {
 	@Column(name="user_id", nullable=false, length=50)
 	private String userId;
 
-	public VigOAuthAuthorizationCode() {
+	public VecOAuthAuthorizationCode() {
 	}
 
-	public VigOAuthAuthorizationCodePK getId() {
+	public VecOAuthAuthorizationCodePK getId() {
 		return this.id;
 	}
 
-	public void setId(VigOAuthAuthorizationCodePK id) {
+	public void setId(VecOAuthAuthorizationCodePK id) {
 		this.id = id;
 	}
 

@@ -19,61 +19,99 @@ import org.apache.oltu.oauth2.common.message.OAuthResponse;
 import org.apache.oltu.oauth2.common.message.types.ResponseType;
 import org.apache.oltu.oauth2.common.utils.OAuthUtils;
 
+import com.viglet.vecchio.persistence.model.VecApp;
+import com.viglet.vecchio.persistence.model.VecOAuthAuthorizationCode;
+import com.viglet.vecchio.persistence.model.VecOAuthAuthorizationCodePK;
+import com.viglet.vecchio.persistence.service.VecAppService;
+import com.viglet.vecchio.persistence.service.VecOAuthAuthorizationCodeService;
+
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Date;
 
-@Path("/auth")
+@Path("/authorize")
 public class AuthEndpoint {
 
+	@GET
+	public Response authorize(@Context HttpServletRequest request) throws URISyntaxException, OAuthSystemException {
+		VecOAuthAuthorizationCodeService vecOAuthAuthorizationCodeService = new VecOAuthAuthorizationCodeService();
+		OAuthAuthzRequest oauthRequest = null;
 
-    @GET
-    public Response authorize(@Context HttpServletRequest request)
-        throws URISyntaxException, OAuthSystemException {
+		OAuthIssuerImpl oauthIssuerImpl = new OAuthIssuerImpl(new MD5Generator());
 
-        OAuthAuthzRequest oauthRequest = null;
+		try {
+			oauthRequest = new OAuthAuthzRequest(request);
 
-        OAuthIssuerImpl oauthIssuerImpl = new OAuthIssuerImpl(new MD5Generator());
+			// build response according to response_type
+			String responseType = oauthRequest.getParam(OAuth.OAUTH_RESPONSE_TYPE);
+			String clientId = oauthRequest.getParam(OAuth.OAUTH_CLIENT_ID);
+			String redirectURI = oauthRequest.getParam(OAuth.OAUTH_REDIRECT_URI);
 
-        try {
-            oauthRequest = new OAuthAuthzRequest(request);
+			OAuthASResponse.OAuthAuthorizationResponseBuilder builder = OAuthASResponse.authorizationResponse(request,
+					HttpServletResponse.SC_FOUND);
+			VecAppService vecAppService = new VecAppService();
 
-            //build response according to response_type
-            String responseType = oauthRequest.getParam(OAuth.OAUTH_RESPONSE_TYPE);
+			if (clientId == null) {
 
-            OAuthASResponse.OAuthAuthorizationResponseBuilder builder = OAuthASResponse
-                .authorizationResponse(request,HttpServletResponse.SC_FOUND);
+				final Response.ResponseBuilder responseBuilder = Response.status(HttpServletResponse.SC_FOUND);
+				throw new WebApplicationException(responseBuilder.entity("OAuth callback url needs client_id").build());
+			} else {
+				VecApp vecApp = vecAppService.getAppByClientId(clientId);
+				if (vecApp == null) {
+					final Response.ResponseBuilder responseBuilder = Response.status(HttpServletResponse.SC_FOUND);
+					throw new WebApplicationException(
+							responseBuilder.entity("OAuth callback url needs valid client_id").build());
+				}
+			}
 
-            if (responseType.equals(ResponseType.CODE.toString())) {
-                builder.setCode(oauthIssuerImpl.authorizationCode());
-            }
-            if (responseType.equals(ResponseType.TOKEN.toString())) {
-                builder.setAccessToken(oauthIssuerImpl.accessToken());
-                builder.setExpiresIn(3600l);
-            }
+			if (responseType.equals(ResponseType.CODE.toString())) {
 
-            String redirectURI = oauthRequest.getParam(OAuth.OAUTH_REDIRECT_URI);
+				VecOAuthAuthorizationCode vecOAuthAuthorizationCode = vecOAuthAuthorizationCodeService
+						.getAuthCodeByClientId(clientId);
+				if (vecOAuthAuthorizationCode != null) {
+					vecOAuthAuthorizationCodeService.deletetAuthCode(vecOAuthAuthorizationCode.getId());
+				}
+				vecOAuthAuthorizationCode = new VecOAuthAuthorizationCode();
+				VecOAuthAuthorizationCodePK id = new VecOAuthAuthorizationCodePK();
+				id.setAuthorizationCode(oauthIssuerImpl.authorizationCode());
+				id.setClientId(clientId);
 
-            final OAuthResponse response = builder.location(redirectURI).buildQueryMessage();
-            URI url = new URI(response.getLocationUri());
+				Date expires = new Date();
+				vecOAuthAuthorizationCode.setId(id);
+				vecOAuthAuthorizationCode.setExpires(expires);
+				vecOAuthAuthorizationCode.setIdToken("nulo");
+				vecOAuthAuthorizationCode.setRedirectUri(oauthRequest.getParam(OAuth.OAUTH_REDIRECT_URI));
+				vecOAuthAuthorizationCode.setScope(oauthRequest.getParam(OAuth.OAUTH_STATE));
+				vecOAuthAuthorizationCode.setUserId("userId");
+				
+				vecOAuthAuthorizationCodeService.save(vecOAuthAuthorizationCode);
+				builder.setCode(id.getAuthorizationCode());
+			}
+			if (responseType.equals(ResponseType.TOKEN.toString())) {
+				builder.setAccessToken(oauthIssuerImpl.accessToken());
+				builder.setExpiresIn(3600l);
+			}
 
-            return Response.status(response.getResponseStatus()).location(url).build();
+			final OAuthResponse response = builder.location(redirectURI).buildQueryMessage();
+			URI url = new URI(response.getLocationUri());
 
-        } catch (OAuthProblemException e) {
+			return Response.status(response.getResponseStatus()).location(url).build();
 
-            final Response.ResponseBuilder responseBuilder = Response.status(HttpServletResponse.SC_FOUND);
+		} catch (OAuthProblemException e) {
 
-            String redirectUri = e.getRedirectUri();
+			final Response.ResponseBuilder responseBuilder = Response.status(HttpServletResponse.SC_FOUND);
 
-            if (OAuthUtils.isEmpty(redirectUri)) {
-                throw new WebApplicationException(
-                    responseBuilder.entity("OAuth callback url needs to be provided by client!!!").build());
-            }
-            final OAuthResponse response = OAuthASResponse.errorResponse(HttpServletResponse.SC_FOUND)
-                .error(e)
-                .location(redirectUri).buildQueryMessage();
-            final URI location = new URI(response.getLocationUri());
-            return responseBuilder.location(location).build();
-        }
-    }
+			String redirectUri = e.getRedirectUri();
+
+			if (OAuthUtils.isEmpty(redirectUri)) {
+				throw new WebApplicationException(
+						responseBuilder.entity("OAuth callback url needs to be provided by client!!!").build());
+			}
+			final OAuthResponse response = OAuthASResponse.errorResponse(HttpServletResponse.SC_FOUND).error(e)
+					.location(redirectUri).buildQueryMessage();
+			final URI location = new URI(response.getLocationUri());
+			return responseBuilder.location(location).build();
+		}
+	}
 
 }

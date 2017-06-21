@@ -54,7 +54,6 @@ public class VigRestRequest {
 						// Validate the access token
 						VecAppService vecAppService = new VecAppService();
 						if (vecAppService.getAppByAccessToken(accessToken) == null) {
-						//if (!TestContent.ACCESS_TOKEN_VALID.equals(accessToken)) {
 
 							// Return the OAuth error message
 							OAuthResponse oauthResponse = OAuthRSResponse

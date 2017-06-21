@@ -44,6 +44,9 @@ $ mvn jetty:run
 ```
 
 # Test
+
+## Mapping Resources
+
 For example, in Mapping Console ([http://localhost:8080/console/#!/mapping](http://localhost:8080/console/#!/mapping)) add the following URLs:
 
 1. Viglet Turing Entity
@@ -55,6 +58,50 @@ For example, in Mapping Console ([http://localhost:8080/console/#!/mapping](http
 
 ![mapping.png](https://openviglet.github.io/vecchio/img/mapping.png)
 
+## Grant Types
+Create a new App ([http://localhost:8080/console/#!/app/new](http://localhost:8080/console/#!/app/new)).
+
+Will generate the following tokens for your App, for instance:
+
+* **Consumer Key (API Key)**: `8d0304f37e2c0bbf1d9ab602e916ef34`
+* **Consumer Secret (API Secret)**:	`c640f16520015c5a599f666107e4ce25`
+* **Access Token**: `fb803d96bb541ba658d514b3f4d88363`
+* **Access Token Secret**: `43c713bcbdb7a54962a1b4abcfb8af58`
+
+### Authorization Code
+
+Use the API Key to generate the Authorization Code:
+
+```shell
+curl -I -X GET 'http://localhost:8080/api/authorize?response_type=code&client_id=8d0304f37e2c0bbf1d9ab602e916ef34&redirect_uri=http://localhost:8080/console/oauth2/receive_authcode'
+```
+Will return the location, so get the authorization code:
+
+```shell
+Location: http://localhost:8080/console/oauth2/receive_authcode?code=e31d6626d203aaea0811305e33136d59
+```
+
+Use the authorization code to generate the access token:
+
+```shell
+curl -I -X GET 'http://localhost:8080/api/token' -d 'grant_type=authorization_code&code=e31d6626d203aaea0811305e33136d59'
+```
+
+### Implicit
+
+Use the API Key to generate the Authorization Code:
+
+```bash
+curl -I -X GET 'http://localhost:8080/api/authorize?response_type=token&client_id= 8d0304f37e2c0bbf1d9ab602e916ef34&redirect_uri=http://localhost:8080/console/oauth2/receive_implicit_token'
+```
+
+Will return the location, so get the access token:
+
+```shell
+Location: http://localhost:8080/console/oauth2/receive_implicit_token?access_token=2YotnFZFEjr1zCsicMWpAA&state=xyz&token_type=bearer&expires_in=3600
+```
+
+## Using Resources
 Ready! You can access the following APIs using the token `access_token_valid` , if you use different token, returns empty response.
 
 * Viglet Turing - Entity:

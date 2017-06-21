@@ -8,7 +8,7 @@ import javax.persistence.*;
  * 
  */
 @Embeddable
-public class VigOAuthAuthorizationCodePK implements Serializable {
+public class VecOAuthAuthorizationCodePK implements Serializable {
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
 
@@ -18,7 +18,7 @@ public class VigOAuthAuthorizationCodePK implements Serializable {
 	@Column(name="client_id", unique=true, nullable=false, length=50)
 	private String clientId;
 
-	public VigOAuthAuthorizationCodePK() {
+	public VecOAuthAuthorizationCodePK() {
 	}
 	public String getAuthorizationCode() {
 		return this.authorizationCode;
@@ -37,10 +37,10 @@ public class VigOAuthAuthorizationCodePK implements Serializable {
 		if (this == other) {
 			return true;
 		}
-		if (!(other instanceof VigOAuthAuthorizationCodePK)) {
+		if (!(other instanceof VecOAuthAuthorizationCodePK)) {
 			return false;
 		}
-		VigOAuthAuthorizationCodePK castOther = (VigOAuthAuthorizationCodePK)other;
+		VecOAuthAuthorizationCodePK castOther = (VecOAuthAuthorizationCodePK)other;
 		return 
 			this.authorizationCode.equals(castOther.authorizationCode)
 			&& this.clientId.equals(castOther.clientId);
