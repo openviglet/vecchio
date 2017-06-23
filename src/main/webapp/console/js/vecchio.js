@@ -140,7 +140,7 @@ vecchioApp.controller('VecMappingCtrl', [
 		$scope.mappings = null;
 		$rootScope.$state = $state;
 		$scope.$evalAsync($http.get(
-			"http://localhost:8080/api/mapping/").then(
+			"../api/mapping/").then(
 			function (response) {
 				$scope.mappings = response.data;
 			}));
@@ -224,7 +224,7 @@ vecchioApp.controller('VecUserCtrl', [
 		$scope.users = null;
 
 		$scope.$evalAsync($http.get(
-			"http://localhost:8080/api/user/").then(
+			"../api/user/").then(
 			function (response) {
 				$scope.users = response.data;
 			}));
@@ -278,7 +278,7 @@ vecchioApp.controller('VecUserEditCtrl', [
 		$rootScope.$state = $state;
 		$scope.userId = $stateParams.userId;
 		$scope.$evalAsync($http.get(
-			"http://localhost:8080/api/user/" + $scope.userId).then(
+			"../api/user/" + $scope.userId).then(
 			function (response) {
 				$scope.user = response.data;
 			}));
@@ -361,7 +361,7 @@ vecchioApp.controller('VecRoleEditCtrl', [
 		$rootScope.$state = $state;
 		$scope.roleId = $stateParams.roleId;
 		$scope.$evalAsync($http.get(
-			"http://localhost:8080/api/role/" + $scope.roleId).then(
+			"../api/role/" + $scope.roleId).then(
 			function (response) {
 				$scope.role = response.data;
 			}));
@@ -473,7 +473,7 @@ vecchioApp.controller('VecAppCtrl', [
 		$scope.apps = null;
 
 		$scope.$evalAsync($http.get(
-			"http://localhost:8080/api/app/").then(
+			"../api/app/").then(
 			function (response) {
 				$scope.apps = response.data;
 			}));
