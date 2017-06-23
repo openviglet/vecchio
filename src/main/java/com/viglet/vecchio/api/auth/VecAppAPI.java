@@ -16,61 +16,71 @@ import javax.ws.rs.core.Response;
 import org.apache.oltu.oauth2.as.issuer.MD5Generator;
 import org.apache.oltu.oauth2.as.issuer.OAuthIssuer;
 import org.apache.oltu.oauth2.as.issuer.OAuthIssuerImpl;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.ser.impl.SimpleFilterProvider;
 
 import com.viglet.vecchio.persistence.model.VecApp;
 import com.viglet.vecchio.persistence.service.VecAppService;
 
 @Path("/app")
 public class VecAppAPI {
+	ObjectMapper mapper = new ObjectMapper();
 	VecAppService vecAppService = new VecAppService();
+
+	public VecAppAPI() {
+		super();
+		// ignore missing filters
+		mapper.setFilters(new SimpleFilterProvider().setFailOnUnknownId(false));
+	}
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<VecApp> list() throws Exception {
-		return vecAppService.listAll();
+	public String list() throws Exception {
+		return mapper.writeValueAsString(vecAppService.listAll());
 	}
-	
+
 	@Path("/{appId}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public VecApp edit(@PathParam("appId") int id) throws Exception {
-		return vecAppService.getApp(id);
+	public String edit(@PathParam("appId") int id) throws Exception {
+
+		return mapper.writeValueAsString(vecAppService.getApp(id));
 	}
-	
+
 	@Path("/{appId}/gen_key")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public VecApp genKey(@PathParam("appId") int id) throws Exception {
+	public String genKey(@PathParam("appId") int id) throws Exception {
 		VecApp vecAppEdit = vecAppService.getApp(id);
 		vecAppEdit.setApiKey((new MD5Generator()).generateValue());
 		vecAppEdit.setApiSecret((new MD5Generator()).generateValue());
 		vecAppService.save(vecAppEdit);
-		return vecAppEdit;
+		return mapper.writeValueAsString(vecAppEdit);
 	}
-	
+
 	@Path("/{appId}/gen_token")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public VecApp genToken(@PathParam("appId") int id) throws Exception {
+	public String genToken(@PathParam("appId") int id) throws Exception {
 		MD5Generator tokenSecret = new MD5Generator();
 		OAuthIssuer oauthIssuerImpl = new OAuthIssuerImpl(tokenSecret);
 		VecApp vecAppEdit = vecAppService.getApp(id);
 		vecAppEdit.setAccessToken(tokenSecret.generateValue());
 		vecAppEdit.setAccessTokenSecret(oauthIssuerImpl.accessToken());
 		vecAppService.save(vecAppEdit);
-		return vecAppEdit;
+		return mapper.writeValueAsString(vecAppEdit);
 	}
-	
+
 	@Path("/{appId}")
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON)
-	public VecApp update(@PathParam("appId") int id, VecApp vecApp) throws Exception {
+	public String update(@PathParam("appId") int id, VecApp vecApp) throws Exception {
 		VecApp vecAppEdit = vecAppService.getApp(id);
 		vecAppEdit.setName(vecApp.getName());
 		vecAppEdit.setDescription(vecApp.getDescription());
 		vecAppEdit.setCallbackURL(vecApp.getCallbackURL());
 		vecAppService.save(vecAppEdit);
-		return vecAppEdit;
+		return mapper.writeValueAsString(vecAppEdit);
 	}
 
 	@Path("/{appId}")

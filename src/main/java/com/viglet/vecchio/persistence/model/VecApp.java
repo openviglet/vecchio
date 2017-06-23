@@ -13,7 +13,7 @@ import org.codehaus.jackson.map.annotate.JsonFilter;
  */
 @Entity
 @NamedQuery(name = "VecApp.findAll", query = "SELECT a FROM VecApp a")
-@JsonFilter("myFilter")
+@JsonFilter("vecAppFilter")
 public class VecApp implements Serializable {
 	private static final long serialVersionUID = 1L;
 

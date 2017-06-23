@@ -64,7 +64,7 @@ public class VecValidateAccessToken {
 			}
 			
 			String[] ignoreFields = { "apiSecret", "accessToken", "accessTokenSecret", "apiKey", "callbackURL" };
-			FilterProvider filter = new SimpleFilterProvider().addFilter("myFilter",
+			FilterProvider filter = new SimpleFilterProvider().addFilter("vecAppFilter",
 					SimpleBeanPropertyFilter.serializeAllExcept(ignoreFields));
 			ObjectMapper mapper = new ObjectMapper();
 			String json = mapper.writer(filter).writeValueAsString(vecApp);

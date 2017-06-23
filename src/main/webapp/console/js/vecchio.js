@@ -124,7 +124,7 @@ vecchioApp.controller('VecDashboardCtrl', [
 		$scope.accesses = null;
 		$rootScope.$state = $state;
 		$scope.$evalAsync($http.get(
-			"http://localhost:8080/api/access/").then(
+			"../api/access/").then(
 			function (response) {
 				$scope.accesses = response.data;
 			}));
@@ -146,10 +146,10 @@ vecchioApp.controller('VecMappingCtrl', [
 			}));
 
 		$scope.mappingDelete = function (mappingId) {
-			$http.delete("http://localhost:8080/api/mapping/" + mappingId).then(
+			$http.delete("../api/mapping/" + mappingId).then(
 				function (data, status, headers, config) {
 					$http.get(
-						"http://localhost:8080/api/mapping/").then(
+							"../api/mapping/").then(
 						function (response) {
 							$scope.mappings = response.data;
 						});
@@ -172,7 +172,7 @@ vecchioApp.controller('VecMappingNewCtrl', [
 		$scope.mapping = {};
 		$scope.mappingSave = function () {
 			var parameter = JSON.stringify($scope.mapping);
-			$http.post("http://localhost:8080/api/mapping/",
+			$http.post("../api/mapping/",
 				parameter).then(
 				function (data, status, headers, config) {
 					$state.go('mapping');
@@ -195,14 +195,14 @@ vecchioApp.controller('VecMappingEditCtrl', [
 		$rootScope.$state = $state;
 		$scope.mappingId = $stateParams.mappingId;
 		$scope.$evalAsync($http.get(
-			"http://localhost:8080/api/mapping/" + $scope.mappingId).then(
+			"../api/mapping/" + $scope.mappingId).then(
 			function (response) {
 				$scope.mapping = response.data;
 			}));
 		$scope.mappingSave = function () {
 			$scope.mappings = null;
 			var parameter = JSON.stringify($scope.mapping);
-			$http.put("http://localhost:8080/api/mapping/" + $scope.mappingId,
+			$http.put("../api/mapping/" + $scope.mappingId,
 				parameter).then(
 				function (data, status, headers, config) {
 					   $state.go('mapping');
@@ -230,10 +230,10 @@ vecchioApp.controller('VecUserCtrl', [
 			}));
 
 		$scope.userDelete = function (userId) {
-			$http.delete("http://localhost:8080/api/user/" + userId).then(
+			$http.delete("../api/user/" + userId).then(
 				function (data, status, headers, config) {
 					$http.get(
-						"http://localhost:8080/api/user/").then(
+						"../api/user/").then(
 						function (response) {
 							$scope.users = response.data;
 						});
@@ -256,7 +256,7 @@ vecchioApp.controller('VecUserNewCtrl', [
 		$scope.user = {};
 		$scope.userSave = function () {
 			var parameter = JSON.stringify($scope.user);
-			$http.post("http://localhost:8080/api/user/",
+			$http.post("../api/user/",
 				parameter).then(
 				function (data, status, headers, config) {					
 			          $state.go('organization.user');
@@ -285,7 +285,7 @@ vecchioApp.controller('VecUserEditCtrl', [
 		$scope.userSave = function () {
 			$scope.users = null;
 			var parameter = JSON.stringify($scope.user);
-			$http.put("http://localhost:8080/api/user/" + $scope.userId,
+			$http.put("../api/user/" + $scope.userId,
 				parameter).then(
 				function (data, status, headers, config) {
 					  $state.go('organization.user');
@@ -307,16 +307,16 @@ vecchioApp.controller('VecRoleCtrl', [
 		$scope.roles = null;
 
 		$scope.$evalAsync($http.get(
-			"http://localhost:8080/api/role/").then(
+			"../api/role/").then(
 			function (response) {
 				$scope.roles = response.data;
 			}));
 
 		$scope.roleDelete = function (roleId) {
-			$http.delete("http://localhost:8080/api/role/" + roleId).then(
+			$http.delete("../api/role/" + roleId).then(
 				function (data, status, headers, config) {
 					$http.get(
-						"http://localhost:8080/api/role/").then(
+						"../api/role/").then(
 						function (response) {
 							$scope.roles = response.data;
 						});
@@ -339,7 +339,7 @@ vecchioApp.controller('VecRoleNewCtrl', [
 		$scope.role = {};
 		$scope.roleSave = function () {
 			var parameter = JSON.stringify($scope.role);
-			$http.post("http://localhost:8080/api/role/",
+			$http.post("../api/role/",
 				parameter).then(
 				function (data, status, headers, config) {
 					  $state.go('organization.role');
@@ -368,7 +368,7 @@ vecchioApp.controller('VecRoleEditCtrl', [
 		$scope.roleSave = function () {
 			$scope.roles = null;
 			var parameter = JSON.stringify($scope.role);
-			$http.put("http://localhost:8080/api/role/" + $scope.roleId,
+			$http.put("../api/role/" + $scope.roleId,
 				parameter).then(
 				function (data, status, headers, config) {
 					  $state.go('organization.role');
@@ -390,16 +390,16 @@ vecchioApp.controller('VecGroupCtrl', [
 		$scope.groups = null;
 
 		$scope.$evalAsync($http.get(
-			"http://localhost:8080/api/group/").then(
+			"../api/group/").then(
 			function (response) {
 				$scope.groups = response.data;
 			}));
 
 		$scope.groupDelete = function (groupId) {
-			$http.delete("http://localhost:8080/api/group/" + groupId).then(
+			$http.delete("../api/group/" + groupId).then(
 				function (data, status, headers, config) {
 					$http.get(
-						"http://localhost:8080/api/group/").then(
+						"../api/group/").then(
 						function (response) {
 							$scope.groups = response.data;
 						});
@@ -422,7 +422,7 @@ vecchioApp.controller('VecGroupNewCtrl', [
 		$scope.group = {};
 		$scope.groupSave = function () {
 			var parameter = JSON.stringify($scope.group);
-			$http.post("http://localhost:8080/api/group/",
+			$http.post("../api/group/",
 				parameter).then(
 				function (data, status, headers, config) {
 					$state.go('organization.group');
@@ -444,14 +444,14 @@ vecchioApp.controller('VecGroupEditCtrl', [
 		$rootScope.$state = $state;
 		$scope.groupId = $stateParams.groupId;
 		$scope.$evalAsync($http.get(
-			"http://localhost:8080/api/group/" + $scope.groupId).then(
+			"../api/group/" + $scope.groupId).then(
 			function (response) {
 				$scope.group = response.data;
 			}));
 		$scope.groupSave = function () {
 			$scope.groups = null;
 			var parameter = JSON.stringify($scope.group);
-			$http.put("http://localhost:8080/api/group/" + $scope.groupId,
+			$http.put("../api/group/" + $scope.groupId,
 				parameter).then(
 				function (data, status, headers, config) {
 					$state.go('organization.group');
@@ -479,10 +479,10 @@ vecchioApp.controller('VecAppCtrl', [
 			}));
 
 		$scope.appDelete = function (appId) {
-			$http.delete("http://localhost:8080/api/app/" + appId).then(
+			$http.delete("../api/app/" + appId).then(
 				function (data, status, headers, config) {
 					$http.get(
-						"http://localhost:8080/api/app/").then(
+						"../api/app/").then(
 						function (response) {
 							$scope.apps = response.data;
 						});
@@ -505,7 +505,7 @@ vecchioApp.controller('VecAppNewCtrl', [
 		$scope.app = {};
 		$scope.appSave = function () {
 			var parameter = JSON.stringify($scope.app);
-			$http.post("http://localhost:8080/api/app/",
+			$http.post("../api/app/",
 				parameter).then(
 				function (data, status, headers, config) {
 					$state.go('app');
@@ -527,14 +527,14 @@ vecchioApp.controller('VecAppEditCtrl', [
 		$rootScope.$state = $state;
 		$scope.appId = $stateParams.appId;
 		$scope.$evalAsync($http.get(
-			"http://localhost:8080/api/app/" + $scope.appId).then(
+			"../api/app/" + $scope.appId).then(
 			function (response) {
 				$scope.app = response.data;
 			}));
 		$scope.appSave = function () {
 			$scope.apps = null;
 			var parameter = JSON.stringify($scope.app);
-			$http.put("http://localhost:8080/api/app/" + $scope.appId,
+			$http.put("../api/app/" + $scope.appId,
 				parameter).then(
 				function (data, status, headers, config) {
 					$state.go('app');
@@ -604,7 +604,7 @@ vecchioApp.controller('lineChartCtrl', function ($scope, $http, $window) {
 	$scope.accesses = null;
 
 	$scope.$evalAsync($http.get(
-		"http://localhost:8080/api/access/response_time").then(
+		"../api/access/response_time").then(
 		function (response) {
 			$scope.data = response.data;
 		// $scope.data = sinAndCos();
