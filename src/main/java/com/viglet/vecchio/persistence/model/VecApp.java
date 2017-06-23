@@ -3,12 +3,17 @@ package com.viglet.vecchio.persistence.model;
 import java.io.Serializable;
 import javax.persistence.*;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.map.annotate.JsonFilter;
+
 /**
  * The persistent class for the ShUser database table.
  * 
  */
 @Entity
 @NamedQuery(name = "VecApp.findAll", query = "SELECT a FROM VecApp a")
+@JsonFilter("myFilter")
 public class VecApp implements Serializable {
 	private static final long serialVersionUID = 1L;
 

@@ -25,10 +25,14 @@ public class VecAppService extends VecBaseService {
 	}
 
 	public VecApp getAppByAccessToken(String accessToken) {
+		try {
 		TypedQuery<VecApp> q = em
 				.createQuery("SELECT a FROM VecApp a where a.accessToken = :accessToken ", VecApp.class)
 				.setParameter("accessToken", accessToken);
 		return q.getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
 	}
 
 	public VecApp getAppByClientId(String clientId) {
