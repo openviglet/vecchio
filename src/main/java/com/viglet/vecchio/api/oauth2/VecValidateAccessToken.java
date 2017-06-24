@@ -30,6 +30,7 @@ import org.codehaus.jackson.map.ser.impl.SimpleFilterProvider;
 import com.viglet.vecchio.api.oauth2.demo.TestContent;
 import com.viglet.vecchio.persistence.model.VecApp;
 import com.viglet.vecchio.persistence.service.VecAppService;
+import com.viglet.vecchio.persistence.service.VecMappingService;
 
 @Path("/token_validate")
 public class VecValidateAccessToken {
@@ -39,72 +40,78 @@ public class VecValidateAccessToken {
 	public Response get(@Context HttpServletRequest request) throws OAuthSystemException {
 
 		VecAppService vecAppService = new VecAppService();
+		VecMappingService vecMappingService = new VecMappingService();
+		String clientContext = request.getHeader("VecContext");
+		if (vecMappingService.contextExists(clientContext)) {
+			try {
 
-		try {
+				// Make the OAuth Request out of this request
+				OAuthAccessResourceRequest oauthRequest = new OAuthAccessResourceRequest(request, ParameterStyle.QUERY);
 
-			// Make the OAuth Request out of this request
-			OAuthAccessResourceRequest oauthRequest = new OAuthAccessResourceRequest(request, ParameterStyle.QUERY);
+				// Get the access token
+				String accessToken = oauthRequest.getAccessToken();
 
-			// Get the access token
-			String accessToken = oauthRequest.getAccessToken();
+				VecApp vecApp = vecAppService.getAppByAccessToken(accessToken);
 
-			VecApp vecApp = vecAppService.getAppByAccessToken(accessToken);
+				// Validate the access token
+				if (vecApp == null) {
 
-			// Validate the access token
-			if (vecApp == null) {
+					// Return the OAuth error message
+					OAuthResponse oauthResponse = OAuthRSResponse.errorResponse(HttpServletResponse.SC_UNAUTHORIZED)
+							.setRealm(TestContent.RESOURCE_SERVER_NAME)
+							.setError(OAuthError.ResourceResponse.INVALID_TOKEN).buildHeaderMessage();
 
-				// Return the OAuth error message
-				OAuthResponse oauthResponse = OAuthRSResponse.errorResponse(HttpServletResponse.SC_UNAUTHORIZED)
-						.setRealm(TestContent.RESOURCE_SERVER_NAME).setError(OAuthError.ResourceResponse.INVALID_TOKEN)
-						.buildHeaderMessage();
+					return Response.status(Response.Status.UNAUTHORIZED).header(OAuth.HeaderType.WWW_AUTHENTICATE,
+							oauthResponse.getHeader(OAuth.HeaderType.WWW_AUTHENTICATE)).build();
 
-				return Response.status(Response.Status.UNAUTHORIZED).header(OAuth.HeaderType.WWW_AUTHENTICATE,
+				}
+
+				String[] ignoreFields = { "apiSecret", "accessToken", "accessTokenSecret", "apiKey", "callbackURL" };
+				FilterProvider filter = new SimpleFilterProvider().addFilter("vecAppFilter",
+						SimpleBeanPropertyFilter.serializeAllExcept(ignoreFields));
+				ObjectMapper mapper = new ObjectMapper();
+				String json = mapper.writer(filter).writeValueAsString(vecApp);
+
+				// Return the resource
+				return Response.status(Response.Status.OK).entity(json).build();
+
+			} catch (OAuthProblemException e) {
+				// Check if the error code has been set
+				String errorCode = e.getError();
+				if (OAuthUtils.isEmpty(errorCode)) {
+
+					// Return the OAuth error message
+					OAuthResponse oauthResponse = OAuthRSResponse.errorResponse(HttpServletResponse.SC_UNAUTHORIZED)
+							.setRealm(TestContent.RESOURCE_SERVER_NAME).buildHeaderMessage();
+
+					// If no error code then return a standard 401 Unauthorized
+					// response
+					return Response.status(Response.Status.UNAUTHORIZED).header(OAuth.HeaderType.WWW_AUTHENTICATE,
+							oauthResponse.getHeader(OAuth.HeaderType.WWW_AUTHENTICATE)).build();
+				}
+
+				OAuthResponse oauthResponse = OAuthRSResponse.errorResponse(HttpServletResponse.SC_BAD_REQUEST)
+						.setRealm(TestContent.RESOURCE_SERVER_NAME).setError(e.getError())
+						.setErrorDescription(e.getDescription()).setErrorUri(e.getUri()).buildHeaderMessage();
+
+				return Response.status(Response.Status.BAD_REQUEST).header(OAuth.HeaderType.WWW_AUTHENTICATE,
 						oauthResponse.getHeader(OAuth.HeaderType.WWW_AUTHENTICATE)).build();
-
+			} catch (JsonGenerationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return Response.status(Response.Status.BAD_REQUEST).build();
+			} catch (JsonMappingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return Response.status(Response.Status.BAD_REQUEST).build();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return Response.status(Response.Status.BAD_REQUEST).build();
 			}
-			
-			String[] ignoreFields = { "apiSecret", "accessToken", "accessTokenSecret", "apiKey", "callbackURL" };
-			FilterProvider filter = new SimpleFilterProvider().addFilter("vecAppFilter",
-					SimpleBeanPropertyFilter.serializeAllExcept(ignoreFields));
-			ObjectMapper mapper = new ObjectMapper();
-			String json = mapper.writer(filter).writeValueAsString(vecApp);
-
-			// Return the resource
-			return Response.status(Response.Status.OK).entity(json).build();
-
-		} catch (OAuthProblemException e) {
-			// Check if the error code has been set
-			String errorCode = e.getError();
-			if (OAuthUtils.isEmpty(errorCode)) {
-
-				// Return the OAuth error message
-				OAuthResponse oauthResponse = OAuthRSResponse.errorResponse(HttpServletResponse.SC_UNAUTHORIZED)
-						.setRealm(TestContent.RESOURCE_SERVER_NAME).buildHeaderMessage();
-
-				// If no error code then return a standard 401 Unauthorized
-				// response
-				return Response.status(Response.Status.UNAUTHORIZED).header(OAuth.HeaderType.WWW_AUTHENTICATE,
-						oauthResponse.getHeader(OAuth.HeaderType.WWW_AUTHENTICATE)).build();
-			}
-
-			OAuthResponse oauthResponse = OAuthRSResponse.errorResponse(HttpServletResponse.SC_BAD_REQUEST)
-					.setRealm(TestContent.RESOURCE_SERVER_NAME).setError(e.getError())
-					.setErrorDescription(e.getDescription()).setErrorUri(e.getUri()).buildHeaderMessage();
-
-			return Response.status(Response.Status.BAD_REQUEST).header(OAuth.HeaderType.WWW_AUTHENTICATE,
-					oauthResponse.getHeader(OAuth.HeaderType.WWW_AUTHENTICATE)).build();
-		} catch (JsonGenerationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return Response.status(Response.Status.BAD_REQUEST).build();
-		} catch (JsonMappingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return Response.status(Response.Status.BAD_REQUEST).build();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return Response.status(Response.Status.BAD_REQUEST).build();
+		} 
+		else {
+			return Response.status(Response.Status.OK).build();
 		}
 	}
 }
