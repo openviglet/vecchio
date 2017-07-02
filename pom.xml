@@ -9,6 +9,12 @@
 	<url>http://maven.apache.org</url>
 	<dependencies>
 		<dependency>
+			<groupId>org.opensaml</groupId>
+			<artifactId>opensaml-core</artifactId>
+			<version>3.3.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-security</artifactId>
 			<version>9.4.5.v20170502</version>
@@ -157,16 +163,11 @@
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
 				<version>9.4.5.v20170502</version>
-				<!-- <configuration>
-					<loginServices>
-						<loginService implementation="org.eclipse.jetty.security.HashLoginService">
-							<name>vecrealm</name>
-							<config>src/etc/realm.properties</config>
-						</loginService>
-						<loginService implementation="org.eclipse.jetty.security.JDBCLoginService"> 
-							<name>vecrealm</name> <config>src/etc/jdbcRealm.properties</config> </loginService>
-					</loginServices>
-				</configuration> -->
+				<!-- <configuration> <loginServices> <loginService implementation="org.eclipse.jetty.security.HashLoginService"> 
+					<name>vecrealm</name> <config>src/etc/realm.properties</config> </loginService> 
+					<loginService implementation="org.eclipse.jetty.security.JDBCLoginService"> 
+					<name>vecrealm</name> <config>src/etc/jdbcRealm.properties</config> </loginService> 
+					</loginServices> </configuration> -->
 			</plugin>
 
 			<plugin>

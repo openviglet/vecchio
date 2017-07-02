@@ -6,7 +6,7 @@ import javax.persistence.TypedQuery;
 
 import com.viglet.vecchio.persistence.model.VecUser;
 
-public class VecUserService   extends VecBaseService{
+public class VecUserService extends VecBaseService{
 
 	public void save(VecUser vecUser) {
 		em.getTransaction().begin();
