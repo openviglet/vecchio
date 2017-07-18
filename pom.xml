@@ -98,7 +98,7 @@
 			<groupId>org.apache.oltu.oauth2</groupId>
 			<artifactId>org.apache.oltu.oauth2.dynamicreg.client</artifactId>
 			<version>1.0.0</version>
-		</dependency>
+		</dependency>	
 		<dependency>
 			<groupId>hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>

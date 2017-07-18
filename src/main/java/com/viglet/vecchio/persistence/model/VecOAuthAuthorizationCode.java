@@ -28,10 +28,10 @@ public class VecOAuthAuthorizationCode implements Serializable {
 	@Column(name="redirect_uri", nullable=false, length=200)
 	private String redirectUri;
 
-	@Column(nullable=false, length=50)
+	@Column(nullable=true, length=50)
 	private String scope;
 
-	@Column(name="user_id", nullable=false, length=50)
+	@Column(name="user_id", nullable=true, length=50)
 	private String userId;
 
 	public VecOAuthAuthorizationCode() {

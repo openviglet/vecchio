@@ -1,23 +1,37 @@
-package com.viglet.vecchio.api.oauth2;
+package com.viglet.vecchio.api.auth;
+
+import java.net.URI;
+import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.oltu.oauth2.as.issuer.MD5Generator;
+import org.apache.oltu.oauth2.as.issuer.OAuthIssuer;
 import org.apache.oltu.oauth2.as.issuer.OAuthIssuerImpl;
 import org.apache.oltu.oauth2.as.request.OAuthAuthzRequest;
 import org.apache.oltu.oauth2.as.response.OAuthASResponse;
 import org.apache.oltu.oauth2.common.OAuth;
 import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
-import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
 import org.apache.oltu.oauth2.common.message.OAuthResponse;
 import org.apache.oltu.oauth2.common.message.types.ResponseType;
 import org.apache.oltu.oauth2.common.utils.OAuthUtils;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.ser.impl.SimpleFilterProvider;
 
 import com.viglet.vecchio.persistence.model.VecApp;
 import com.viglet.vecchio.persistence.model.VecOAuthAuthorizationCode;
@@ -25,20 +39,19 @@ import com.viglet.vecchio.persistence.model.VecOAuthAuthorizationCodePK;
 import com.viglet.vecchio.persistence.service.VecAppService;
 import com.viglet.vecchio.persistence.service.VecOAuthAuthorizationCodeService;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.Date;
+@Path("/login/")
+public class VecLoginAPI {
+	ObjectMapper mapper = new ObjectMapper();
+	VecAppService vecAppService = new VecAppService();
 
-@Path("/authorize")
-public class AuthEndpoint {
-
-	@GET
-	public Response authorize(@Context HttpServletRequest request) throws URISyntaxException, OAuthSystemException {
+	@POST
+	public Response authentication(@Context HttpServletRequest request, @FormParam("j_username") String username,
+			@FormParam("j_password") String password) throws Exception {
 		VecOAuthAuthorizationCodeService vecOAuthAuthorizationCodeService = new VecOAuthAuthorizationCodeService();
 		OAuthAuthzRequest oauthRequest = null;
-
+		
 		OAuthIssuerImpl oauthIssuerImpl = new OAuthIssuerImpl(new MD5Generator());
-
+		
 		try {
 			oauthRequest = new OAuthAuthzRequest(request);
 
@@ -49,6 +62,7 @@ public class AuthEndpoint {
 
 			OAuthASResponse.OAuthAuthorizationResponseBuilder builder = OAuthASResponse.authorizationResponse(request,
 					HttpServletResponse.SC_FOUND);
+			
 			VecAppService vecAppService = new VecAppService();
 
 			if (clientId == null) {
@@ -81,7 +95,7 @@ public class AuthEndpoint {
 				vecOAuthAuthorizationCode.setExpires(expires);
 				vecOAuthAuthorizationCode.setIdToken("nulo");
 				vecOAuthAuthorizationCode.setRedirectUri(oauthRequest.getParam(OAuth.OAUTH_REDIRECT_URI));
-				vecOAuthAuthorizationCode.setScope(oauthRequest.getParam(OAuth.OAUTH_SCOPE));
+				vecOAuthAuthorizationCode.setScope("email");
 				vecOAuthAuthorizationCode.setUserId("userId");
 				
 				vecOAuthAuthorizationCodeService.save(vecOAuthAuthorizationCode);
@@ -91,14 +105,16 @@ public class AuthEndpoint {
 				builder.setAccessToken(oauthIssuerImpl.accessToken());
 				builder.setExpiresIn(3600l);
 			}
-
+			
 			final OAuthResponse response = builder.location(redirectURI).buildQueryMessage();
+
+			System.out.println("Saida");
+			System.out.println(redirectURI);
+
 			URI url = new URI(response.getLocationUri());
 
 			return Response.status(response.getResponseStatus()).location(url).build();
-
 		} catch (OAuthProblemException e) {
-
 			final Response.ResponseBuilder responseBuilder = Response.status(HttpServletResponse.SC_FOUND);
 
 			String redirectUri = e.getRedirectUri();
@@ -113,5 +129,4 @@ public class AuthEndpoint {
 			return responseBuilder.location(location).build();
 		}
 	}
-
 }

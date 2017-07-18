@@ -56,18 +56,18 @@ public class SsoController {
 	private void doSSO(HttpServletRequest request, HttpServletResponse response,
 			boolean postRequest) throws ValidationException, SecurityException, MessageDecodingException,
 			MarshallingException, SignatureException, MessageEncodingException, MetadataProviderException {
-		/*SAMLMessageContext messageContext = samlMessageHandler.extractSAMLMessageContext(request, response,
-				postRequest);*/
-	/*	AuthnRequest authnRequest = (AuthnRequest) messageContext.getInboundSAMLMessage();*/
+		SAMLMessageContext messageContext = samlMessageHandler.extractSAMLMessageContext(request, response,
+				postRequest);
+		AuthnRequest authnRequest = (AuthnRequest) messageContext.getInboundSAMLMessage();
 
-		/*String assertionConsumerServiceURL = idpConfiguration.getAcsEndpoint() != null
-				? idpConfiguration.getAcsEndpoint() : authnRequest.getAssertionConsumerServiceURL();*/
+		String assertionConsumerServiceURL = idpConfiguration.getAcsEndpoint() != null
+				? idpConfiguration.getAcsEndpoint() : authnRequest.getAssertionConsumerServiceURL();
 
 	/*	SAMLPrincipal principal = new SAMLPrincipal(authentication.getName(), NameIDType.UNSPECIFIED,
 				attributes(authentication.getName()), authnRequest.getIssuer().getValue(), authnRequest.getID(),
-				assertionConsumerServiceURL, messageContext.getRelayState());*/
+				assertionConsumerServiceURL, messageContext.getRelayState());
 
-		/*samlMessageHandler.sendAuthnResponse(principal, response);*/
+		samlMessageHandler.sendAuthnResponse(principal, response); */
 	}
 
 	private List<SAMLAttribute> attributes(String uid) {

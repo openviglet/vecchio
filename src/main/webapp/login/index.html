@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" ng-app="vecchioLogin">
 <head>
 <meta charset="UTF-8">
 <title>Sign in - Viglet accounts</title>
@@ -14,29 +14,32 @@
 </head>
 
 <body>
-	<div class="login-form">
-		<div style="text-align: center;margin-bottom:30px">
+	<div class="login-form" ng-controller="VecLoginCtrl">
+		<div style="text-align: center; margin-bottom: 30px">
 			<img src="img/viglet_logo.png" />
 		</div>
-		<form method="POST" action="j_security_check">
+		<form method="POST" action="{{'' + vecAction }}">
 			<div class="form-group ">
-				<input type="text" class="form-control" placeholder="Username "
+				<input type="text" class="form-control" placeholder="Username"
 					name="j_username"> <i class="fa fa-user"></i>
 			</div>
 			<div class="form-group log-status">
 				<input type="password" class="form-control" placeholder="Password"
 					name="j_password"> <i class="fa fa-lock"></i>
 			</div>
-			<span class="alert">Invalid Credentials</span> <a class="link"
-				href="#">Lost your password?</a>
+			<input type="hidden" name="redirect_uri" value="teste123"> <span
+				class="alert">Invalid Credentials</span> <a class="link" href="#">Lost
+				your password?</a>
 			<button type="submit" class="log-btn">Log in</button>
 		</form>
 
 	</div>
+	<script src="../thirdparty/jquery/dist/jquery.min.js"></script>
+	<script src="../thirdparty/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="../thirdparty/moment/min/moment-with-locales.min.js"></script>
+	<script src="../thirdparty/angular/angular.min.js"></script>
 	<script
-		src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-
-	<script src="js/index.js"></script>
-
+		src="../thirdparty/angular-ui-router/release/angular-ui-router.min.js"></script>
+	<script src="js/vecchio-login.js"></script>
 </body>
 </html>

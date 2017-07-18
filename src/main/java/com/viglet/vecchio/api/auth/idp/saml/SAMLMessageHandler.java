@@ -73,26 +73,27 @@ public class SAMLMessageHandler {
   /*  this.proxiedSAMLContextProviderLB = new ProxiedSAMLContextProviderLB(new URI(idpBaseUrl));*/
   }
 
-/*  public SAMLMessageContext extractSAMLMessageContext(HttpServletRequest request, HttpServletResponse response, boolean postRequest) throws ValidationException, SecurityException, MessageDecodingException, MetadataProviderException {
-    SAMLMessageContext messageContext = new SAMLMessageContext();
+  public SAMLMessageContext extractSAMLMessageContext(HttpServletRequest request, HttpServletResponse response, boolean postRequest) throws ValidationException, SecurityException, MessageDecodingException, MetadataProviderException {
+   // SAMLMessageContext messageContext = new SAMLMessageContext();
 
-    proxiedSAMLContextProviderLB.populateGenericContext(request, response, messageContext);
+   // proxiedSAMLContextProviderLB.populateGenericContext(request, response, messageContext);
 
-    messageContext.setSecurityPolicyResolver(resolver);
+   // messageContext.setSecurityPolicyResolver(resolver);
 
     SAMLMessageDecoder samlMessageDecoder = samlMessageDecoder(postRequest);
-    samlMessageDecoder.decode(messageContext);
+//    samlMessageDecoder.decode(messageContext);
 
-    SAMLObject inboundSAMLMessage = messageContext.getInboundSAMLMessage();
+ ///   SAMLObject inboundSAMLMessage = messageContext.getInboundSAMLMessage();
 
-    AuthnRequest authnRequest = (AuthnRequest) inboundSAMLMessage;
+  //  AuthnRequest authnRequest = (AuthnRequest) inboundSAMLMessage;
     //lambda is poor with Exceptions
-    for (ValidatorSuite validatorSuite : validatorSuites) {
-      validatorSuite.validate(authnRequest);
-    }
-    return messageContext;
+  //  for (ValidatorSuite validatorSuite : validatorSuites) {
+   //   validatorSuite.validate(authnRequest);
+   // }
+   // return messageContext;
+    return null;
   }
-*/
+
   private SAMLMessageDecoder samlMessageDecoder(boolean postRequest) {
     return decoders.stream().filter(samlMessageDecoder -> postRequest ?
       samlMessageDecoder.getBindingURI().equals(SAMLConstants.SAML2_POST_BINDING_URI) :

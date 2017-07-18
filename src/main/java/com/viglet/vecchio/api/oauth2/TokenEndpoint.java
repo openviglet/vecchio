@@ -44,7 +44,7 @@ public class TokenEndpoint {
 		try {
 			oauthRequest = new OAuthTokenRequest(request);
 
-			// check if clientid is valid
+			// check if clientid is not valid
 			if (!TestContent.CLIENT_ID.equals(oauthRequest.getParam(OAuth.OAUTH_CLIENT_ID))) {
 				OAuthResponse response = OAuthASResponse.errorResponse(HttpServletResponse.SC_BAD_REQUEST)
 						.setError(OAuthError.TokenResponse.INVALID_CLIENT).setErrorDescription("client_id not found")

@@ -1,7 +1,6 @@
 var vecchioApp = angular.module('vecchioApp', ['ui.router', 'nvd3']);
 
-vecchioApp.config(function ($stateProvider, $urlRouterProvider) {
-
+vecchioApp.config(function ($stateProvider, $urlRouterProvider,$locationProvider) {
 	$urlRouterProvider.otherwise('/dashboard');
 	$stateProvider
 		.state('dashboard', {
