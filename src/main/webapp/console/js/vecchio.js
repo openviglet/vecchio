@@ -1,6 +1,52 @@
-var vecchioApp = angular.module('vecchioApp', ['ui.router', 'nvd3']);
+var vecchioApp = angular.module('vecchioApp', ['ui.router', 'nvd3', 'pascalprecht.translate']);
 
-vecchioApp.config(function ($stateProvider, $urlRouterProvider,$locationProvider) {
+vecchioApp.factory('vigLocale', ['$window', function ($window) {
+    return {
+        getLocale: function () {
+            var nav = $window.navigator;
+            if (angular.isArray(nav.languages)) {
+                if (nav.languages.length > 0) {
+                    return nav.languages[0].split('-').join('_');
+                }
+            }
+            return ((nav.language ||
+                nav.browserLanguage ||
+                nav.systemLanguage ||
+                nav.userLanguage
+            ) || '').split('-').join('_');
+        }
+    }
+}]);
+
+vecchioApp.config(function ($stateProvider, $urlRouterProvider,$locationProvider, $translateProvider) {
+	$translateProvider.useSanitizeValueStrategy('escaped');
+	$translateProvider
+			.translations(
+					'en',
+					{
+						
+						USERNAME: "Username",
+						FIRST_NAME: "First Name",
+						LAST_NAME: "Last Name",
+						PASSWORD: "Password",
+						SETTINGS_ACCOUNT_TITLE : "Account",
+						SETTINGS_ACCOUNT_SUBTITLE : "Change your basic account and language settings.",
+						SETTINGS_SAVE_CHANGES : "Save Changes"						
+					});
+	$translateProvider
+			.translations(
+					'pt',
+					{
+						USERNAME: "Nome do Usuário",
+						FIRST_NAME: "Nome",
+						LAST_NAME: "Sobrenome",
+						PASSWORD: "Senha",		
+						SETTINGS_ACCOUNT_TITLE : "Conta",
+						SETTINGS_ACCOUNT_SUBTITLE : "Altere suas configurações básicas da conta e de idioma.",
+						SETTINGS_SAVE_CHANGES : "Salvar Alterações"
+					});
+	$translateProvider.fallbackLanguage('en');
+	
 	$urlRouterProvider.otherwise('/dashboard');
 	$stateProvider
 		.state('dashboard', {
@@ -119,7 +165,8 @@ vecchioApp.controller('VecDashboardCtrl', [
 	"$window",
 	"$state",
 	"$rootScope",
-	function ($scope, $http, $window, $state, $rootScope) {
+	"$translate",
+	function ($scope, $http, $window, $state, $rootScope, $translate) {
 		$scope.accesses = null;
 		$rootScope.$state = $state;
 		$scope.$evalAsync($http.get(
@@ -135,7 +182,8 @@ vecchioApp.controller('VecMappingCtrl', [
 	"$window",
 	"$state",
 	"$rootScope",
-	function ($scope, $http, $window, $state, $rootScope) {
+	"$translate",
+	function ($scope, $http, $window, $state, $rootScope, $translate) {
 		$scope.mappings = null;
 		$rootScope.$state = $state;
 		$scope.$evalAsync($http.get(
@@ -166,7 +214,8 @@ vecchioApp.controller('VecMappingNewCtrl', [
 	"$window",
 	"$state",
 	"$rootScope",
-	function ($scope, $http, $window, $state, $rootScope) {
+	"$translate",
+	function ($scope, $http, $window, $state, $rootScope, $translate) {
 		$rootScope.$state = $state;
 		$scope.mapping = {};
 		$scope.mappingSave = function () {
@@ -190,7 +239,8 @@ vecchioApp.controller('VecMappingEditCtrl', [
 	"$stateParams",
 	"$state",
 	"$rootScope",
-	function ($scope, $http, $window, $stateParams, $state, $rootScope) {
+	"$translate",
+	function ($scope, $http, $window, $stateParams, $state, $rootScope, $translate) {
 		$rootScope.$state = $state;
 		$scope.mappingId = $stateParams.mappingId;
 		$scope.$evalAsync($http.get(
@@ -218,7 +268,8 @@ vecchioApp.controller('VecUserCtrl', [
 	"$window",
 	"$state",
 	"$rootScope",
-	function ($scope, $http, $window, $state, $rootScope) {
+	"$translate",
+	function ($scope, $http, $window, $state, $rootScope, $translate) {
 		$rootScope.$state = $state;
 		$scope.users = null;
 
@@ -250,7 +301,8 @@ vecchioApp.controller('VecUserNewCtrl', [
 	"$window",
 	"$state",
 	"$rootScope",
-	function ($scope, $http, $window, $state, $rootScope) {
+	"$translate",
+	function ($scope, $http, $window, $state, $rootScope, $translate) {
 		$rootScope.$state = $state;
 		$scope.user = {};
 		$scope.userSave = function () {
@@ -273,7 +325,11 @@ vecchioApp.controller('VecUserEditCtrl', [
 	"$stateParams",
 	"$state",
 	"$rootScope",
-	function ($scope, $http, $window, $stateParams, $state, $rootScope) {
+	"$translate",
+	"vigLocale",
+	function ($scope, $http, $window, $stateParams, $state, $rootScope, $translate, vigLocale) {
+		$scope.vigLanguage = vigLocale.getLocale().substring(0, 2);
+		$translate.use($scope.vigLanguage);
 		$rootScope.$state = $state;
 		$scope.userId = $stateParams.userId;
 		$scope.$evalAsync($http.get(
@@ -301,7 +357,8 @@ vecchioApp.controller('VecRoleCtrl', [
 	"$window",
 	"$state",
 	"$rootScope",
-	function ($scope, $http, $window, $state, $rootScope) {
+	"$translate",
+	function ($scope, $http, $window, $state, $rootScope, $translate) {
 		$rootScope.$state = $state;
 		$scope.roles = null;
 
@@ -333,7 +390,8 @@ vecchioApp.controller('VecRoleNewCtrl', [
 	"$window",
 	"$state",
 	"$rootScope",
-	function ($scope, $http, $window, $state, $rootScope) {
+	"$translate",
+	function ($scope, $http, $window, $state, $rootScope, $translate) {
 		$rootScope.$state = $state;
 		$scope.role = {};
 		$scope.roleSave = function () {
@@ -356,7 +414,8 @@ vecchioApp.controller('VecRoleEditCtrl', [
 	"$stateParams",
 	"$state",
 	"$rootScope",
-	function ($scope, $http, $window, $stateParams, $state, $rootScope) {
+	"$translate",
+	function ($scope, $http, $window, $stateParams, $state, $rootScope, $translate) {
 		$rootScope.$state = $state;
 		$scope.roleId = $stateParams.roleId;
 		$scope.$evalAsync($http.get(
@@ -384,7 +443,8 @@ vecchioApp.controller('VecGroupCtrl', [
 	"$window",
 	"$state",
 	"$rootScope",
-	function ($scope, $http, $window, $state, $rootScope) {
+	"$translate",
+	function ($scope, $http, $window, $state, $rootScope, $translate) {
 		$rootScope.$state = $state;
 		$scope.groups = null;
 
@@ -416,7 +476,8 @@ vecchioApp.controller('VecGroupNewCtrl', [
 	"$window",
 	"$state",
 	"$rootScope",
-	function ($scope, $http, $window, $state, $rootScope) {
+	"$translate",
+	function ($scope, $http, $window, $state, $rootScope, $translate) {
 		$rootScope.$state = $state;
 		$scope.group = {};
 		$scope.groupSave = function () {
@@ -439,7 +500,8 @@ vecchioApp.controller('VecGroupEditCtrl', [
 	"$stateParams",
 	"$state",
 	"$rootScope",
-	function ($scope, $http, $window, $stateParams, $state, $rootScope) {
+	"$translate",
+	function ($scope, $http, $window, $stateParams, $state, $rootScope, $translate) {
 		$rootScope.$state = $state;
 		$scope.groupId = $stateParams.groupId;
 		$scope.$evalAsync($http.get(
@@ -467,7 +529,8 @@ vecchioApp.controller('VecAppCtrl', [
 	"$window",
 	"$state",
 	"$rootScope",
-	function ($scope, $http, $window, $state, $rootScope) {
+	"$translate",
+	function ($scope, $http, $window, $state, $rootScope, $translate) {
 		$rootScope.$state = $state;
 		$scope.apps = null;
 
@@ -499,7 +562,8 @@ vecchioApp.controller('VecAppNewCtrl', [
 	"$window",
 	"$state",
 	"$rootScope",
-	function ($scope, $http, $window, $state, $rootScope) {
+	"$translate",
+	function ($scope, $http, $window, $state, $rootScope, $translate) {
 		$rootScope.$state = $state;
 		$scope.app = {};
 		$scope.appSave = function () {
@@ -522,7 +586,8 @@ vecchioApp.controller('VecAppEditCtrl', [
 	"$stateParams",
 	"$state",
 	"$rootScope",
-	function ($scope, $http, $window, $stateParams, $state, $rootScope) {
+	"$translate",
+	function ($scope, $http, $window, $stateParams, $state, $rootScope, $translate) {
 		$rootScope.$state = $state;
 		$scope.appId = $stateParams.appId;
 		$scope.$evalAsync($http.get(
@@ -544,7 +609,7 @@ vecchioApp.controller('VecAppEditCtrl', [
 	}
 ]);
 
-vecchioApp.controller('lineChartCtrl', function ($scope, $http, $window) {
+vecchioApp.controller('lineChartCtrl', function ($scope, $http, $window, $translate) {
 
 	$scope.options = {
 		chart: {

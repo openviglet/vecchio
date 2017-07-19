@@ -173,6 +173,9 @@
 				<artifactId>jetty-maven-plugin</artifactId>
 				<version>9.4.5.v20170502</version>
 				<configuration>
+					<httpConnector>
+						<port>2702</port>
+					</httpConnector>
 					<webApp>
 						<webInfIncludeJarPattern>^$</webInfIncludeJarPattern>
 						<containerIncludeJarPattern>^$</containerIncludeJarPattern>

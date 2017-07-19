@@ -38,20 +38,22 @@ import com.viglet.vecchio.persistence.model.VecOAuthAuthorizationCode;
 import com.viglet.vecchio.persistence.model.VecOAuthAuthorizationCodePK;
 import com.viglet.vecchio.persistence.service.VecAppService;
 import com.viglet.vecchio.persistence.service.VecOAuthAuthorizationCodeService;
+import com.viglet.vecchio.persistence.service.VecUserService;
 
 @Path("/login/")
 public class VecLoginAPI {
 	ObjectMapper mapper = new ObjectMapper();
 	VecAppService vecAppService = new VecAppService();
+	VecUserService vecUserService = new VecUserService();
 
 	@POST
 	public Response authentication(@Context HttpServletRequest request, @FormParam("j_username") String username,
 			@FormParam("j_password") String password) throws Exception {
 		VecOAuthAuthorizationCodeService vecOAuthAuthorizationCodeService = new VecOAuthAuthorizationCodeService();
 		OAuthAuthzRequest oauthRequest = null;
-		
+
 		OAuthIssuerImpl oauthIssuerImpl = new OAuthIssuerImpl(new MD5Generator());
-		
+
 		try {
 			oauthRequest = new OAuthAuthzRequest(request);
 
@@ -62,7 +64,7 @@ public class VecLoginAPI {
 
 			OAuthASResponse.OAuthAuthorizationResponseBuilder builder = OAuthASResponse.authorizationResponse(request,
 					HttpServletResponse.SC_FOUND);
-			
+
 			VecAppService vecAppService = new VecAppService();
 
 			if (clientId == null) {
@@ -75,6 +77,19 @@ public class VecLoginAPI {
 					final Response.ResponseBuilder responseBuilder = Response.status(HttpServletResponse.SC_FOUND);
 					throw new WebApplicationException(
 							responseBuilder.entity("OAuth callback url needs valid client_id").build());
+				}
+				if (vecUserService.validatePassword(username, password) == null) {
+					System.out.println("Username or password invalid");
+
+					String loginPage = request.getRequestURL().toString().replaceAll("/api/login", "/login");
+
+					final Response.ResponseBuilder responseBuilder = Response.status(HttpServletResponse.SC_FOUND);
+
+					URI loginURI = new URI(loginPage + "?response_type=" + responseType + "&client_id=" + clientId
+							+ "&redirect_uri=" + redirectURI + "&error=invalid_username_password&username=" + username);
+
+					return responseBuilder.location(loginURI).build();
+
 				}
 			}
 
@@ -97,7 +112,7 @@ public class VecLoginAPI {
 				vecOAuthAuthorizationCode.setRedirectUri(oauthRequest.getParam(OAuth.OAUTH_REDIRECT_URI));
 				vecOAuthAuthorizationCode.setScope("email");
 				vecOAuthAuthorizationCode.setUserId("userId");
-				
+
 				vecOAuthAuthorizationCodeService.save(vecOAuthAuthorizationCode);
 				builder.setCode(id.getAuthorizationCode());
 			}
@@ -105,11 +120,8 @@ public class VecLoginAPI {
 				builder.setAccessToken(oauthIssuerImpl.accessToken());
 				builder.setExpiresIn(3600l);
 			}
-			
-			final OAuthResponse response = builder.location(redirectURI).buildQueryMessage();
 
-			System.out.println("Saida");
-			System.out.println(redirectURI);
+			final OAuthResponse response = builder.location(redirectURI).buildQueryMessage();
 
 			URI url = new URI(response.getLocationUri());
 
