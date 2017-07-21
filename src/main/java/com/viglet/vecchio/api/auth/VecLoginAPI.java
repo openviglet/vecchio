@@ -79,8 +79,6 @@ public class VecLoginAPI {
 							responseBuilder.entity("OAuth callback url needs valid client_id").build());
 				}
 				if (vecUserService.validatePassword(username, password) == null) {
-					System.out.println("Username or password invalid");
-
 					String loginPage = request.getRequestURL().toString().replaceAll("/api/login", "/login");
 
 					final Response.ResponseBuilder responseBuilder = Response.status(HttpServletResponse.SC_FOUND);
