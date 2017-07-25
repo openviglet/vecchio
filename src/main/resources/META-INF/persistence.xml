@@ -8,12 +8,12 @@
 		<class>com.viglet.vecchio.persistence.model.VecApp</class>
 		<class>com.viglet.vecchio.persistence.model.VecGroup</class>
 		<class>com.viglet.vecchio.persistence.model.VecMapping</class>
+		<class>com.viglet.vecchio.persistence.model.VecOAuthAccessToken</class>
+		<class>com.viglet.vecchio.persistence.model.VecOAuthAccessTokenPK</class>
 		<class>com.viglet.vecchio.persistence.model.VecOAuthAuthorizationCode</class>
 		<class>com.viglet.vecchio.persistence.model.VecOAuthAuthorizationCodePK</class>
 		<class>com.viglet.vecchio.persistence.model.VecRole</class>
 		<class>com.viglet.vecchio.persistence.model.VecUser</class>
-		<class>com.viglet.vecchio.persistence.model.VigOAuthAccessToken</class>
-		<class>com.viglet.vecchio.persistence.model.VigOAuthAccessTokenPK</class>
 		<class>com.viglet.vecchio.persistence.model.VigOAuthClient</class>
 		<class>com.viglet.vecchio.persistence.model.VigOAuthPublicKey</class>
 		<class>com.viglet.vecchio.persistence.model.VigOAuthRefreshToken</class>

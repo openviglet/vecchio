@@ -10,13 +10,13 @@ import java.util.Date;
  * 
  */
 @Entity
-@Table(name="VigOAuthAccessTokens")
-@NamedQuery(name="VigOAuthAccessToken.findAll", query="SELECT v FROM VigOAuthAccessToken v")
-public class VigOAuthAccessToken implements Serializable {
+@Table(name="VecOAuthAccessTokens")
+@NamedQuery(name="VecOAuthAccessToken.findAll", query="SELECT v FROM VecOAuthAccessToken v")
+public class VecOAuthAccessToken implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId
-	private VigOAuthAccessTokenPK id;
+	private VecOAuthAccessTokenPK id;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(nullable=false)
@@ -25,17 +25,18 @@ public class VigOAuthAccessToken implements Serializable {
 	@Column(length=50)
 	private String scope;
 
-	@Column(name="user_id", nullable=false, length=50)
-	private String userId;
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	private VecUser vecUser;
 
-	public VigOAuthAccessToken() {
+	public VecOAuthAccessToken() {
 	}
 
-	public VigOAuthAccessTokenPK getId() {
+	public VecOAuthAccessTokenPK getId() {
 		return this.id;
 	}
 
-	public void setId(VigOAuthAccessTokenPK id) {
+	public void setId(VecOAuthAccessTokenPK id) {
 		this.id = id;
 	}
 
@@ -55,12 +56,12 @@ public class VigOAuthAccessToken implements Serializable {
 		this.scope = scope;
 	}
 
-	public String getUserId() {
-		return this.userId;
+	public VecUser getVecUser() {
+		return this.vecUser;
 	}
 
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setVecUser(VecUser vecUser) {
+		this.vecUser = vecUser;
 	}
 
 }

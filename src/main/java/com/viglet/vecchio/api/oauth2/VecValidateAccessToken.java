@@ -29,8 +29,10 @@ import org.codehaus.jackson.map.ser.impl.SimpleFilterProvider;
 
 import com.viglet.vecchio.api.oauth2.demo.TestContent;
 import com.viglet.vecchio.persistence.model.VecApp;
+import com.viglet.vecchio.persistence.model.VecOAuthAccessToken;
 import com.viglet.vecchio.persistence.service.VecAppService;
 import com.viglet.vecchio.persistence.service.VecMappingService;
+import com.viglet.vecchio.persistence.service.VecOAuthAccessTokenService;
 
 @Path("/token_validate")
 public class VecValidateAccessToken {
@@ -39,11 +41,13 @@ public class VecValidateAccessToken {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response get(@Context HttpServletRequest request) throws OAuthSystemException {
 
-		VecAppService vecAppService = new VecAppService();
+		VecOAuthAccessTokenService vecOAuthAccessTokenService = new VecOAuthAccessTokenService();
 		VecMappingService vecMappingService = new VecMappingService();
 		String clientContext = request.getHeader("VecContext");
+		System.out.println("VecContext: " + clientContext);
 		if (vecMappingService.contextExists(clientContext)) {
 			try {
+				System.out.println("Context exists");
 
 				// Make the OAuth Request out of this request
 				OAuthAccessResourceRequest oauthRequest = new OAuthAccessResourceRequest(request, ParameterStyle.QUERY);
@@ -51,11 +55,11 @@ public class VecValidateAccessToken {
 				// Get the access token
 				String accessToken = oauthRequest.getAccessToken();
 
-				VecApp vecApp = vecAppService.getAppByAccessToken(accessToken);
+				VecOAuthAccessToken vecOAuthAccessToken = vecOAuthAccessTokenService.getAccessToken(accessToken);
 
 				// Validate the access token
-				if (vecApp == null) {
-
+				if (vecOAuthAccessToken == null) {
+					System.out.println("Unauthorized");
 					// Return the OAuth error message
 					OAuthResponse oauthResponse = OAuthRSResponse.errorResponse(HttpServletResponse.SC_UNAUTHORIZED)
 							.setRealm(TestContent.RESOURCE_SERVER_NAME)
@@ -70,7 +74,7 @@ public class VecValidateAccessToken {
 				FilterProvider filter = new SimpleFilterProvider().addFilter("vecAppFilter",
 						SimpleBeanPropertyFilter.serializeAllExcept(ignoreFields));
 				ObjectMapper mapper = new ObjectMapper();
-				String json = mapper.writer(filter).writeValueAsString(vecApp);
+				String json = mapper.writer(filter).writeValueAsString(vecOAuthAccessToken);
 
 				// Return the resource
 				return Response.status(Response.Status.OK).entity(json).build();

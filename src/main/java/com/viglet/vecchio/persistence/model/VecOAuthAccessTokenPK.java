@@ -8,7 +8,7 @@ import javax.persistence.*;
  * 
  */
 @Embeddable
-public class VigOAuthAccessTokenPK implements Serializable {
+public class VecOAuthAccessTokenPK implements Serializable {
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
 
@@ -18,7 +18,7 @@ public class VigOAuthAccessTokenPK implements Serializable {
 	@Column(name="client_id", unique=true, nullable=false, length=50)
 	private String clientId;
 
-	public VigOAuthAccessTokenPK() {
+	public VecOAuthAccessTokenPK() {
 	}
 	public String getAccessToken() {
 		return this.accessToken;
@@ -37,10 +37,10 @@ public class VigOAuthAccessTokenPK implements Serializable {
 		if (this == other) {
 			return true;
 		}
-		if (!(other instanceof VigOAuthAccessTokenPK)) {
+		if (!(other instanceof VecOAuthAccessTokenPK)) {
 			return false;
 		}
-		VigOAuthAccessTokenPK castOther = (VigOAuthAccessTokenPK)other;
+		VecOAuthAccessTokenPK castOther = (VecOAuthAccessTokenPK)other;
 		return 
 			this.accessToken.equals(castOther.accessToken)
 			&& this.clientId.equals(castOther.clientId);

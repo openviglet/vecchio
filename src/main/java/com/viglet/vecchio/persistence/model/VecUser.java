@@ -2,7 +2,11 @@ package com.viglet.vecchio.persistence.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 import java.util.Date;
+import java.util.List;
 
 /**
  * The persistent class for the ShUser database table.
@@ -10,6 +14,7 @@ import java.util.Date;
  */
 @Entity
 @NamedQuery(name = "VecUser.findAll", query = "SELECT u FROM VecUser u")
+@JsonIgnoreProperties({ "vecOAuthAccessTokens" })
 public class VecUser implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -38,10 +43,12 @@ public class VecUser implements Serializable {
 
 	private String username;
 
-	// bi-directional many-to-one association to VigEntity
 	@ManyToOne
 	@JoinColumn(name = "role_id")
 	private VecRole vecRole;
+
+	@OneToMany(mappedBy = "vecUser")
+	private List<VecOAuthAccessToken> vecOAuthAccessTokens;
 
 	public VecUser() {
 	}
@@ -133,11 +140,33 @@ public class VecUser implements Serializable {
 	public void setUsername(String username) {
 		this.username = username;
 	}
+
 	public VecRole getVecRole() {
 		return vecRole;
 	}
 
 	public void setVecRole(VecRole vecRole) {
 		this.vecRole = vecRole;
+	}
+
+	public List<VecOAuthAccessToken> getVecOAuthAccessTokens() {
+		return vecOAuthAccessTokens;
+	}
+
+	public void setVecOAuthAccessTokens(List<VecOAuthAccessToken> vecOAuthAccessTokens) {
+		this.vecOAuthAccessTokens = vecOAuthAccessTokens;
+	}
+
+	public VecOAuthAccessToken addVecOAuthAccessToken(VecOAuthAccessToken vecOAuthAccessToken) {
+		getVecOAuthAccessTokens().add(vecOAuthAccessToken);
+		vecOAuthAccessToken.setVecUser(this);
+		return vecOAuthAccessToken;
+	}
+
+	public VecOAuthAccessToken removeVecUser(VecOAuthAccessToken vecOAuthAccessToken) {
+		getVecOAuthAccessTokens().remove(vecOAuthAccessToken);
+		vecOAuthAccessToken.setVecUser(null);
+
+		return vecOAuthAccessToken;
 	}
 }

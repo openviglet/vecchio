@@ -1,7 +1,5 @@
 package com.viglet.vecchio.api.oauth2;
 
-import java.io.IOException;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.GET;
@@ -20,17 +18,10 @@ import org.apache.oltu.oauth2.common.message.types.ParameterStyle;
 import org.apache.oltu.oauth2.common.utils.OAuthUtils;
 import org.apache.oltu.oauth2.rs.request.OAuthAccessResourceRequest;
 import org.apache.oltu.oauth2.rs.response.OAuthRSResponse;
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.ser.FilterProvider;
-import org.codehaus.jackson.map.ser.impl.SimpleBeanPropertyFilter;
-import org.codehaus.jackson.map.ser.impl.SimpleFilterProvider;
 
 import com.viglet.vecchio.api.oauth2.demo.TestContent;
-import com.viglet.vecchio.persistence.model.VecApp;
-import com.viglet.vecchio.persistence.service.VecAppService;
-import com.viglet.vecchio.persistence.service.VecMappingService;
+import com.viglet.vecchio.persistence.model.VecOAuthAccessToken;
+import com.viglet.vecchio.persistence.service.VecOAuthAccessTokenService;
 
 @Path("/tokeninfo")
 public class VecTokenInfo {
@@ -39,7 +30,7 @@ public class VecTokenInfo {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response get(@Context HttpServletRequest request) throws OAuthSystemException {
 
-		VecAppService vecAppService = new VecAppService();
+		VecOAuthAccessTokenService vecOAuthAccessTokenService = new VecOAuthAccessTokenService();
 		try {
 
 			// Make the OAuth Request out of this request
@@ -48,10 +39,10 @@ public class VecTokenInfo {
 			// Get the access token
 			String accessToken = oauthRequest.getAccessToken();
 
-			VecApp vecApp = vecAppService.getAppByAccessToken(accessToken);
+			VecOAuthAccessToken vecOAuthAccessToken = vecOAuthAccessTokenService.getAccessToken(accessToken);
 
 			// Validate the access token
-			if (vecApp == null) {
+			if (vecOAuthAccessToken == null) {
 
 				// Return the OAuth error message
 				OAuthResponse oauthResponse = OAuthRSResponse.errorResponse(HttpServletResponse.SC_UNAUTHORIZED)
@@ -63,14 +54,8 @@ public class VecTokenInfo {
 
 			}
 
-			String[] ignoreFields = { "apiSecret", "accessToken", "accessTokenSecret", "callbackURL" };
-			FilterProvider filter = new SimpleFilterProvider().addFilter("vecAppFilter",
-					SimpleBeanPropertyFilter.serializeAllExcept(ignoreFields));
-			ObjectMapper mapper = new ObjectMapper();
-			String json = mapper.writer(filter).writeValueAsString(vecApp);
-
 			// Return the resource
-			return Response.status(Response.Status.OK).entity(json).build();
+			return Response.status(Response.Status.OK).entity(vecOAuthAccessToken).build();
 
 		} catch (OAuthProblemException e) {
 			// Check if the error code has been set
@@ -93,18 +78,6 @@ public class VecTokenInfo {
 
 			return Response.status(Response.Status.BAD_REQUEST).header(OAuth.HeaderType.WWW_AUTHENTICATE,
 					oauthResponse.getHeader(OAuth.HeaderType.WWW_AUTHENTICATE)).build();
-		} catch (JsonGenerationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return Response.status(Response.Status.BAD_REQUEST).build();
-		} catch (JsonMappingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return Response.status(Response.Status.BAD_REQUEST).build();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return Response.status(Response.Status.BAD_REQUEST).build();
 		}
 
 	}

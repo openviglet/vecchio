@@ -34,9 +34,13 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.ser.impl.SimpleFilterProvider;
 
 import com.viglet.vecchio.persistence.model.VecApp;
+import com.viglet.vecchio.persistence.model.VecOAuthAccessToken;
+import com.viglet.vecchio.persistence.model.VecOAuthAccessTokenPK;
 import com.viglet.vecchio.persistence.model.VecOAuthAuthorizationCode;
 import com.viglet.vecchio.persistence.model.VecOAuthAuthorizationCodePK;
+import com.viglet.vecchio.persistence.model.VecUser;
 import com.viglet.vecchio.persistence.service.VecAppService;
+import com.viglet.vecchio.persistence.service.VecOAuthAccessTokenService;
 import com.viglet.vecchio.persistence.service.VecOAuthAuthorizationCodeService;
 import com.viglet.vecchio.persistence.service.VecUserService;
 
@@ -50,6 +54,7 @@ public class VecLoginAPI {
 	public Response authentication(@Context HttpServletRequest request, @FormParam("j_username") String username,
 			@FormParam("j_password") String password) throws Exception {
 		VecOAuthAuthorizationCodeService vecOAuthAuthorizationCodeService = new VecOAuthAuthorizationCodeService();
+		VecOAuthAccessTokenService vecOAuthAccessTokenService = new VecOAuthAccessTokenService();
 		OAuthAuthzRequest oauthRequest = null;
 
 		OAuthIssuerImpl oauthIssuerImpl = new OAuthIssuerImpl(new MD5Generator());
@@ -66,7 +71,8 @@ public class VecLoginAPI {
 					HttpServletResponse.SC_FOUND);
 
 			VecAppService vecAppService = new VecAppService();
-
+			VecUser vecUser = vecUserService.getUserByPassword(username, password);
+			
 			if (clientId == null) {
 
 				final Response.ResponseBuilder responseBuilder = Response.status(HttpServletResponse.SC_FOUND);
@@ -78,7 +84,9 @@ public class VecLoginAPI {
 					throw new WebApplicationException(
 							responseBuilder.entity("OAuth callback url needs valid client_id").build());
 				}
-				if (vecUserService.validatePassword(username, password) == null) {
+				
+				
+				if (vecUser == null) {
 					String loginPage = request.getRequestURL().toString().replaceAll("/api/login", "/login");
 
 					final Response.ResponseBuilder responseBuilder = Response.status(HttpServletResponse.SC_FOUND);
@@ -115,7 +123,24 @@ public class VecLoginAPI {
 				builder.setCode(id.getAuthorizationCode());
 			}
 			if (responseType.equals(ResponseType.TOKEN.toString())) {
-				builder.setAccessToken(oauthIssuerImpl.accessToken());
+				VecOAuthAccessToken vecOAuthAccessToken = vecOAuthAccessTokenService.getAccessTokenByClientId(clientId);						
+				if (vecOAuthAccessToken != null) {
+					vecOAuthAccessTokenService.deletetAccessToken(vecOAuthAccessToken.getId());
+				}
+				vecOAuthAccessToken = new VecOAuthAccessToken();
+				VecOAuthAccessTokenPK id = new VecOAuthAccessTokenPK();
+				id.setAccessToken(oauthIssuerImpl.accessToken());
+				id.setClientId(clientId);
+				
+				Date expires = new Date();
+				vecOAuthAccessToken.setId(id);
+				vecOAuthAccessToken.setExpires(expires);				
+				vecOAuthAccessToken.setScope("email");
+				vecOAuthAccessToken.setVecUser(vecUser);
+				
+				vecOAuthAccessTokenService.save(vecOAuthAccessToken);
+				
+				builder.setAccessToken(id.getAccessToken());
 				builder.setExpiresIn(3600l);
 			}
 

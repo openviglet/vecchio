@@ -6,6 +6,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 import com.viglet.vecchio.persistence.model.VecApp;
+import com.viglet.vecchio.persistence.model.VecOAuthAccessToken;
 
 public class VecAppService extends VecBaseService {
 
@@ -26,11 +27,16 @@ public class VecAppService extends VecBaseService {
 
 	public VecApp getAppByAccessToken(String accessToken) {
 		try {
-		TypedQuery<VecApp> q = em
-				.createQuery("SELECT a FROM VecApp a where a.accessToken = :accessToken ", VecApp.class)
-				.setParameter("accessToken", accessToken);
-		return q.getSingleResult();
+			TypedQuery<VecApp> q = em
+					.createQuery("SELECT a FROM VecApp a where a.accessToken = :accessToken ", VecApp.class)
+					.setParameter("accessToken", accessToken);
+			return q.getSingleResult();
 		} catch (NoResultException e) {
+			VecOAuthAccessTokenService vecOAuthAccessTokenService = new VecOAuthAccessTokenService();
+			VecOAuthAccessToken vecOAuthAccessToken = vecOAuthAccessTokenService.getAccessToken(accessToken);
+			if (vecOAuthAccessToken != null) {
+				return this.getAppByClientId(vecOAuthAccessToken.getId().getClientId());
+			}
 			return null;
 		}
 	}
@@ -40,7 +46,7 @@ public class VecAppService extends VecBaseService {
 			TypedQuery<VecApp> q = em.createQuery("SELECT a FROM VecApp a where a.apiKey = :apiKey ", VecApp.class)
 					.setParameter("apiKey", clientId);
 			return q.getSingleResult();
-			
+
 		} catch (NoResultException e) {
 			return null;
 		}

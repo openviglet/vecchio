@@ -24,7 +24,7 @@ public class VecUserService extends VecBaseService {
 		return em.find(VecUser.class, userId);
 	}
 
-	public VecUser validatePassword(String username, String password) {
+	public VecUser getUserByPassword(String username, String password) {
 		try {
 			TypedQuery<VecUser> q = em
 					.createQuery("SELECT u FROM VecUser u WHERE u.username = :username AND u.password = :password",

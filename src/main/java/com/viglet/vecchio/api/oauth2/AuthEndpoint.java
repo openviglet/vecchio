@@ -20,9 +20,12 @@ import org.apache.oltu.oauth2.common.message.types.ResponseType;
 import org.apache.oltu.oauth2.common.utils.OAuthUtils;
 
 import com.viglet.vecchio.persistence.model.VecApp;
+import com.viglet.vecchio.persistence.model.VecOAuthAccessToken;
+import com.viglet.vecchio.persistence.model.VecOAuthAccessTokenPK;
 import com.viglet.vecchio.persistence.model.VecOAuthAuthorizationCode;
 import com.viglet.vecchio.persistence.model.VecOAuthAuthorizationCodePK;
 import com.viglet.vecchio.persistence.service.VecAppService;
+import com.viglet.vecchio.persistence.service.VecOAuthAccessTokenService;
 import com.viglet.vecchio.persistence.service.VecOAuthAuthorizationCodeService;
 
 import java.net.URI;
@@ -35,6 +38,8 @@ public class AuthEndpoint {
 	@GET
 	public Response authorize(@Context HttpServletRequest request) throws URISyntaxException, OAuthSystemException {
 		VecOAuthAuthorizationCodeService vecOAuthAuthorizationCodeService = new VecOAuthAuthorizationCodeService();
+		VecOAuthAccessTokenService vecOAuthAccessTokenService = new VecOAuthAccessTokenService();
+		
 		OAuthAuthzRequest oauthRequest = null;
 
 		OAuthIssuerImpl oauthIssuerImpl = new OAuthIssuerImpl(new MD5Generator());
@@ -88,7 +93,23 @@ public class AuthEndpoint {
 				builder.setCode(id.getAuthorizationCode());
 			}
 			if (responseType.equals(ResponseType.TOKEN.toString())) {
-				builder.setAccessToken(oauthIssuerImpl.accessToken());
+				VecOAuthAccessToken vecOAuthAccessToken = vecOAuthAccessTokenService.getAccessTokenByClientId(clientId);						
+				if (vecOAuthAccessToken != null) {
+					vecOAuthAccessTokenService.deletetAccessToken(vecOAuthAccessToken.getId());
+				}
+				vecOAuthAccessToken = new VecOAuthAccessToken();
+				VecOAuthAccessTokenPK id = new VecOAuthAccessTokenPK();
+				id.setAccessToken(oauthIssuerImpl.accessToken());
+				id.setClientId(clientId);
+				
+				Date expires = new Date();
+				vecOAuthAccessToken.setId(id);
+				vecOAuthAccessToken.setExpires(expires);				
+				vecOAuthAccessToken.setScope("email");
+				
+				vecOAuthAccessTokenService.save(vecOAuthAccessToken);
+				
+				builder.setAccessToken(id.getAccessToken());
 				builder.setExpiresIn(3600l);
 			}
 
