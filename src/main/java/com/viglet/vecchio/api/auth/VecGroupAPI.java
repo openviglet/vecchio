@@ -2,63 +2,63 @@ package com.viglet.vecchio.api.auth;
 
 import java.util.List;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import com.viglet.vecchio.persistence.model.VecGroup;
-import com.viglet.vecchio.persistence.model.VecRole;
-import com.viglet.vecchio.persistence.service.VecGroupService;
-import com.viglet.vecchio.persistence.service.VecRoleService;
+import com.viglet.vecchio.persistence.model.auth.VecGroup;
+import com.viglet.vecchio.persistence.repository.auth.VecGroupRepository;
 
-@Path("/group")
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
+@RestController
+@RequestMapping("/group")
+@Api(value = "/group", tags = "Group", description = "Group")
 public class VecGroupAPI {
-	VecGroupService vecGroupService = new VecGroupService();
 
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<VecGroup> list() throws Exception {
-		return vecGroupService.listAll();
+	@Autowired
+	private VecGroupRepository vecGroupRepository;
+
+	@ApiOperation(value = "Show Group List")
+	@GetMapping
+	public List<VecGroup> list(){
+		return vecGroupRepository.findAll();
 	}
 	
-	@Path("/{groupId}")
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public VecGroup edit(@PathParam("groupId") int id) throws Exception {
-		return vecGroupService.getGroup(id);
+	@ApiOperation(value = "Show a Group")
+	@GetMapping("/{id}")
+	public VecGroup edit(@PathVariable String id){
+		return vecGroupRepository.findById(id).get();
 	}
 	
-	@Path("/{groupId}")
-	@PUT
-	@Produces(MediaType.APPLICATION_JSON)
-	public VecGroup update(@PathParam("groupId") int id, VecGroup vecGroup) throws Exception {
-		VecGroup vecGroupEdit = vecGroupService.getGroup(id);
+	@ApiOperation(value = "Update a Group")
+	@PutMapping("/{id}")
+	public VecGroup update(@PathVariable String id, VecGroup vecGroup) throws Exception {
+		VecGroup vecGroupEdit = vecGroupRepository.findById(id).get();
 		vecGroupEdit.setName(vecGroup.getName());
 		vecGroupEdit.setDescription(vecGroup.getDescription());
-		vecGroupService.save(vecGroupEdit);
+		vecGroupRepository.save(vecGroupEdit);
 		return vecGroupEdit;
 	}
 
-	@Path("/{groupId}")
-	@DELETE
-	@Produces(MediaType.APPLICATION_JSON)
-	public boolean delete(@PathParam("groupId") int id) throws Exception {
-		return vecGroupService.deleteGroup(id);
+	@ApiOperation(value = "Delete a Group")
+	@DeleteMapping("/{id}")
+	public boolean delete(@PathVariable String id) throws Exception {
+		vecGroupRepository.delete(id);
+		return true;
 	}
 
-	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Response add(VecGroup vecGroup) throws Exception {
-		vecGroupService.save(vecGroup);
-		String result = "Group saved : " + vecGroup;
-		return Response.status(201).entity(result).build();
+	@ApiOperation(value = "Create a Group")
+	@PostMapping
+	public VecGroup add(VecGroup vecGroup) throws Exception {
+		vecGroupRepository.save(vecGroup);
+		return vecGroup;
 
 	}
 }

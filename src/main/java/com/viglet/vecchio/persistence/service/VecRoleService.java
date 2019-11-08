@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.persistence.TypedQuery;
 
-import com.viglet.vecchio.persistence.model.VecRole;
+import com.viglet.vecchio.persistence.model.auth.VecRole;
 
 public class VecRoleService extends VecBaseService {
 

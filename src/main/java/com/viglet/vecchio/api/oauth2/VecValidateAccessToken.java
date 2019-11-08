@@ -1,15 +1,7 @@
 package com.viglet.vecchio.api.oauth2;
 
-import java.io.IOException;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 import org.apache.oltu.oauth2.common.OAuth;
 import org.apache.oltu.oauth2.common.error.OAuthError;
@@ -20,26 +12,31 @@ import org.apache.oltu.oauth2.common.message.types.ParameterStyle;
 import org.apache.oltu.oauth2.common.utils.OAuthUtils;
 import org.apache.oltu.oauth2.rs.request.OAuthAccessResourceRequest;
 import org.apache.oltu.oauth2.rs.response.OAuthRSResponse;
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.ser.FilterProvider;
-import org.codehaus.jackson.map.ser.impl.SimpleBeanPropertyFilter;
-import org.codehaus.jackson.map.ser.impl.SimpleFilterProvider;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ser.FilterProvider;
+import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.viglet.vecchio.api.oauth2.demo.TestContent;
-import com.viglet.vecchio.persistence.model.VecApp;
-import com.viglet.vecchio.persistence.model.VecOAuthAccessToken;
-import com.viglet.vecchio.persistence.service.VecAppService;
+import com.viglet.vecchio.persistence.model.oauth.VecOAuthAccessToken;
 import com.viglet.vecchio.persistence.service.VecMappingService;
 import com.viglet.vecchio.persistence.service.VecOAuthAccessTokenService;
 
-@Path("/token_validate")
+import io.swagger.annotations.Api;
+
+@RestController
+@RequestMapping("/token_validate")
+@Api(value = "/token_validate", tags = "Token Validate", description = "Token Validate")
 public class VecValidateAccessToken {
 
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response get(@Context HttpServletRequest request) throws OAuthSystemException {
+	@GetMapping
+	public ResponseEntity<String> get(HttpServletRequest request) throws OAuthSystemException {
 
 		VecOAuthAccessTokenService vecOAuthAccessTokenService = new VecOAuthAccessTokenService();
 		VecMappingService vecMappingService = new VecMappingService();
@@ -65,7 +62,7 @@ public class VecValidateAccessToken {
 							.setRealm(TestContent.RESOURCE_SERVER_NAME)
 							.setError(OAuthError.ResourceResponse.INVALID_TOKEN).buildHeaderMessage();
 
-					return Response.status(Response.Status.UNAUTHORIZED).header(OAuth.HeaderType.WWW_AUTHENTICATE,
+					return ResponseEntity.status(HttpStatus.UNAUTHORIZED).header(OAuth.HeaderType.WWW_AUTHENTICATE,
 							oauthResponse.getHeader(OAuth.HeaderType.WWW_AUTHENTICATE)).build();
 
 				}
@@ -77,7 +74,7 @@ public class VecValidateAccessToken {
 				String json = mapper.writer(filter).writeValueAsString(vecOAuthAccessToken);
 
 				// Return the resource
-				return Response.status(Response.Status.OK).entity(json).build();
+				return ResponseEntity.status(HttpStatus.OK).body(json);
 
 			} catch (OAuthProblemException e) {
 				// Check if the error code has been set
@@ -90,7 +87,7 @@ public class VecValidateAccessToken {
 
 					// If no error code then return a standard 401 Unauthorized
 					// response
-					return Response.status(Response.Status.UNAUTHORIZED).header(OAuth.HeaderType.WWW_AUTHENTICATE,
+					return ResponseEntity.status(HttpStatus.UNAUTHORIZED).header(OAuth.HeaderType.WWW_AUTHENTICATE,
 							oauthResponse.getHeader(OAuth.HeaderType.WWW_AUTHENTICATE)).build();
 				}
 
@@ -98,24 +95,16 @@ public class VecValidateAccessToken {
 						.setRealm(TestContent.RESOURCE_SERVER_NAME).setError(e.getError())
 						.setErrorDescription(e.getDescription()).setErrorUri(e.getUri()).buildHeaderMessage();
 
-				return Response.status(Response.Status.BAD_REQUEST).header(OAuth.HeaderType.WWW_AUTHENTICATE,
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).header(OAuth.HeaderType.WWW_AUTHENTICATE,
 						oauthResponse.getHeader(OAuth.HeaderType.WWW_AUTHENTICATE)).build();
-			} catch (JsonGenerationException e) {
+			} catch (JsonProcessingException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				return Response.status(Response.Status.BAD_REQUEST).build();
-			} catch (JsonMappingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				return Response.status(Response.Status.BAD_REQUEST).build();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				return Response.status(Response.Status.BAD_REQUEST).build();
+				return ResponseEntity.badRequest().build();
 			}
 		} 
 		else {
-			return Response.status(Response.Status.OK).build();
+			return ResponseEntity.ok().build();
 		}
 	}
 }

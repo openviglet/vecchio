@@ -3,8 +3,9 @@ package com.viglet.vecchio.persistence.model;
 import java.io.Serializable;
 import javax.persistence.*;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import java.util.Date;
-import java.util.List;
 
 /**
  * The persistent class for the vigTerm database table.
@@ -17,9 +18,11 @@ public class VecAccess implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(unique = true, nullable = false)
-	private int id;
+	@GenericGenerator(name = "UUID", strategy = "com.viglet.vecchio.jpa.VecUUIDGenerator")
+	@GeneratedValue(generator = "UUID")
+	@Column(name = "id", updatable = false, nullable = false)
+	private String id;
+	
 	@Column(name = "date_request", nullable = false)
 	private Date dateRequest;
 
@@ -37,11 +40,11 @@ public class VecAccess implements Serializable {
 	public VecAccess() {
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

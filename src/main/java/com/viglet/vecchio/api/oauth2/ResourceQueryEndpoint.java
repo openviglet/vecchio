@@ -3,11 +3,6 @@ package com.viglet.vecchio.api.oauth2;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Response;
 
 import org.apache.oltu.oauth2.common.OAuth;
 import org.apache.oltu.oauth2.common.error.OAuthError;
@@ -18,21 +13,24 @@ import org.apache.oltu.oauth2.common.message.types.ParameterStyle;
 import org.apache.oltu.oauth2.common.utils.OAuthUtils;
 import org.apache.oltu.oauth2.rs.request.OAuthAccessResourceRequest;
 import org.apache.oltu.oauth2.rs.response.OAuthRSResponse;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.viglet.vecchio.api.oauth2.demo.TestContent;
 
+import io.swagger.annotations.Api;
 
-/**
- *
- *
- *
- */
-@Path("/resource_query")
+
+@RestController
+@RequestMapping("/resource_query")
+@Api(value = "/resource_query", tags = "Resource Query", description = "Resource Query")
 public class ResourceQueryEndpoint {
 
-    @GET
-    @Produces("text/html")
-    public Response get(@Context HttpServletRequest request) throws OAuthSystemException {
+	@GetMapping(produces = "text/html")
+    public ResponseEntity<String> get(HttpServletRequest request) throws OAuthSystemException {
 
         try {
 
@@ -54,7 +52,7 @@ public class ResourceQueryEndpoint {
                     .buildHeaderMessage();
 
                 //return Response.status(Response.Status.UNAUTHORIZED).build();
-                return Response.status(Response.Status.UNAUTHORIZED)
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .header(OAuth.HeaderType.WWW_AUTHENTICATE,
                         oauthResponse.getHeader(OAuth.HeaderType.WWW_AUTHENTICATE))
                     .build();
@@ -62,7 +60,7 @@ public class ResourceQueryEndpoint {
             }
 
             // Return the resource
-            return Response.status(Response.Status.OK).entity(accessToken).build();
+            return ResponseEntity.status(HttpStatus.OK).body(accessToken);
 
         } catch (OAuthProblemException e) {
             // Check if the error code has been set
@@ -76,7 +74,7 @@ public class ResourceQueryEndpoint {
                     .buildHeaderMessage();
 
                 // If no error code then return a standard 401 Unauthorized response
-                return Response.status(Response.Status.UNAUTHORIZED)
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .header(OAuth.HeaderType.WWW_AUTHENTICATE,
                         oauthResponse.getHeader(OAuth.HeaderType.WWW_AUTHENTICATE))
                     .build();
@@ -90,7 +88,7 @@ public class ResourceQueryEndpoint {
                 .setErrorUri(e.getUri())
                 .buildHeaderMessage();
 
-            return Response.status(Response.Status.BAD_REQUEST)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .header(OAuth.HeaderType.WWW_AUTHENTICATE,
                     oauthResponse.getHeader(OAuth.HeaderType.WWW_AUTHENTICATE))
                 .build();

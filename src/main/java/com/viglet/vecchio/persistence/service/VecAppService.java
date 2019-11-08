@@ -6,7 +6,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 import com.viglet.vecchio.persistence.model.VecApp;
-import com.viglet.vecchio.persistence.model.VecOAuthAccessToken;
+import com.viglet.vecchio.persistence.model.oauth.VecOAuthAccessToken;
 
 public class VecAppService extends VecBaseService {
 

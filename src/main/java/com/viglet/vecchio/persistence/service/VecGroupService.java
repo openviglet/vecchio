@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.persistence.TypedQuery;
 
-import com.viglet.vecchio.persistence.model.VecGroup;
+import com.viglet.vecchio.persistence.model.auth.VecGroup;
 
 public class VecGroupService   extends VecBaseService{
 

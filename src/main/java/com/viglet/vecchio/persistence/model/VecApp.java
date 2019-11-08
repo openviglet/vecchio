@@ -3,23 +3,23 @@ package com.viglet.vecchio.persistence.model;
 import java.io.Serializable;
 import javax.persistence.*;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.codehaus.jackson.map.annotate.JsonFilter;
+import org.hibernate.annotations.GenericGenerator;
 
 /**
- * The persistent class for the ShUser database table.
+ * The persistent class for the VecApp database table.
  * 
  */
+
 @Entity
 @NamedQuery(name = "VecApp.findAll", query = "SELECT a FROM VecApp a")
-@JsonFilter("vecAppFilter")
 public class VecApp implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	@GenericGenerator(name = "UUID", strategy = "com.viglet.vecchio.jpa.VecUUIDGenerator")
+	@GeneratedValue(generator = "UUID")
+	@Column(name = "id", updatable = false, nullable = false)
+	private String id;
 
 	@Column(name="name", nullable=false, length=50)
 	private String name;
@@ -42,11 +42,11 @@ public class VecApp implements Serializable {
 	@Column(name="callback_url", nullable=true, length=255)
 	private String callbackURL;
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

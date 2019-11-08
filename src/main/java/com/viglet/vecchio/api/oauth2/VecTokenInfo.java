@@ -2,12 +2,6 @@ package com.viglet.vecchio.api.oauth2;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 import org.apache.oltu.oauth2.common.OAuth;
 import org.apache.oltu.oauth2.common.error.OAuthError;
@@ -18,17 +12,25 @@ import org.apache.oltu.oauth2.common.message.types.ParameterStyle;
 import org.apache.oltu.oauth2.common.utils.OAuthUtils;
 import org.apache.oltu.oauth2.rs.request.OAuthAccessResourceRequest;
 import org.apache.oltu.oauth2.rs.response.OAuthRSResponse;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.viglet.vecchio.api.oauth2.demo.TestContent;
-import com.viglet.vecchio.persistence.model.VecOAuthAccessToken;
+import com.viglet.vecchio.persistence.model.oauth.VecOAuthAccessToken;
 import com.viglet.vecchio.persistence.service.VecOAuthAccessTokenService;
 
-@Path("/tokeninfo")
+import io.swagger.annotations.Api;
+
+@RestController
+@RequestMapping("/tokeninfo")
+@Api(value = "/tokeninfo", tags = "Token Info", description = "Token Info")
 public class VecTokenInfo {
 
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response get(@Context HttpServletRequest request) throws OAuthSystemException {
+	@PostMapping(produces = "application/json")
+	public ResponseEntity<VecOAuthAccessToken> get(HttpServletRequest request) throws OAuthSystemException {
 
 		VecOAuthAccessTokenService vecOAuthAccessTokenService = new VecOAuthAccessTokenService();
 		try {
@@ -49,13 +51,13 @@ public class VecTokenInfo {
 						.setRealm(TestContent.RESOURCE_SERVER_NAME).setError(OAuthError.ResourceResponse.INVALID_TOKEN)
 						.buildHeaderMessage();
 
-				return Response.status(Response.Status.UNAUTHORIZED).header(OAuth.HeaderType.WWW_AUTHENTICATE,
+				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).header(OAuth.HeaderType.WWW_AUTHENTICATE,
 						oauthResponse.getHeader(OAuth.HeaderType.WWW_AUTHENTICATE)).build();
 
 			}
 
 			// Return the resource
-			return Response.status(Response.Status.OK).entity(vecOAuthAccessToken).build();
+			return ResponseEntity.status(HttpStatus.OK).body(vecOAuthAccessToken);
 
 		} catch (OAuthProblemException e) {
 			// Check if the error code has been set
@@ -68,7 +70,7 @@ public class VecTokenInfo {
 
 				// If no error code then return a standard 401 Unauthorized
 				// response
-				return Response.status(Response.Status.UNAUTHORIZED).header(OAuth.HeaderType.WWW_AUTHENTICATE,
+				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).header(OAuth.HeaderType.WWW_AUTHENTICATE,
 						oauthResponse.getHeader(OAuth.HeaderType.WWW_AUTHENTICATE)).build();
 			}
 
@@ -76,7 +78,7 @@ public class VecTokenInfo {
 					.setRealm(TestContent.RESOURCE_SERVER_NAME).setError(e.getError())
 					.setErrorDescription(e.getDescription()).setErrorUri(e.getUri()).buildHeaderMessage();
 
-			return Response.status(Response.Status.BAD_REQUEST).header(OAuth.HeaderType.WWW_AUTHENTICATE,
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).header(OAuth.HeaderType.WWW_AUTHENTICATE,
 					oauthResponse.getHeader(OAuth.HeaderType.WWW_AUTHENTICATE)).build();
 		}
 

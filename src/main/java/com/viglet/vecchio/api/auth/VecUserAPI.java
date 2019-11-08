@@ -2,43 +2,44 @@ package com.viglet.vecchio.api.auth;
 
 import java.util.List;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import com.viglet.vecchio.persistence.model.VecMapping;
-import com.viglet.vecchio.persistence.model.VecUser;
-import com.viglet.vecchio.persistence.service.VecUserService;
+import com.viglet.vecchio.persistence.model.auth.VecUser;
+import com.viglet.vecchio.persistence.repository.auth.VecUserRepository;
 
-@Path("/user")
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
+@RestController
+@RequestMapping("/user")
+@Api(value = "/user", tags = "User", description = "User")
 public class VecUserAPI {
-	VecUserService vecUserService = new VecUserService();
+	@Autowired
+	private VecUserRepository vecUserRepository;
 
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<VecUser> list() throws Exception {
-		return vecUserService.listAll();
+	@ApiOperation(value = "Show User List")
+	@GetMapping
+	public List<VecUser> list() {
+		return vecUserRepository.findAll();
 	}
-	
-	@Path("/{userId}")
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public VecUser edit(@PathParam("userId") int id) throws Exception {
-		return vecUserService.getUser(id);
+
+	@ApiOperation(value = "Show a user")
+	@GetMapping("/{id}")
+	public VecUser edit(@PathVariable String id) {
+		return vecUserRepository.findById(id).get();
 	}
-	
-	@Path("/{userId}")
-	@PUT
-	@Produces(MediaType.APPLICATION_JSON)
-	public VecUser update(@PathParam("userId") int id, VecUser vecUser) throws Exception {
-		VecUser vecUserEdit = vecUserService.getUser(id);
+
+	@ApiOperation(value = "Update a User")
+	@PutMapping("/{id}")
+	public VecUser update(@PathVariable String id, VecUser vecUser) {
+		VecUser vecUserEdit = vecUserRepository.findById(id).get();
 		vecUserEdit.setConfirmEmail(vecUser.getConfirmEmail());
 		vecUserEdit.setEmail(vecUser.getEmail());
 		vecUserEdit.setFirstName(vecUser.getFirstName());
@@ -50,23 +51,22 @@ public class VecUserAPI {
 		vecUserEdit.setRecoverPassword(vecUser.getRecoverPassword());
 		vecUserEdit.setUsername(vecUser.getUsername());
 
-		vecUserService.save(vecUserEdit);
+		vecUserRepository.save(vecUserEdit);
 		return vecUserEdit;
 	}
 
-	@Path("/{userId}")
-	@DELETE
-	@Produces(MediaType.APPLICATION_JSON)
-	public boolean delete(@PathParam("userId") int id) throws Exception {
-		return vecUserService.deleteUser(id);
+	@ApiOperation(value = "Delete a User")
+	@DeleteMapping("/{id}")
+	public boolean delete(@PathVariable String id) {
+		vecUserRepository.delete(id);
+		return true;
 	}
 
-	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Response add(VecUser vecUser) throws Exception {
-		vecUserService.save(vecUser);
-		String result = "User saved : " + vecUser;
-		return Response.status(201).entity(result).build();
+	@ApiOperation(value = "Create a User")
+	@PostMapping
+	public VecUser add(VecUser vecUser) throws Exception {
+		vecUserRepository.save(vecUser);
+		return vecUser;
 
 	}
 }

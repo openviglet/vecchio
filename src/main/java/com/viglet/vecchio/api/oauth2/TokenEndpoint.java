@@ -2,13 +2,6 @@ package com.viglet.vecchio.api.oauth2;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Response;
 
 import org.apache.oltu.oauth2.as.issuer.MD5Generator;
 import org.apache.oltu.oauth2.as.issuer.OAuthIssuer;
@@ -21,21 +14,23 @@ import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
 import org.apache.oltu.oauth2.common.message.OAuthResponse;
 import org.apache.oltu.oauth2.common.message.types.GrantType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.viglet.vecchio.api.oauth2.demo.TestContent;
 
-/**
- *
- *
- *
- */
-@Path("/token")
+import io.swagger.annotations.Api;
+
+@RestController
+@RequestMapping("/token")
+@Api(value = "/token", tags = "Token", description = "Token")
 public class TokenEndpoint {
 
-	@POST
-	@Consumes("application/x-www-form-urlencoded")
-	@Produces("application/json")
-	public Response authorize(@Context HttpServletRequest request) throws OAuthSystemException {
+	@PostMapping(consumes = "application/x-www-form-urlencoded", produces = "application/json")
+	public ResponseEntity<String> authorize(HttpServletRequest request) throws OAuthSystemException {
 
 		OAuthTokenRequest oauthRequest = null;
 
@@ -49,7 +44,7 @@ public class TokenEndpoint {
 				OAuthResponse response = OAuthASResponse.errorResponse(HttpServletResponse.SC_BAD_REQUEST)
 						.setError(OAuthError.TokenResponse.INVALID_CLIENT).setErrorDescription("client_id not found")
 						.buildJSONMessage();
-				return Response.status(response.getResponseStatus()).entity(response.getBody()).build();
+				return ResponseEntity.status(response.getResponseStatus()).body(response.getBody());
 			}
 
 			// do checking for different grant types
@@ -58,7 +53,7 @@ public class TokenEndpoint {
 					OAuthResponse response = OAuthASResponse.errorResponse(HttpServletResponse.SC_BAD_REQUEST)
 							.setError(OAuthError.TokenResponse.INVALID_GRANT)
 							.setErrorDescription("invalid authorization code").buildJSONMessage();
-					return Response.status(response.getResponseStatus()).entity(response.getBody()).build();
+					return ResponseEntity.status(response.getResponseStatus()).body(response.getBody());
 				}
 			} else if (oauthRequest.getParam(OAuth.OAUTH_GRANT_TYPE).equals(GrantType.PASSWORD.toString())) {
 				if (!TestContent.PASSWORD.equals(oauthRequest.getPassword())
@@ -66,36 +61,34 @@ public class TokenEndpoint {
 					OAuthResponse response = OAuthASResponse.errorResponse(HttpServletResponse.SC_BAD_REQUEST)
 							.setError(OAuthError.TokenResponse.INVALID_GRANT)
 							.setErrorDescription("invalid username or password").buildJSONMessage();
-					return Response.status(response.getResponseStatus()).entity(response.getBody()).build();
+					return ResponseEntity.status(response.getResponseStatus()).body(response.getBody());
 				}
 			} else if (oauthRequest.getParam(OAuth.OAUTH_GRANT_TYPE).equals(GrantType.REFRESH_TOKEN.toString())) {
 				OAuthResponse response = OAuthASResponse.errorResponse(HttpServletResponse.SC_BAD_REQUEST)
 						.setError(OAuthError.TokenResponse.INVALID_GRANT)
 						.setErrorDescription("invalid username or password").buildJSONMessage();
-				return Response.status(response.getResponseStatus()).entity(response.getBody()).build();
+				return ResponseEntity.status(response.getResponseStatus()).body(response.getBody());
 			}
 
 			OAuthResponse response = OAuthASResponse.tokenResponse(HttpServletResponse.SC_OK)
 					.setAccessToken(oauthIssuerImpl.accessToken()).setExpiresIn("3600").buildJSONMessage();
 
-			return Response.status(response.getResponseStatus()).entity(response.getBody()).build();
+			return ResponseEntity.status(response.getResponseStatus()).body(response.getBody());
 		} catch (OAuthProblemException e) {
 			OAuthResponse res = OAuthASResponse.errorResponse(HttpServletResponse.SC_BAD_REQUEST).error(e)
 					.buildJSONMessage();
-			return Response.status(res.getResponseStatus()).entity(res.getBody()).build();
+			return ResponseEntity.status(res.getResponseStatus()).body(res.getBody());
 		}
 	}
 
-	@GET
-	@Consumes("application/x-www-form-urlencoded")
-	@Produces("application/json")
-	public Response authorizeGet(@Context HttpServletRequest request) throws OAuthSystemException {
+	@GetMapping(consumes = "application/x-www-form-urlencoded", produces = "application/json")
+	public ResponseEntity<String> authorizeGet(HttpServletRequest request) throws OAuthSystemException {
 		OAuthIssuer oauthIssuerImpl = new OAuthIssuerImpl(new MD5Generator());
 
 		OAuthResponse response = OAuthASResponse.tokenResponse(HttpServletResponse.SC_OK)
 				.setAccessToken(oauthIssuerImpl.accessToken()).setExpiresIn("3600").buildJSONMessage();
 
-		return Response.status(response.getResponseStatus()).entity(response.getBody()).build();
+		return ResponseEntity.status(response.getResponseStatus()).body(response.getBody());
 	}
 
 }

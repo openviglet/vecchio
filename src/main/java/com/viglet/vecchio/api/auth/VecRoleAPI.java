@@ -2,61 +2,63 @@ package com.viglet.vecchio.api.auth;
 
 import java.util.List;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import com.viglet.vecchio.persistence.model.VecRole;
-import com.viglet.vecchio.persistence.service.VecRoleService;
+import com.viglet.vecchio.persistence.model.auth.VecRole;
+import com.viglet.vecchio.persistence.repository.auth.VecRoleRepository;
 
-@Path("/role")
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
+@RestController
+@RequestMapping("/role")
+@Api(value = "/role", tags = "Role", description = "Role")
 public class VecRoleAPI {
-	VecRoleService vecRoleService = new VecRoleService();
+	@Autowired
+	private VecRoleRepository vecRoleRepository;
 
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<VecRole> list() throws Exception {
-		return vecRoleService.listAll();
+	@ApiOperation(value = "Show Role List")
+	@GetMapping
+	public List<VecRole> list() {
+		return vecRoleRepository.findAll();
 	}
-	
-	@Path("/{roleId}")
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public VecRole edit(@PathParam("roleId") int id) throws Exception {
-		return vecRoleService.getRole(id);
+
+	@ApiOperation(value = "Show a Role")
+	@GetMapping("/{id}")
+	public VecRole edit(@PathVariable String id) {
+		return vecRoleRepository.findById(id).get();
 	}
-	
-	@Path("/{roleId}")
-	@PUT
-	@Produces(MediaType.APPLICATION_JSON)
-	public VecRole update(@PathParam("roleId") int id, VecRole vecRole) throws Exception {
-		VecRole vecRoleEdit = vecRoleService.getRole(id);
+
+	@ApiOperation(value = "Update a Role")
+	@PutMapping("/{id}")
+	public VecRole update(@PathVariable String id, VecRole vecRole) {
+		VecRole vecRoleEdit = vecRoleRepository.findById(id).get();
 		vecRoleEdit.setName(vecRole.getName());
 		vecRoleEdit.setDescription(vecRole.getDescription());
-		vecRoleService.save(vecRoleEdit);
+		vecRoleRepository.save(vecRoleEdit);
 		return vecRoleEdit;
 	}
 
-	@Path("/{roleId}")
-	@DELETE
-	@Produces(MediaType.APPLICATION_JSON)
-	public boolean delete(@PathParam("roleId") int id) throws Exception {
-		return vecRoleService.deleteRole(id);
+	@ApiOperation(value = "Delete a Role")
+	@DeleteMapping("/{id}")
+	public boolean delete(@PathVariable String id) {
+		vecRoleRepository.delete(id);
+
+		return true;
 	}
 
-	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Response add(VecRole vecRole) throws Exception {
-		vecRoleService.save(vecRole);
-		String result = "Role saved : " + vecRole;
-		return Response.status(201).entity(result).build();
+	@ApiOperation(value = "Create a Group")
+	@PostMapping
+	public VecRole add(VecRole vecRole) {
+		vecRoleRepository.save(vecRole);
+		return vecRole;
 
 	}
 }

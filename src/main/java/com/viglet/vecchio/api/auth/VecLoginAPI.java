@@ -2,26 +2,11 @@ package com.viglet.vecchio.api.auth;
 
 import java.net.URI;
 import java.util.Date;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 import org.apache.oltu.oauth2.as.issuer.MD5Generator;
-import org.apache.oltu.oauth2.as.issuer.OAuthIssuer;
 import org.apache.oltu.oauth2.as.issuer.OAuthIssuerImpl;
 import org.apache.oltu.oauth2.as.request.OAuthAuthzRequest;
 import org.apache.oltu.oauth2.as.response.OAuthASResponse;
@@ -30,29 +15,38 @@ import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
 import org.apache.oltu.oauth2.common.message.OAuthResponse;
 import org.apache.oltu.oauth2.common.message.types.ResponseType;
 import org.apache.oltu.oauth2.common.utils.OAuthUtils;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.ser.impl.SimpleFilterProvider;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.viglet.vecchio.persistence.model.VecApp;
-import com.viglet.vecchio.persistence.model.VecOAuthAccessToken;
-import com.viglet.vecchio.persistence.model.VecOAuthAccessTokenPK;
-import com.viglet.vecchio.persistence.model.VecOAuthAuthorizationCode;
-import com.viglet.vecchio.persistence.model.VecOAuthAuthorizationCodePK;
-import com.viglet.vecchio.persistence.model.VecUser;
+import com.viglet.vecchio.persistence.model.auth.VecUser;
+import com.viglet.vecchio.persistence.model.oauth.VecOAuthAccessToken;
+import com.viglet.vecchio.persistence.model.oauth.VecOAuthAccessTokenPK;
+import com.viglet.vecchio.persistence.model.oauth.VecOAuthAuthorizationCode;
+import com.viglet.vecchio.persistence.model.oauth.VecOAuthAuthorizationCodePK;
 import com.viglet.vecchio.persistence.service.VecAppService;
 import com.viglet.vecchio.persistence.service.VecOAuthAccessTokenService;
 import com.viglet.vecchio.persistence.service.VecOAuthAuthorizationCodeService;
 import com.viglet.vecchio.persistence.service.VecUserService;
 
-@Path("/login/")
+import io.swagger.annotations.Api;
+
+@RestController
+@RequestMapping("/login")
+@Api(value = "/login", tags = "Login", description = "Login")
 public class VecLoginAPI {
 	ObjectMapper mapper = new ObjectMapper();
 	VecAppService vecAppService = new VecAppService();
 	VecUserService vecUserService = new VecUserService();
 
-	@POST
-	public Response authentication(@Context HttpServletRequest request, @FormParam("j_username") String username,
-			@FormParam("j_password") String password) throws Exception {
+	@PostMapping
+	public ResponseEntity<String> authentication(HttpServletRequest request, @RequestParam("j_username") String username,
+			@RequestParam("j_password") String password) throws Exception {
 		VecOAuthAuthorizationCodeService vecOAuthAuthorizationCodeService = new VecOAuthAuthorizationCodeService();
 		VecOAuthAccessTokenService vecOAuthAccessTokenService = new VecOAuthAccessTokenService();
 		OAuthAuthzRequest oauthRequest = null;
@@ -75,26 +69,21 @@ public class VecLoginAPI {
 			
 			if (clientId == null) {
 
-				final Response.ResponseBuilder responseBuilder = Response.status(HttpServletResponse.SC_FOUND);
-				throw new WebApplicationException(responseBuilder.entity("OAuth callback url needs client_id").build());
+				return ResponseEntity.status(HttpStatus.FOUND).body("OAuth callback url needs client_id");
 			} else {
 				VecApp vecApp = vecAppService.getAppByClientId(clientId);
 				if (vecApp == null) {
-					final Response.ResponseBuilder responseBuilder = Response.status(HttpServletResponse.SC_FOUND);
-					throw new WebApplicationException(
-							responseBuilder.entity("OAuth callback url needs valid client_id").build());
+					return ResponseEntity.status(HttpStatus.FOUND).body("OAuth callback url needs valid client_id");
 				}
 				
 				
 				if (vecUser == null) {
 					String loginPage = request.getRequestURL().toString().replaceAll("/api/login", "/login");
 
-					final Response.ResponseBuilder responseBuilder = Response.status(HttpServletResponse.SC_FOUND);
-
 					URI loginURI = new URI(loginPage + "?response_type=" + responseType + "&client_id=" + clientId
 							+ "&redirect_uri=" + redirectURI + "&error=invalid_username_password&username=" + username);
 
-					return responseBuilder.location(loginURI).build();
+					return ResponseEntity.status(HttpStatus.FOUND).location(loginURI).build();
 
 				}
 			}
@@ -148,20 +137,17 @@ public class VecLoginAPI {
 
 			URI url = new URI(response.getLocationUri());
 
-			return Response.status(response.getResponseStatus()).location(url).build();
+			return ResponseEntity.status(response.getResponseStatus()).location(url).build();
 		} catch (OAuthProblemException e) {
-			final Response.ResponseBuilder responseBuilder = Response.status(HttpServletResponse.SC_FOUND);
-
 			String redirectUri = e.getRedirectUri();
 
 			if (OAuthUtils.isEmpty(redirectUri)) {
-				throw new WebApplicationException(
-						responseBuilder.entity("OAuth callback url needs to be provided by client!!!").build());
+				return ResponseEntity.status(HttpStatus.FOUND).body("OAuth callback url needs to be provided by client!!!");
 			}
 			final OAuthResponse response = OAuthASResponse.errorResponse(HttpServletResponse.SC_FOUND).error(e)
 					.location(redirectUri).buildQueryMessage();
 			final URI location = new URI(response.getLocationUri());
-			return responseBuilder.location(location).build();
+			return ResponseEntity.status(HttpStatus.FOUND).location(location).build();
 		}
 	}
 }

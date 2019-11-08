@@ -5,8 +5,8 @@ import java.util.List;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
-import com.viglet.vecchio.persistence.model.VecOAuthAuthorizationCode;
-import com.viglet.vecchio.persistence.model.VecOAuthAuthorizationCodePK;
+import com.viglet.vecchio.persistence.model.oauth.VecOAuthAuthorizationCode;
+import com.viglet.vecchio.persistence.model.oauth.VecOAuthAuthorizationCodePK;
 
 public class VecOAuthAuthorizationCodeService extends VecBaseService {
 

@@ -1,6 +1,5 @@
 package com.viglet.vecchio.persistence.service;
 
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
@@ -26,7 +25,6 @@ public class VecAccessService extends VecBaseService {
 	}
 
 	public JSONArray responseTime() {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
 		List<VecAccess> listAll = this.listAll();
 		JSONArray requests = new JSONArray();
 		int x = 0;
@@ -34,7 +32,6 @@ public class VecAccessService extends VecBaseService {
 		for (VecAccess vecAccess : listAll) {
 			x++;
 			JSONObject value = new JSONObject();
-			String date = sdf.format(vecAccess.getDateRequest());
 			value.put("x", x);
 			value.put("y", vecAccess.getResponseTime() / 1000);
 			if (hm.containsKey(vecAccess.getRequest())) {

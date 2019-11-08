@@ -2,66 +2,62 @@ package com.viglet.vecchio.api.context;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.TypedQuery;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.viglet.vecchio.persistence.model.VecMapping;
-import com.viglet.vecchio.persistence.service.VecMappingService;
+import com.viglet.vecchio.persistence.repository.VecMappingRepository;
 
-@Path("/mapping")
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
+@RestController
+@RequestMapping("/mapping")
+@Api(value = "/mapping", tags = "Mapping", description = "Mapping")
 public class VecMappingAPI {
-	VecMappingService vecMappingService = new VecMappingService();
+	@Autowired
+	private VecMappingRepository vecMappingRepository;
 
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<VecMapping> list() throws Exception {
-		return vecMappingService.listAll();
+	@ApiOperation(value = "Show Mapping List")
+	@GetMapping
+	public List<VecMapping> list() {
+		return vecMappingRepository.findAll();
 	}
 
-	@Path("/{mappingId}")
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public VecMapping edit(@PathParam("mappingId") int id) throws Exception {
-		return vecMappingService.getMapping(id);
+	@ApiOperation(value = "Show a Mapping")
+	@GetMapping("/{id}")
+	public VecMapping edit(@PathVariable String id) {
+		return vecMappingRepository.findById(id).get();
 	}
 
-	@Path("/{mappingId}")
-	@PUT
-	@Produces(MediaType.APPLICATION_JSON)
-	public VecMapping update(@PathParam("mappingId") int id, VecMapping vecMapping) throws Exception {
-		VecMapping vecMappingEdit = vecMappingService.getMapping(id);
+	@ApiOperation(value = "Update a Mapping")
+	@PutMapping("/{id}")
+	public VecMapping update(@PathVariable String id, VecMapping vecMapping) {
+		VecMapping vecMappingEdit = vecMappingRepository.findById(id).get();
 		vecMappingEdit.setPattern(vecMapping.getPattern());
 		vecMappingEdit.setUrl(vecMapping.getUrl());
-		vecMappingService.save(vecMappingEdit);
+		vecMappingRepository.save(vecMappingEdit);
 		return vecMappingEdit;
 	}
 
-	@Path("/{mappingId}")
-	@DELETE
-	@Produces(MediaType.APPLICATION_JSON)
-	public boolean delete(@PathParam("mappingId") int id) throws Exception {
-		return vecMappingService.deleteMapping(id);
+	@ApiOperation(value = "Delete a Mapping")
+	@DeleteMapping("/{id}")
+	public boolean delete(@PathVariable String id) {
+		vecMappingRepository.delete(id);
+		return true;
 	}
-	
-	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Response add(VecMapping vecMapping) throws Exception {
-		vecMappingService.save(vecMapping);
-		String result = "Mapping saved : " + vecMapping;
-		return Response.status(201).entity(result).build();
+
+	@ApiOperation(value = "Create a Mapping")
+	@PostMapping
+	public VecMapping add(VecMapping vecMapping) {
+		vecMappingRepository.save(vecMapping);
+		return vecMapping;
 
 	}
 }
