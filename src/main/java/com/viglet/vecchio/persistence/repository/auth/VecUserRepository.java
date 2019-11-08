@@ -20,6 +20,8 @@ package com.viglet.vecchio.persistence.repository.auth;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.TypedQuery;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -35,6 +37,7 @@ public interface VecUserRepository extends JpaRepository<VecUser, String> {
 	@SuppressWarnings("unchecked")
 	VecUser save(VecUser vecRole);
 	
+	VecUser findByUsernameAndPassword(String username, String password);
 	@Modifying
 	@Query("delete from VecUser u where u.id = ?1")
 	void delete(String id);

@@ -35,7 +35,7 @@ sourceSets {
 }
 jar {
     baseName = 'viglet-vecchio'
-    version =  '0.3.3'
+    version =  '0.3.2'
 }
 
 bootJar {
@@ -148,11 +148,8 @@ dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: "${springBootVersion}"
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version:"${springBootVersion}"
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-parent', version:"${springBootVersion}"
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-activemq', version:"${springBootVersion}"   
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version:"${springBootVersion}"
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version:"${springBootVersion}"
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-cache', version:"${springBootVersion}"
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-solr', version:"${springBootVersion}"
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version:"${springBootVersion}"
 //	compile group: 'org.springframework.security.oauth.boot', name: 'spring-security-oauth2-autoconfigure', version:"${springBootVersion}"
 
@@ -188,9 +185,6 @@ dependencies {
     // Apache Commons
     compile group: 'commons-io', name: 'commons-io', version:'2.5'
     compile group: 'commons-lang', name: 'commons-lang', version:'2.6'
-  
-    // EhCache
-    compile group: 'net.sf.ehcache', name: 'ehcache', version:'2.10.3'
     	
 	// Swagger 2
 	compile group: 'io.springfox', name: 'springfox-swagger2', version: "${swaggerVersion}"

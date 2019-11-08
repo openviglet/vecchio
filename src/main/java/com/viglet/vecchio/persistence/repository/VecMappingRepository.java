@@ -35,6 +35,8 @@ public interface VecMappingRepository extends JpaRepository<VecMapping, String> 
 	@SuppressWarnings("unchecked")
 	VecMapping save(VecMapping vecMapping);
 	
+	boolean existsByPattern(String pattern);
+	
 	@Modifying
 	@Query("delete from VecMapping m where m.id = ?1")
 	void delete(String id);
