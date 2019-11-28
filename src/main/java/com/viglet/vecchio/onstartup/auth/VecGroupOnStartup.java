@@ -15,25 +15,29 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.viglet.vecchio.persistence.repository.auth;
+package com.viglet.vecchio.onstartup.auth;
 
-import java.util.Collection;
-import java.util.Set;
-
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.viglet.vecchio.persistence.model.auth.VecGroup;
-import com.viglet.vecchio.persistence.model.auth.VecRole;
+import com.viglet.vecchio.persistence.repository.auth.VecGroupRepository;
 
-@Repository
-public interface VecRoleRepository extends JpaRepository<VecRole, String> {
+@Component
+public class VecGroupOnStartup {
+	@Autowired
+	private VecGroupRepository vecGroupRepository;
 
-	Set<VecRole> findByVecGroupsIn(Collection<VecGroup> vecGroup);
+	public void createDefaultRows() {
 
-	@Modifying
-	@Query("delete from VecGroup g where g.id = ?1")
-	void delete(String id);
+		if (vecGroupRepository.findAll().isEmpty()) {
+
+			VecGroup vecGroup = new VecGroup();
+
+			vecGroup.setName("Administrator");
+			vecGroup.setDescription("Administrator Group");
+			vecGroupRepository.save(vecGroup);
+		}
+
+	}
 }

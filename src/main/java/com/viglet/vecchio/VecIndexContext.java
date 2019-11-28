@@ -43,18 +43,16 @@ public class VecIndexContext {
 
 	}
 
-	@RequestMapping("/**")
-	private void indexAnyRequest(HttpServletRequest request, HttpServletResponse response, final Principal principal)
-			throws IOException {
-		try {
-			vigRestRequest.run(request.getPathInfo(), response.getOutputStream(),
-					request);
-		} catch (ServletException | OAuthSystemException e) {
-			response.setStatus(400);
-			response.resetBuffer();
-			e.printStackTrace();
-
-		}
-
-	}
+	/*
+	 * @RequestMapping("/**") private void indexAnyRequest(HttpServletRequest
+	 * request, HttpServletResponse response, final Principal principal) throws
+	 * IOException { try { vigRestRequest.run(request.getPathInfo(),
+	 * response.getOutputStream(), request); } catch (ServletException |
+	 * OAuthSystemException e) { response.setStatus(400); response.resetBuffer();
+	 * e.printStackTrace();
+	 * 
+	 * }
+	 * 
+	 * }
+	 */
 }

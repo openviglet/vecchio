@@ -15,25 +15,29 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.viglet.vecchio.persistence.repository.auth;
+package com.viglet.vecchio.persistence.repository.system;
 
-import java.util.Collection;
-import java.util.Set;
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
 
-import com.viglet.vecchio.persistence.model.auth.VecGroup;
-import com.viglet.vecchio.persistence.model.auth.VecRole;
+import com.viglet.vecchio.persistence.model.system.VecConfigVar;
 
-@Repository
-public interface VecRoleRepository extends JpaRepository<VecRole, String> {
+public interface VecConfigVarRepository extends JpaRepository<VecConfigVar, String> {
 
-	Set<VecRole> findByVecGroupsIn(Collection<VecGroup> vecGroup);
+	List<VecConfigVar> findAll();
+	
+	boolean existsByPathAndName(String path, String name);
+	
+	boolean existsByPath(String path);
 
-	@Modifying
-	@Query("delete from VecGroup g where g.id = ?1")
-	void delete(String id);
+	List<VecConfigVar> findByPath(String path);
+	
+	Optional<VecConfigVar> findById(String id);
+
+	@SuppressWarnings("unchecked")
+	VecConfigVar save(VecConfigVar vecConfigVar);
+
+	void delete(VecConfigVar vecConfigVar);
 }

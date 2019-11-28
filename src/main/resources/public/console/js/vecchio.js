@@ -51,108 +51,108 @@ vecchioApp.config(function ($stateProvider, $urlRouterProvider,$locationProvider
 	$stateProvider
 		.state('dashboard', {
 			url: '/dashboard',
-			templateUrl: 'dashboard.html',
+			templateUrl: '/console/dashboard.html',
 			controller: 'VecDashboardCtrl',
 			data : { pageTitle: 'Dashboard | Viglet Vecchio' }
 		})
 		.state('organization', {
 			url: '/org',
-			templateUrl: 'organization.html',
+			templateUrl: '/console/organization.html',
 			data : { pageTitle: 'Organization | Viglet Vecchio' }
 		})
 		.state('mapping', {
 			url: '/mapping',
-			templateUrl: 'mapping.html',
+			templateUrl: '/console/mapping.html',
 			controller: 'VecMappingCtrl',
 			data : { pageTitle: 'Mapping | Viglet Vecchio' }
 		})
 		.state('mapping-new', {
 			url: '/mapping/new',
-			templateUrl: 'mapping-item.html',
+			templateUrl: '/console/mapping-item.html',
 			controller: 'VecMappingNewCtrl',
 			data : { pageTitle: 'New Mapping | Viglet Vecchio' }
 		})
 		.state('mapping-edit', {
 			url: '/mapping/:mappingId',
-			templateUrl: 'mapping-item.html',
+			templateUrl: '/console/mapping-item.html',
 			controller: 'VecMappingEditCtrl',
 			data : { pageTitle: 'Edit Mapping | Viglet Vecchio' }
 		})
 		.state('organization.user', {
 			url: '/user',
-			templateUrl: 'user.html',
+			templateUrl: '/console/user.html',
 			controller: 'VecUserCtrl',
 			data : { pageTitle: 'Users | Viglet Vecchio' }
 		})
 		.state('organization.user-new', {
 			url: '/user/new',
-			templateUrl: 'user-item.html',
+			templateUrl: '/console/user-item.html',
 			controller: 'VecUserNewCtrl',
 			data : { pageTitle: 'New User | Viglet Vecchio' }
 		})
 		.state('organization.user-edit', {
 			url: '/user/:userId',
-			templateUrl: 'user-item.html',
+			templateUrl: '/console/user-item.html',
 			controller: 'VecUserEditCtrl',
 			data : { pageTitle: 'Edit User | Viglet Vecchio' }
 		})
 		.state('organization.role', {
 			url: '/role',
-			templateUrl: 'role.html',
+			templateUrl: '/console/role.html',
 			controller: 'VecRoleCtrl',
 			data : { pageTitle: 'Roles | Viglet Vecchio' }
 		})
 		.state('organization.role-new', {
 			url: '/role/new',
-			templateUrl: 'role-item.html',
+			templateUrl: '/console/role-item.html',
 			controller: 'VecRoleNewCtrl',
 			data : { pageTitle: 'New Role | Viglet Vecchio' }
 		})
 		.state('organization.role-edit', {
 			url: '/role/:roleId',
-			templateUrl: 'role-item.html',
+			templateUrl: '/console/role-item.html',
 			controller: 'VecRoleEditCtrl',
 			data : { pageTitle: 'Edit Role | Viglet Vecchio' }
 		})
 		.state('organization.group', {
 			url: '/group',
-			templateUrl: 'group.html',
+			templateUrl: '/console/group.html',
 			controller: 'VecGroupCtrl',
 			data : { pageTitle: 'Groups | Viglet Vecchio' }
 		})
 		.state('organization.group-new', {
 			url: '/group/new',
-			templateUrl: 'group-item.html',
+			templateUrl: '/console/group-item.html',
 			controller: 'VecGroupNewCtrl',
 			data : { pageTitle: 'New Group | Viglet Vecchio' }
 		})
 		.state('organization.group-edit', {
 			url: '/group/:groupId',
-			templateUrl: 'group-item.html',
+			templateUrl: '/console/group-item.html',
 			controller: 'VecGroupEditCtrl',
 			data : { pageTitle: 'Edit Group | Viglet Vecchio' }
 		})
 		.state('app', {
 			url: '/app',
-			templateUrl: 'app.html',
+			templateUrl: '/console/app.html',
 			controller: 'VecAppCtrl',
 			data : { pageTitle: 'Apps | Viglet Vecchio'}
 		})
 		.state('app-new', {
 			url: '/app/new',
-			templateUrl: 'app-item.html',
+			templateUrl: '/console/app-item.html',
 			controller: 'VecAppNewCtrl',
 			data : { pageTitle: 'New App | Viglet Vecchio', saveButton: 'Save'}
 		})
 		.state('app-edit', {
 			url: '/app/:appId',
-			templateUrl: 'app-item.html',
+			templateUrl: '/console/app-item.html',
 			controller: 'VecAppEditCtrl',
 			data : { pageTitle: 'Edit App | Viglet Vecchio', saveButton: 'Update Settings' }
 		})	
 		.state('app-edit.keys', {
 			url: '/keys',
-			templateUrl: 'app-item-keys.html',
+			templateUrl: '/console/app-item-keys.html',
 			controller: 'VecAppEditCtrl',
 			data : { pageTitle: 'Edit App Keys | Viglet Vecchio' }
 		});

@@ -18,7 +18,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@RequestMapping("/group")
+@RequestMapping("/api/group")
 @Api(value = "/group", tags = "Group", description = "Group")
 public class VecGroupAPI {
 

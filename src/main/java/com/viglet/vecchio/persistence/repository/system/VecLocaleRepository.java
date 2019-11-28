@@ -15,25 +15,26 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.viglet.vecchio.persistence.repository.auth;
+package com.viglet.vecchio.persistence.repository.system;
 
-import java.util.Collection;
-import java.util.Set;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
 
-import com.viglet.vecchio.persistence.model.auth.VecGroup;
-import com.viglet.vecchio.persistence.model.auth.VecRole;
+import com.viglet.vecchio.persistence.model.system.VecLocale;
 
-@Repository
-public interface VecRoleRepository extends JpaRepository<VecRole, String> {
+public interface VecLocaleRepository extends JpaRepository<VecLocale, String> {
 
-	Set<VecRole> findByVecGroupsIn(Collection<VecGroup> vecGroup);
+	static final String EN_US = "en_US";
+	static final String EN_GB = "en_GB";
+	static final String PT_BR = "pt_BR";
 
-	@Modifying
-	@Query("delete from VecGroup g where g.id = ?1")
-	void delete(String id);
+	List<VecLocale> findAll();
+
+	VecLocale findByInitials(String initials);
+
+	@SuppressWarnings("unchecked")
+	VecLocale save(VecLocale vecLocale);
+
+	void delete(VecLocale vecLocale);
 }

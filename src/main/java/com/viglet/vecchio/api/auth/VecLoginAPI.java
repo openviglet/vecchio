@@ -38,7 +38,7 @@ import com.viglet.vecchio.persistence.service.VecAppService;
 import io.swagger.annotations.Api;
 
 @RestController
-@RequestMapping("/login")
+@RequestMapping("/api/login")
 @Api(value = "/login", tags = "Login", description = "Login")
 public class VecLoginAPI {
 	@Autowired

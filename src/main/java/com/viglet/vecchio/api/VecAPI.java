@@ -15,25 +15,29 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.viglet.vecchio.persistence.repository.auth;
+package com.viglet.vecchio.api;
 
-import java.util.Collection;
-import java.util.Set;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
+import io.swagger.annotations.Api;
 
-import com.viglet.vecchio.persistence.model.auth.VecGroup;
-import com.viglet.vecchio.persistence.model.auth.VecRole;
+@RestController
+@RequestMapping("/api/v2")
+@Api(value="/", tags="Heartbeat", description="Heartbeat")
+public class VecAPI {
 
-@Repository
-public interface VecRoleRepository extends JpaRepository<VecRole, String> {
+	@Autowired
+	private VecAPIBean vecAPIBean;
+	
+	@GetMapping
+	public VecAPIBean vecApiInfo() {
 
-	Set<VecRole> findByVecGroupsIn(Collection<VecGroup> vecGroup);
+		vecAPIBean.setProduct("Viglet Vecchio");
 
-	@Modifying
-	@Query("delete from VecGroup g where g.id = ?1")
-	void delete(String id);
+		return vecAPIBean;
+	}
+	
 }

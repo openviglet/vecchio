@@ -1,6 +1,9 @@
 package com.viglet.vecchio.persistence.model.auth;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.*;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -17,6 +20,7 @@ public class VecGroup implements Serializable {
 	@Id
 	@GenericGenerator(name = "UUID", strategy = "com.viglet.vecchio.jpa.VecUUIDGenerator")
 	@GeneratedValue(generator = "UUID")
+
 	@Column(name = "id", updatable = false, nullable = false)
 	private String id;
 
@@ -24,10 +28,11 @@ public class VecGroup implements Serializable {
 
 	private String description;
 
-	// bi-directional many-to-one association to VigEntity
-	@ManyToOne
-	@JoinColumn(name = "role_id")
-	private VecRole vecRole;
+	@ManyToMany(mappedBy = "vecGroups")
+	private Set<VecRole> vecRoles = new HashSet<>();
+
+	@ManyToMany(mappedBy = "vecGroups")
+	private Set<VecUser> vecUsers = new HashSet<>();
 
 	public VecGroup() {
 	}
@@ -56,11 +61,14 @@ public class VecGroup implements Serializable {
 		this.description = description;
 	}
 
-	public VecRole getVecRole() {
-		return vecRole;
+	public Set<VecUser> getShUsers() {
+		return this.vecUsers;
 	}
 
-	public void setVecRole(VecRole vecRole) {
-		this.vecRole = vecRole;
+	public void setShUsers(Set<VecUser> shUsers) {
+		this.vecUsers.clear();
+		if (shUsers != null) {
+			this.vecUsers.addAll(shUsers);
+		}
 	}
 }
