@@ -1,12 +1,10 @@
 vecchioApp.controller('VecMappingEditCtrl', [
 	"$scope",
 	"$http",
-	"$window",
 	"$stateParams",
 	"$state",
 	"$rootScope",
-	"$translate",
-	function ($scope, $http, $window, $stateParams, $state, $rootScope, $translate) {
+	function ($scope, $http, $stateParams, $state, $rootScope) {
 		$rootScope.$state = $state;
 		$scope.mappingId = $stateParams.mappingId;
 		$scope.$evalAsync($http.get(

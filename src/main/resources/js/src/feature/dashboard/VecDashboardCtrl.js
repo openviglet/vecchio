@@ -1,11 +1,9 @@
 vecchioApp.controller('VecDashboardCtrl', [
 	"$scope",
 	"$http",
-	"$window",
 	"$state",
 	"$rootScope",
-	"$translate",
-	function ($scope, $http, $window, $state, $rootScope, $translate) {
+	function ($scope, $http, $state, $rootScope) {
 		$scope.accesses = null;
 		$rootScope.$state = $state;
 		$scope.$evalAsync($http.get(

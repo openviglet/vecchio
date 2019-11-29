@@ -1,11 +1,9 @@
 vecchioApp.controller('VecRoleNewCtrl', [
 	"$scope",
 	"$http",
-	"$window",
 	"$state",
 	"$rootScope",
-	"$translate",
-	function ($scope, $http, $window, $state, $rootScope, $translate) {
+	function ($scope, $http, $state, $rootScope) {
 		$rootScope.$state = $state;
 		$scope.role = {};
 		$scope.roleSave = function () {

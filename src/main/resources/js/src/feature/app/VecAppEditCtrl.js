@@ -1,12 +1,10 @@
 vecchioApp.controller('VecAppEditCtrl', [
 	"$scope",
 	"$http",
-	"$window",
 	"$stateParams",
 	"$state",
 	"$rootScope",
-	"$translate",
-	function ($scope, $http, $window, $stateParams, $state, $rootScope, $translate) {
+	function ($scope, $http, $stateParams, $state, $rootScope) {
 		$rootScope.$state = $state;
 		$scope.appId = $stateParams.appId;
 		$scope.$evalAsync($http.get(

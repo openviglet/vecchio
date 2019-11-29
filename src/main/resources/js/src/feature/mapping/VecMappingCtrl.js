@@ -1,11 +1,9 @@
 vecchioApp.controller('VecMappingCtrl', [
 	"$scope",
 	"$http",
-	"$window",
 	"$state",
 	"$rootScope",
-	"$translate",
-	function ($scope, $http, $window, $state, $rootScope, $translate) {
+	function ($scope, $http, $state, $rootScope) {
 		$scope.mappings = null;
 		$rootScope.$state = $state;
 		$scope.$evalAsync($http.get(

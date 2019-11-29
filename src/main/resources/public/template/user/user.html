@@ -31,12 +31,12 @@
 			</thead>
 			<tbody>
 				<tr ng-repeat="user in users">
-					<td><a ui-sref="organization.user-edit({userId: user.id})" >{{user.username}}</a></td>
-					<td><a ui-sref="organization.user-edit({userId: user.id})" >{{user.firstName}}</a></td>
-					<td><a ui-sref="organization.user-edit({userId: user.id})" >{{user.lastName}}</a></td>
+					<td><a ui-sref="organization.user-edit({userId: user.username})" >{{user.username}}</a></td>
+					<td><a ui-sref="organization.user-edit({userId: user.username})" >{{user.firstName}}</a></td>
+					<td><a ui-sref="organization.user-edit({userId: user.username})" >{{user.lastName}}</a></td>
 					<td style="text-align: right">
 						<div class="btn-group">
-							<button type="button" ui-sref="organization.user-edit({userId: user.id})"
+							<button type="button" ui-sref="organization.user-edit({userId: user.username})"
 								class="btn btn-warning">Edit</button>
 							<button type="button" class="btn btn-warning dropdown-toggle"
 								data-toggle="dropdown" aria-haspopup="true"
@@ -45,7 +45,7 @@
 									Dropdown</span>
 							</button>
 							<ul class="dropdown-menu">
-								<li><a href ng-click="userDelete(user.id)" >Delete</a></li>
+								<li><a href ng-click="userDelete(user.username)" >Delete</a></li>
 							</ul>
 						</div>
 					</td>

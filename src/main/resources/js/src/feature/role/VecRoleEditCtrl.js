@@ -1,12 +1,10 @@
 vecchioApp.controller('VecRoleEditCtrl', [
 	"$scope",
 	"$http",
-	"$window",
 	"$stateParams",
 	"$state",
 	"$rootScope",
-	"$translate",
-	function ($scope, $http, $window, $stateParams, $state, $rootScope, $translate) {
+	function ($scope, $http, $stateParams, $state, $rootScope) {
 		$rootScope.$state = $state;
 		$scope.roleId = $stateParams.roleId;
 		$scope.$evalAsync($http.get(

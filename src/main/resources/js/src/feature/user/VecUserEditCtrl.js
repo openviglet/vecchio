@@ -1,13 +1,12 @@
 vecchioApp.controller('VecUserEditCtrl', [
 	"$scope",
 	"$http",
-	"$window",
 	"$stateParams",
 	"$state",
 	"$rootScope",
 	"$translate",
 	"vigLocale",
-	function ($scope, $http, $window, $stateParams, $state, $rootScope, $translate, vigLocale) {
+	function ($scope, $http, $stateParams, $state, $rootScope, $translate, vigLocale) {
 		$scope.vigLanguage = vigLocale.getLocale().substring(0, 2);
 		$translate.use($scope.vigLanguage);
 		$rootScope.$state = $state;

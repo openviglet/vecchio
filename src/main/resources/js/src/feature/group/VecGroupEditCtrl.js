@@ -1,12 +1,10 @@
 vecchioApp.controller('VecGroupEditCtrl', [
 	"$scope",
 	"$http",
-	"$window",
 	"$stateParams",
 	"$state",
 	"$rootScope",
-	"$translate",
-	function ($scope, $http, $window, $stateParams, $state, $rootScope, $translate) {
+	function ($scope, $http, $stateParams, $state, $rootScope) {
 		$rootScope.$state = $state;
 		$scope.groupId = $stateParams.groupId;
 		$scope.$evalAsync($http.get(
