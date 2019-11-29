@@ -22,7 +22,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@RequestMapping("/api/app")
+@RequestMapping("/api/v2/app")
 @Api(value = "/app", tags = "App", description = "App")
 public class VecAppAPI {
 

@@ -3,16 +3,11 @@ vecchioApp.controller('VecUserCtrl', [
 	"$http",
 	"$state",
 	"$rootScope",
-	function ($scope, $http, $state, $rootScope) {
+	"vecUserResource",
+	function ($scope, $http, $state, $rootScope, vecUserResource) {
 		$rootScope.$state = $state;
-		$scope.users = null;
-
-		$scope.$evalAsync($http.get(
-			"../api/user/").then(
-			function (response) {
-				$scope.users = response.data;
-			}));
-
+		$scope.users = vecUserResource.query();
+		
 		$scope.userDelete = function (userId) {
 			$http.delete("../api/user/" + userId).then(
 				function (data, status, headers, config) {

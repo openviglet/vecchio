@@ -18,7 +18,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@RequestMapping("/api/access")
+@RequestMapping("/api/v2/access")
 @Api(value = "/access", tags = "Access", description = "Access")
 public class VecAccessAPI {
 	@Autowired

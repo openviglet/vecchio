@@ -4,14 +4,11 @@ vecchioApp.controller('VecAppEditCtrl', [
 	"$stateParams",
 	"$state",
 	"$rootScope",
-	function ($scope, $http, $stateParams, $state, $rootScope) {
+	"vecAppResource",
+	function ($scope, $http, $stateParams, $state, $rootScope, vecAppResource) {
 		$rootScope.$state = $state;
 		$scope.appId = $stateParams.appId;
-		$scope.$evalAsync($http.get(
-			"../api/app/" + $scope.appId).then(
-			function (response) {
-				$scope.app = response.data;
-			}));
+		$scope.app = vecAppResource.get({ id: $stateParams.appId });
 		$scope.appSave = function () {
 			$scope.apps = null;
 			var parameter = JSON.stringify($scope.app);

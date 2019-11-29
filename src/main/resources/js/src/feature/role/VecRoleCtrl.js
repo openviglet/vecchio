@@ -3,16 +3,10 @@ vecchioApp.controller('VecRoleCtrl', [
 	"$http",
 	"$state",
 	"$rootScope",
-	function ($scope, $http, $state, $rootScope) {
+	"vecRoleResource",
+	function ($scope, $http, $state, $rootScope, vecRoleResource) {
 		$rootScope.$state = $state;
-		$scope.roles = null;
-
-		$scope.$evalAsync($http.get(
-			"../api/role/").then(
-			function (response) {
-				$scope.roles = response.data;
-			}));
-
+		$scope.roles = vecRoleResource.query();
 		$scope.roleDelete = function (roleId) {
 			$http.delete("../api/role/" + roleId).then(
 				function (data, status, headers, config) {

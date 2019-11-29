@@ -4,14 +4,12 @@ vecchioApp.controller('VecGroupEditCtrl', [
 	"$stateParams",
 	"$state",
 	"$rootScope",
-	function ($scope, $http, $stateParams, $state, $rootScope) {
+	"vecGroupResource",
+	function ($scope, $http, $stateParams, $state, $rootScope, vecGroupResource) {
 		$rootScope.$state = $state;
 		$scope.groupId = $stateParams.groupId;
-		$scope.$evalAsync($http.get(
-			"../api/group/" + $scope.groupId).then(
-			function (response) {
-				$scope.group = response.data;
-			}));
+		$scope.group = vecGroupResource.get({ id: $stateParams.groupId });
+
 		$scope.groupSave = function () {
 			$scope.groups = null;
 			var parameter = JSON.stringify($scope.group);

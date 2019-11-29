@@ -4,14 +4,12 @@ vecchioApp.controller('VecRoleEditCtrl', [
 	"$stateParams",
 	"$state",
 	"$rootScope",
-	function ($scope, $http, $stateParams, $state, $rootScope) {
+	"vecRoleResource",
+	function ($scope, $http, $stateParams, $state, $rootScope, vecRoleResource) {
 		$rootScope.$state = $state;
 		$scope.roleId = $stateParams.roleId;
-		$scope.$evalAsync($http.get(
-			"../api/role/" + $scope.roleId).then(
-			function (response) {
-				$scope.role = response.data;
-			}));
+		$scope.role = vecRoleResource.get({ id: $stateParams.roleId });
+
 		$scope.roleSave = function () {
 			$scope.roles = null;
 			var parameter = JSON.stringify($scope.role);

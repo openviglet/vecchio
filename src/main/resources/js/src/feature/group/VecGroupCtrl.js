@@ -3,15 +3,10 @@ vecchioApp.controller('VecGroupCtrl', [
 	"$http",
 	"$state",
 	"$rootScope",
-	function ($scope, $http, $state, $rootScope) {
+	"vecGroupResource",
+	function ($scope, $http, $state, $rootScope, vecGroupResource) {
 		$rootScope.$state = $state;
-		$scope.groups = null;
-
-		$scope.$evalAsync($http.get(
-			"../api/group/").then(
-			function (response) {
-				$scope.groups = response.data;
-			}));
+		$scope.groups = vecGroupResource.query();
 
 		$scope.groupDelete = function (groupId) {
 			$http.delete("../api/group/" + groupId).then(

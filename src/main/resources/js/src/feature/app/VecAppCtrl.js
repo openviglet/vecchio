@@ -3,16 +3,10 @@ vecchioApp.controller('VecAppCtrl', [
 	"$http",
 	"$state",
 	"$rootScope",
-	function ($scope, $http, $state, $rootScope) {
+	"vecAppResource",
+	function ($scope, $http, $state, $rootScope, vecAppResource) {
 		$rootScope.$state = $state;
-		$scope.apps = null;
-
-		$scope.$evalAsync($http.get(
-			"../api/app/").then(
-			function (response) {
-				$scope.apps = response.data;
-			}));
-
+		$scope.apps = vecAppResource.query();
 		$scope.appDelete = function (appId) {
 			$http.delete("../api/app/" + appId).then(
 				function (data, status, headers, config) {

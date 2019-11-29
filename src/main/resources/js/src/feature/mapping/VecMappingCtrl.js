@@ -3,14 +3,10 @@ vecchioApp.controller('VecMappingCtrl', [
 	"$http",
 	"$state",
 	"$rootScope",
-	function ($scope, $http, $state, $rootScope) {
-		$scope.mappings = null;
+	"vecMappingResource",
+	function ($scope, $http, $state, $rootScope, vecMappingResource) {
 		$rootScope.$state = $state;
-		$scope.$evalAsync($http.get(
-			"../api/mapping/").then(
-			function (response) {
-				$scope.mappings = response.data;
-			}));
+		$scope.mappings = vecMappingResource.query();
 
 		$scope.mappingDelete = function (mappingId) {
 			$http.delete("../api/mapping/" + mappingId).then(

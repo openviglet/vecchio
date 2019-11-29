@@ -6,16 +6,13 @@ vecchioApp.controller('VecUserEditCtrl', [
 	"$rootScope",
 	"$translate",
 	"vigLocale",
-	function ($scope, $http, $stateParams, $state, $rootScope, $translate, vigLocale) {
+	"vecUserResource",
+	function ($scope, $http, $stateParams, $state, $rootScope, $translate, vigLocale, vecUserResource) {
 		$scope.vigLanguage = vigLocale.getLocale().substring(0, 2);
 		$translate.use($scope.vigLanguage);
 		$rootScope.$state = $state;
 		$scope.userId = $stateParams.userId;
-		$scope.$evalAsync($http.get(
-			"../api/user/" + $scope.userId).then(
-			function (response) {
-				$scope.user = response.data;
-			}));
+		$scope.user = vecUserResource.get({ id: $stateParams.userId });
 		$scope.userSave = function () {
 			$scope.users = null;
 			var parameter = JSON.stringify($scope.user);
