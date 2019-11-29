@@ -5,7 +5,8 @@ import javax.persistence.*;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * The persistent class for the VecRole database table.
@@ -20,8 +21,10 @@ public class VecRole implements Serializable {
 	@Id
 	@GenericGenerator(name = "UUID", strategy = "com.viglet.vecchio.jpa.VecUUIDGenerator")
 	@GeneratedValue(generator = "UUID")
+
 	@Column(name = "id", updatable = false, nullable = false)
 	private String id;
+
 
 	@Column(name = "name", nullable = false, length = 50)
 	private String name;
@@ -29,13 +32,8 @@ public class VecRole implements Serializable {
 	@Column(nullable = true, length = 255)
 	private String description;
 
-	// bi-directional many-to-one association to VecAccess
-	@OneToMany(mappedBy = "vecRole")
-	private List<VecUser> vecUsers;
-
-	// bi-directional many-to-one association to VecAccess
-	@OneToMany(mappedBy = "vecRole")
-	private List<VecGroup> vecGroups;
+	@ManyToMany
+	private Set<VecGroup> vecGroups = new HashSet<>();
 
 	public VecRole() {
 	}
@@ -63,51 +61,16 @@ public class VecRole implements Serializable {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
-	public List<VecUser> getVecUsers() {
-		return vecUsers;
+	
+	public Set<VecGroup> getVecGroups() {
+		return this.vecGroups;
 	}
 
-	public void setVecUsers(List<VecUser> vecUsers) {
-		this.vecUsers = vecUsers;
-	}
-
-	public VecUser addVecUser(VecUser vecUser) {
-		getVecUsers().add(vecUser);
-		vecUser.setVecRole(this);
-		;
-
-		return vecUser;
-	}
-
-	public VecUser removeVecUser(VecUser vecUser) {
-		getVecUsers().remove(vecUser);
-		vecUser.setVecRole(null);
-
-		return vecUser;
-	}
-
-	public List<VecGroup> getVecGroups() {
-		return vecGroups;
-	}
-
-	public void setVecGroups(List<VecGroup> vecGroups) {
-		this.vecGroups = vecGroups;
-	}
-
-	public VecGroup addVecGroup(VecGroup vecGroup) {
-		getVecGroups().add(vecGroup);
-		vecGroup.setVecRole(this);
-		;
-
-		return vecGroup;
-	}
-
-	public VecGroup removeVecGroup(VecGroup vecGroup) {
-		getVecGroups().remove(vecGroup);
-		vecGroup.setVecRole(null);
-
-		return vecGroup;
+	public void setVecGroups(Set<VecGroup> vecGroups) {
+		this.vecGroups.clear();
+		if (vecGroups != null) {
+			this.vecGroups.addAll(vecGroups);
+		}
 	}
 
 }

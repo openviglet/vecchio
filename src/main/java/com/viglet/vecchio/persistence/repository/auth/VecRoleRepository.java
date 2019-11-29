@@ -17,25 +17,23 @@
 
 package com.viglet.vecchio.persistence.repository.auth;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.Collection;
+import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
+import com.viglet.vecchio.persistence.model.auth.VecGroup;
 import com.viglet.vecchio.persistence.model.auth.VecRole;
 
+@Repository
 public interface VecRoleRepository extends JpaRepository<VecRole, String> {
 
-	List<VecRole> findAll();
+	Set<VecRole> findByVecGroupsIn(Collection<VecGroup> vecGroup);
 
-	Optional<VecRole> findById(String id);
-
-	@SuppressWarnings("unchecked")
-	VecRole save(VecRole vecRole);
-	
 	@Modifying
-	@Query("delete from VecRole r where r.id = ?1")
+	@Query("delete from VecGroup g where g.id = ?1")
 	void delete(String id);
 }

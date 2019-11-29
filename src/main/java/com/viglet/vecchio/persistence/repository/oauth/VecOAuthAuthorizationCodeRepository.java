@@ -36,6 +36,10 @@ public interface VecOAuthAuthorizationCodeRepository extends JpaRepository<VecOA
 	VecOAuthAuthorizationCode save(VecOAuthAuthorizationCode vecOAuthAuthorizationCode);
 
 	@Modifying
+	@Query("SELECT a FROM VecOAuthAuthorizationCode a where a.id.clientId = ?1")	
+	VecOAuthAuthorizationCode findByClientId(String clientId);
+	
+	@Modifying
 	@Query("delete from VecOAuthAuthorizationCode oac where oac.id = ?1")
 	void delete(String id);
 }

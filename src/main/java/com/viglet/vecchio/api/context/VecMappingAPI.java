@@ -18,7 +18,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@RequestMapping("/mapping")
+@RequestMapping("/api/v2/mapping")
 @Api(value = "/mapping", tags = "Mapping", description = "Mapping")
 public class VecMappingAPI {
 	@Autowired

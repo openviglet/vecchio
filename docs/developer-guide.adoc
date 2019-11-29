@@ -1,0 +1,37 @@
+= Viglet Vecchio: Guia do Desenvolvedor
+Viglet Team <opensource@viglet.com>
+:toc: left
+:toc-title: Tabela de Conteúdo
+:doctype: book
+:revnumber: 0.3.2 
+:revdate: 29-11-2019
+
+[preface]
+= Prefácio
+
+The basis for this documentation germinated when I awoke one morning and was confronted by the dark and stormy eyes of the chinchilla.
+She had conquered the mountain of government reports that, over the course of six months, had eroded into several minor foothills and a creeping alluvial plain of loose papers.
+
+== Sobre o Autor
+
+Você pode contactar Alexandre Oliveira em alexandre.oliveira@viglet.com.
+
+Alexandre Oliveira adora desenvolvimento de aplicações corporativas.
+
+:numbered:
+== Introdução
+Neste capítulo provém conceitos e outras informações requeridas para realizar tarefas de desenvolvimento no Vecchio API
+
+Incluem os seguintes tópicos:
+
+* <<Sobre o Vecchio API>>
+
+=== Sobre o Vecchio API
+
+O Viglet Vecchio API criar mapeamentos de serviços com autenticação e autorização, utilizando OAuth2.
+
+[glossary]
+== Glossário
+
+[glossary]
+book:: livro, documento

@@ -1,34 +1,49 @@
+/*
+ * Copyright (C) 2016-2019 Alexandre Oliveira <alexandre.oliveira@viglet.com> 
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package com.viglet.vecchio.persistence.model.auth;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
 
-import org.hibernate.annotations.GenericGenerator;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.viglet.vecchio.persistence.model.oauth.VecOAuthAccessToken;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.viglet.vecchio.utils.MD5Util;
 
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * The persistent class for the VecUser database table.
  * 
  */
 @Entity
-@NamedQuery(name = "VecUser.findAll", query = "SELECT u FROM VecUser u")
-@JsonIgnoreProperties({  "vecOAuthAccessTokens" })
+@NamedQuery(name = "VecUser.findAll", query = "SELECT s FROM VecUser s")
 public class VecUser implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GenericGenerator(name = "UUID", strategy = "com.viglet.vecchio.jpa.VecUUIDGenerator")
-	@GeneratedValue(generator = "UUID")
-	@Column(name = "id", updatable = false, nullable = false)
-	private String id;
+	@Column(name = "username")
+	private String username;
 
 	private String confirmEmail;
 
+	@Column(name = "email")
 	private String email;
 
 	private String firstName;
@@ -38,32 +53,32 @@ public class VecUser implements Serializable {
 
 	private String lastName;
 
+	private String lastPostType;
+
 	private int loginTimes;
 
+	@Column(name = "password")
 	private String password;
 
 	private String realm;
 
 	private String recoverPassword;
 
-	private String username;
+	@Column(name = "enabled")
+	private int enabled;
 
-	@ManyToOne
-	@JoinColumn(name = "role_id")
-	private VecRole vecRole;
-
-	@OneToMany(mappedBy = "vecUser")
-	private List<VecOAuthAccessToken> vecOAuthAccessTokens;
+	@ManyToMany
+	private Set<VecGroup> vecGroups = new HashSet<>();
 
 	public VecUser() {
+
 	}
 
-	public String getId() {
-		return this.id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
+	public VecUser(VecUser vecUser) {
+		this.username = vecUser.username;
+		this.email = vecUser.email;
+		this.password = vecUser.password;
+		this.enabled = vecUser.enabled;
 	}
 
 	public String getConfirmEmail() {
@@ -106,6 +121,14 @@ public class VecUser implements Serializable {
 		this.lastName = lastName;
 	}
 
+	public String getLastPostType() {
+		return this.lastPostType;
+	}
+
+	public void setLastPostType(String lastPostType) {
+		this.lastPostType = lastPostType;
+	}
+
 	public int getLoginTimes() {
 		return this.loginTimes;
 	}
@@ -146,32 +169,32 @@ public class VecUser implements Serializable {
 		this.username = username;
 	}
 
-	public VecRole getVecRole() {
-		return vecRole;
+	@JsonProperty("gravatar")
+	private String getGravatar() {
+		if (this.email != null) {
+			String imageUrl = "https://www.gravatar.com/avatar/" + MD5Util.md5Hex(this.email);
+			return imageUrl;
+		} else {
+			return null;
+		}
 	}
 
-	public void setVecRole(VecRole vecRole) {
-		this.vecRole = vecRole;
+	public int getEnabled() {
+		return enabled;
 	}
 
-	public List<VecOAuthAccessToken> getVecOAuthAccessTokens() {
-		return vecOAuthAccessTokens;
+	public void setEnabled(int enabled) {
+		this.enabled = enabled;
 	}
 
-	public void setVecOAuthAccessTokens(List<VecOAuthAccessToken> vecOAuthAccessTokens) {
-		this.vecOAuthAccessTokens = vecOAuthAccessTokens;
+	public Set<VecGroup> getVecGroups() {
+		return this.vecGroups;
 	}
 
-	public VecOAuthAccessToken addVecOAuthAccessToken(VecOAuthAccessToken vecOAuthAccessToken) {
-		getVecOAuthAccessTokens().add(vecOAuthAccessToken);
-		vecOAuthAccessToken.setVecUser(this);
-		return vecOAuthAccessToken;
-	}
-
-	public VecOAuthAccessToken removeVecUser(VecOAuthAccessToken vecOAuthAccessToken) {
-		getVecOAuthAccessTokens().remove(vecOAuthAccessToken);
-		vecOAuthAccessToken.setVecUser(null);
-
-		return vecOAuthAccessToken;
+	public void setVecGroups(Set<VecGroup> vecGroups) {
+		this.vecGroups.clear();
+		if (vecGroups != null) {
+			this.vecGroups.addAll(vecGroups);
+		}
 	}
 }

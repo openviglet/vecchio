@@ -6,14 +6,20 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.Calendar;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.viglet.vecchio.persistence.model.VecAccess;
 import com.viglet.vecchio.persistence.model.VecMapping;
-import com.viglet.vecchio.persistence.service.VecAccessService;
+import com.viglet.vecchio.persistence.repository.VecAccessRepository;
 
+@Component
 public class VigProxy {
+	@Autowired
+	private VecAccessRepository vecAccessRepository;
 	private static final int BUFFER_SIZE = 32768;
 
-	public VigProxy(URL url, OutputStream ops, VecMapping vecMapping) throws IOException {
+	public void run(URL url, OutputStream ops, VecMapping vecMapping) throws IOException {
 
 		try {
 
@@ -44,9 +50,8 @@ public class VigProxy {
 					vecAccess.setRequest(conn.getURL().toString());
 					vecAccess.setResponseTime(elapsedTime);
 					vecAccess.setVecMapping(null);
-
-					VecAccessService vecAccessModel = new VecAccessService();
-					vecAccessModel.save(vecAccess);
+					
+					vecAccessRepository.saveAndFlush(vecAccess);
 					
 					rd = new BufferedReader(new InputStreamReader(is));
 				} catch (IOException ioe) {

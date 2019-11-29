@@ -1,6 +1,6 @@
 
 buildscript {
-    ext { springBootVersion = '2.1.8.RELEASE'
+    ext { springBootVersion = '2.2.1.RELEASE'
 	      hibernateVersion = '5.11.0.Final'
 		  httpClientVersion = '4.5.6'
 		  swaggerVersion = '2.9.2'
@@ -35,7 +35,7 @@ sourceSets {
 }
 jar {
     baseName = 'viglet-vecchio'
-    version =  '0.3.3'
+    version =  '0.3.2'
 }
 
 bootJar {
@@ -58,73 +58,25 @@ tasks.withType(JavaCompile) {
 	options.encoding = 'UTF-8'
 }
 
-// Combine JS Converse files
-task combineConverseSystemJs(type: com.eriwen.gradle.js.tasks.CombineJsTask) {
-    source = "${projectDir}/src/main/resources/public/js/converse/build/extract/system"
-    dest = "${projectDir}/src/main/resources/public/js/converse/build/aggregate/turConverseSystem.js"
-}
-
-task combineConverseFeatureJs(dependsOn: ':combineConverseSystemJs', type: com.eriwen.gradle.js.tasks.CombineJsTask) {
-    source = "${projectDir}/src/main/resources/public/js/converse/build/extract/feature"
-    dest = "${projectDir}/src/main/resources/public/js/converse/build/aggregate/turConverseFeature.js"
-}
-
-task combineConverseAllJs(dependsOn: ':combineConverseFeatureJs', type: com.eriwen.gradle.js.tasks.CombineJsTask) {
-    source = ["${projectDir}/src/main/resources/public/js/converse/build/extract/main/__turConverseFactory.js", "${projectDir}/src/main/resources/public/js/converse/build/aggregate/turConverseSystem.js", "${projectDir}/src/main/resources/public/js/converse/build/aggregate/turConverseFeature.js"]
-    dest = "${projectDir}/src/main/resources/public/js/converse/build/aggregate/turing-converse.js"
-}
-
-task minifyConverseAllJs(dependsOn: ':combineConverseAllJs', type: com.eriwen.gradle.js.tasks.MinifyJsTask) {
- 	source = "${projectDir}/src/main/resources/public/js/converse/build/aggregate/turing-converse.js"
-    dest = file("${projectDir}/src/main/resources/public/js/converse/dist/turing-converse-min.js")
-    closure {
-        warningLevel = 'QUIET'
-    }
-}
-
-// Combine JS SN files
-task combineSNSystemJs(dependsOn: ':minifyConverseAllJs', type: com.eriwen.gradle.js.tasks.CombineJsTask) {
-    source = "${projectDir}/src/main/resources/public/js/sn/build/extract/system"
-    dest = "${projectDir}/src/main/resources/public/js/sn/build/aggregate/turSNSystem.js"
-}
-
-task combineSNFeatureJs(dependsOn: ':combineSNSystemJs', type: com.eriwen.gradle.js.tasks.CombineJsTask) {
-    source = "${projectDir}/src/main/resources/public/js/sn/build/extract/feature"
-    dest = "${projectDir}/src/main/resources/public/js/sn/build/aggregate/turSNFeature.js"
-}
-
-task combineSNAllJs(dependsOn: ':combineSNFeatureJs', type: com.eriwen.gradle.js.tasks.CombineJsTask) {
-    source = ["${projectDir}/src/main/resources/public/js/sn/build/extract/main/__turSNFactory.js", "${projectDir}/src/main/resources/public/js/sn/build/aggregate/turSNSystem.js", "${projectDir}/src/main/resources/public/js/sn/build/aggregate/turSNFeature.js"]
-    dest = "${projectDir}/src/main/resources/public/js/sn/build/aggregate/turing-sn.js"
-}
-
-task minifySNAllJs(dependsOn: ':combineSNAllJs', type: com.eriwen.gradle.js.tasks.MinifyJsTask) {
- 	source = "${projectDir}/src/main/resources/public/js/sn/build/aggregate/turing-sn.js"
-    dest = file("${projectDir}/src/main/resources/public/js/sn/dist/turing-sn-min.js")
-    closure {
-        warningLevel = 'QUIET'
-    }
-}
-
 // Combine JS files
-task combineSystemJs(dependsOn: ':minifySNAllJs', type: com.eriwen.gradle.js.tasks.CombineJsTask) {
-    source = "${projectDir}/src/main/resources/public/js/build/extract/system"
-    dest = "${projectDir}/src/main/resources/public/js/build/aggregate/turSystem.js"
+task combineSystemJs(type: com.eriwen.gradle.js.tasks.CombineJsTask) {
+    source = "${projectDir}/src/main/resources/js/src/system"
+    dest = "${projectDir}/src/main/resources/js/build/vecSystem.js"
 }
 
 task combineFeatureJs(dependsOn: ':combineSystemJs', type: com.eriwen.gradle.js.tasks.CombineJsTask) {
-    source = "${projectDir}/src/main/resources/public/js/build/extract/feature"
-    dest = "${projectDir}/src/main/resources/public/js/build/aggregate/turFeature.js"
+    source = "${projectDir}/src/main/resources/js/src/feature"
+    dest = "${projectDir}/src/main/resources/js/build/vecFeature.js"
 }
 
 task combineAllJs(dependsOn: ':combineFeatureJs', type: com.eriwen.gradle.js.tasks.CombineJsTask) {
-    source = ["${projectDir}/src/main/resources/public/js/build/extract/main/__turFactory.js", "${projectDir}/src/main/resources/public/js/build/aggregate/turSystem.js", "${projectDir}/src/main/resources/public/js/build/aggregate/turFeature.js"]
-    dest = "${projectDir}/src/main/resources/public/js/build/aggregate/turing.js"
+    source = ["${projectDir}/src/main/resources/js/src/main/__vecFactory.js", "${projectDir}/src/main/resources/js/build/vecSystem.js", "${projectDir}/src/main/resources/js/build/vecFeature.js"]
+    dest = "${projectDir}/src/main/resources/js/build/vecchio.js"
 }
 
 task minifyAllJs(dependsOn: ':combineAllJs', type: com.eriwen.gradle.js.tasks.MinifyJsTask) {
- 	source = "${projectDir}/src/main/resources/public/js/build/aggregate/turing.js"
-    dest = file("${projectDir}/src/main/resources/public/js/dist/turing-min.js")
+ 	source = "${projectDir}/src/main/resources/js/build/vecchio.js"
+    dest = file("${projectDir}/src/main/resources/public/console/js/dist/vecchio.min.js")
     closure {
         warningLevel = 'QUIET'
     }
@@ -148,11 +100,8 @@ dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: "${springBootVersion}"
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version:"${springBootVersion}"
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-parent', version:"${springBootVersion}"
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-activemq', version:"${springBootVersion}"   
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version:"${springBootVersion}"
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version:"${springBootVersion}"
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-cache', version:"${springBootVersion}"
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-solr', version:"${springBootVersion}"
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version:"${springBootVersion}"
 //	compile group: 'org.springframework.security.oauth.boot', name: 'spring-security-oauth2-autoconfigure', version:"${springBootVersion}"
 
@@ -171,7 +120,7 @@ dependencies {
 	compile group: 'com.github.ulisesbocchio', name: 'jasypt-spring-boot-starter', version: "${jasyptVersion}"
 
 	// Spring
-  	compile group: 'org.springframework', name: 'spring-test', version: '5.1.8.RELEASE'
+  	compile group: 'org.springframework', name: 'spring-test', version: '5.1.10.RELEASE'
 
  	// Jackson
    	compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-hibernate5', version: '2.9.7'
@@ -188,9 +137,6 @@ dependencies {
     // Apache Commons
     compile group: 'commons-io', name: 'commons-io', version:'2.5'
     compile group: 'commons-lang', name: 'commons-lang', version:'2.6'
-  
-    // EhCache
-    compile group: 'net.sf.ehcache', name: 'ehcache', version:'2.10.3'
     	
 	// Swagger 2
 	compile group: 'io.springfox', name: 'springfox-swagger2', version: "${swaggerVersion}"
@@ -200,23 +146,31 @@ dependencies {
 	// WebJars
 	compile 'org.webjars.bower:jquery:1.12.4'
 	compile 'org.webjars.bower:jquery.ui:1.11.3'
-	compile 'org.webjars:bootstrap:3.3.7-1'
-	compile 'org.webjars.bower:moment:2.22.2'
-	compile 'org.webjars.bower:angular:1.7.3'
+	compile 'org.webjars:bootstrap:3.3.7-1' // Content
+	compile 'org.webjars.bower:bootstrap:4.1.1' // Preview
+	compile 'org.webjars.bower:moment:2.20.1'
+	compile 'org.webjars.bower:angular:1.6.9'
+	compile 'org.webjars.bower:ace-builds:1.3.1'
+	compile 'org.webjars.bower:tinymce:4.5.8'
 	compile 'org.webjars.bower:angular-ui-router:1.0.14'
 	compile 'org.webjars.bower:angular-translate:2.17.0'
-	compile 'org.webjars.bowergithub.angular:bower-angular-resource:1.7.3'
-	compile 'org.webjars.bower:angular-animate:1.7.3'
-	compile 'org.webjars.bower:angular-sanitize:1.7.3'
+	compile 'org.webjars.bower:angular-resource:1.6.9'
+	compile 'org.webjars.bower:angular-animate:1.6.9'
+	compile 'org.webjars.bower:angular-sanitize:1.6.9'
 	compile 'org.webjars.bower:angular-bootstrap:2.5.0'
-	compile 'org.webjars.bower:angular-cookies:1.7.3'
-	compile 'org.webjars.bower:angular-sanitize:1.7.3'
+	compile 'org.webjars.bower:angular-cookies:1.6.9'
 	compile 'org.webjars.bower:angular-moment:1.2.0'
+	compile 'org.webjars.bower:angular-ui-ace:0.2.3'
 	compile 'org.webjars.bower:font-awesome:4.7.0'
 	compile 'org.webjars.bower:ng-file-upload:12.2.13'
 	compile 'org.webjars.bower:angular-ui-notification:0.3.6'
-    compile 'org.webjars.bower:angular-ui-sortable:0.14.3'
+	compile 'org.webjars.bower:angular-ui-tinymce:0.0.19'
+	compile 'org.webjars.bower:angular-ui-sortable:0.14.3'
 	compile 'org.webjars.bower:angular-ui-select:0.19.8'
+	compile 'org.webjars.bower:ngInfiniteScroll:1.3.4'
+	compile 'org.webjars.bower:nvd3:1.8.6'
+    compile 'org.webjars:d3js:3.5.17'
+	compile 'org.webjars:angular-nvd3:1.0.5'
 	
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }

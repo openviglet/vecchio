@@ -12,6 +12,7 @@ import org.apache.oltu.oauth2.common.message.types.ParameterStyle;
 import org.apache.oltu.oauth2.common.utils.OAuthUtils;
 import org.apache.oltu.oauth2.rs.request.OAuthAccessResourceRequest;
 import org.apache.oltu.oauth2.rs.response.OAuthRSResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.viglet.vecchio.api.oauth2.demo.TestContent;
 import com.viglet.vecchio.persistence.model.oauth.VecOAuthAccessToken;
-import com.viglet.vecchio.persistence.service.VecOAuthAccessTokenService;
+import com.viglet.vecchio.persistence.repository.oauth.VecOAuthAccessTokenRepository;
 
 import io.swagger.annotations.Api;
 
@@ -28,11 +29,12 @@ import io.swagger.annotations.Api;
 @RequestMapping("/tokeninfo")
 @Api(value = "/tokeninfo", tags = "Token Info", description = "Token Info")
 public class VecTokenInfo {
-
+	@Autowired
+	private VecOAuthAccessTokenRepository vecOAuthAccessTokenRepository;
+	
 	@PostMapping(produces = "application/json")
 	public ResponseEntity<VecOAuthAccessToken> get(HttpServletRequest request) throws OAuthSystemException {
-
-		VecOAuthAccessTokenService vecOAuthAccessTokenService = new VecOAuthAccessTokenService();
+	
 		try {
 
 			// Make the OAuth Request out of this request
@@ -41,7 +43,7 @@ public class VecTokenInfo {
 			// Get the access token
 			String accessToken = oauthRequest.getAccessToken();
 
-			VecOAuthAccessToken vecOAuthAccessToken = vecOAuthAccessTokenService.getAccessToken(accessToken);
+			VecOAuthAccessToken vecOAuthAccessToken = vecOAuthAccessTokenRepository.findByAccessToken(accessToken);
 
 			// Validate the access token
 			if (vecOAuthAccessToken == null) {

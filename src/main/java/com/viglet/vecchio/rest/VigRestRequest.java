@@ -18,27 +18,33 @@ import org.apache.oltu.oauth2.common.message.types.ParameterStyle;
 import org.apache.oltu.oauth2.common.utils.OAuthUtils;
 import org.apache.oltu.oauth2.rs.request.OAuthAccessResourceRequest;
 import org.apache.oltu.oauth2.rs.response.OAuthRSResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.viglet.vecchio.api.oauth2.demo.TestContent;
 import com.viglet.vecchio.persistence.model.VecMapping;
+import com.viglet.vecchio.persistence.repository.VecMappingRepository;
 import com.viglet.vecchio.persistence.service.VecAppService;
-import com.viglet.vecchio.persistence.service.VecMappingService;
 import com.viglet.vecchio.proxy.VigProxy;
 
+@Component
 public class VigRestRequest {
-
+	@Autowired
+	private VecMappingRepository vecMappingRepository;
+	@Autowired
+	private VigProxy vigProxy;
 	// Accommodate two requests, one for all resources, another for a specific
 	// resource
 	private Pattern regExIdPattern = Pattern.compile("/resource/([0-9]*)");
 
 	private Integer id;
 
-	public VigRestRequest(String pathInfo, OutputStream ops, HttpServletRequest request) throws ServletException, OAuthSystemException {
+	public void run(String pathInfo, OutputStream ops, HttpServletRequest request)
+			throws ServletException, OAuthSystemException {
 
 		try {
-			VecMappingService vecMappingService = new VecMappingService();
-			for (VecMapping vecMapping : vecMappingService.listAll()) {
-				
+			for (VecMapping vecMapping : vecMappingRepository.findAll()) {
+
 				if (Pattern.compile(vecMapping.getPattern()).matcher(pathInfo).matches()) {
 					// Match Pattern!
 
@@ -64,17 +70,17 @@ public class VigRestRequest {
 							// return
 							// Response.status(Response.Status.UNAUTHORIZED).build();
 							return;
-							/*return Response.status(Response.Status.UNAUTHORIZED)
-									.header(OAuth.HeaderType.WWW_AUTHENTICATE,
-											oauthResponse.getHeader(OAuth.HeaderType.WWW_AUTHENTICATE))
-									.build();
-							*/
+							/*
+							 * return Response.status(Response.Status.UNAUTHORIZED)
+							 * .header(OAuth.HeaderType.WWW_AUTHENTICATE,
+							 * oauthResponse.getHeader(OAuth.HeaderType.WWW_AUTHENTICATE)) .build();
+							 */
 						}
 
 						// Return the resource
-						VigProxy vigProxy = new VigProxy(new URL(vecMapping.getUrl()), ops, vecMapping);
+						vigProxy.run(new URL(vecMapping.getUrl()), ops, vecMapping);
 						return;
-						//return Response.status(Response.Status.OK).entity(accessToken).build();
+						// return Response.status(Response.Status.OK).entity(accessToken).build();
 
 					} catch (OAuthProblemException e) {
 						// Check if the error code has been set
@@ -89,25 +95,27 @@ public class VigRestRequest {
 							// If no error code then return a standard 401
 							// Unauthorized response
 							return;
-							/*return Response.status(Response.Status.UNAUTHORIZED)
-									.header(OAuth.HeaderType.WWW_AUTHENTICATE,
-											oauthResponse.getHeader(OAuth.HeaderType.WWW_AUTHENTICATE))
-									.build();
-									*/
+							/*
+							 * return Response.status(Response.Status.UNAUTHORIZED)
+							 * .header(OAuth.HeaderType.WWW_AUTHENTICATE,
+							 * oauthResponse.getHeader(OAuth.HeaderType.WWW_AUTHENTICATE)) .build();
+							 */
 						}
 
 						OAuthResponse oauthResponse = OAuthRSResponse.errorResponse(HttpServletResponse.SC_UNAUTHORIZED)
 								.setRealm(TestContent.RESOURCE_SERVER_NAME).setError(e.getError())
 								.setErrorDescription(e.getDescription()).setErrorUri(e.getDescription())
 								.buildHeaderMessage();
-						return ;
-						/* return Response.status(Response.Status.BAD_REQUEST).header(OAuth.HeaderType.WWW_AUTHENTICATE,
-								oauthResponse.getHeader(OAuth.HeaderType.WWW_AUTHENTICATE)).build();
-								*/
+						return;
+						/*
+						 * return Response.status(Response.Status.BAD_REQUEST).header(OAuth.HeaderType.
+						 * WWW_AUTHENTICATE,
+						 * oauthResponse.getHeader(OAuth.HeaderType.WWW_AUTHENTICATE)).build();
+						 */
 					}
 
 					/// END Match
-	
+
 				}
 			}
 		} catch (IOException e) {

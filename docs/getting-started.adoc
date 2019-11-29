@@ -1,0 +1,20 @@
+= Getting Started
+:toc: left
+:toc-title: Table of Contents
+:doctype: book
+:revnumber: 0.3.6 
+:revdate: 25-11-2019
+:numbered:
+
+[[getting-started-installing-vecchio-api]]
+== Installing Vecchio API
+Shiohara CMS can be used with "`classic`" Java development tools or installed as a command line tool.
+Either way, you need https://www.java.com[Java SDK v1.8] or higher.
+Before you begin, you should check your current Java installation by using the following command:
+
+[indent=0]
+----
+	$ java -version
+----
+
+

@@ -35,6 +35,10 @@ public interface VecAppRepository extends JpaRepository<VecApp, String> {
 	@SuppressWarnings("unchecked")
 	VecApp save(VecApp vecApp);
 	
+	VecApp findByAccessToken(String accessToken);
+	
+	VecApp findByApiKey(String apiKey);
+	
 	@Modifying
 	@Query("delete from VecApp a where a.id = ?1")
 	void delete(String id);

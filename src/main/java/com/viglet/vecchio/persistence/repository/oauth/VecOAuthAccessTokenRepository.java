@@ -36,6 +36,14 @@ public interface VecOAuthAccessTokenRepository extends JpaRepository<VecOAuthAcc
 	VecOAuthAccessToken save(VecOAuthAccessToken vecOAuthAccessToken);
 	
 	@Modifying
+	@Query("SELECT a FROM VecOAuthAccessToken a where a.id.accessToken = ?1")	
+	VecOAuthAccessToken findByAccessToken(String accessToken);
+	
+	@Modifying
+	@Query("SELECT a FROM VecOAuthAccessToken a where a.id.clientId = ?1")	
+	VecOAuthAccessToken findByClientId(String clientId);
+
+	@Modifying
 	@Query("delete from VecOAuthAccessToken oat where oat.id = ?1")
 	void delete(String id);
 }

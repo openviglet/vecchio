@@ -13,6 +13,7 @@ import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
 import org.apache.oltu.oauth2.common.message.OAuthResponse;
 import org.apache.oltu.oauth2.common.message.types.ResponseType;
 import org.apache.oltu.oauth2.common.utils.OAuthUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,9 +26,9 @@ import com.viglet.vecchio.persistence.model.oauth.VecOAuthAccessToken;
 import com.viglet.vecchio.persistence.model.oauth.VecOAuthAccessTokenPK;
 import com.viglet.vecchio.persistence.model.oauth.VecOAuthAuthorizationCode;
 import com.viglet.vecchio.persistence.model.oauth.VecOAuthAuthorizationCodePK;
+import com.viglet.vecchio.persistence.repository.oauth.VecOAuthAccessTokenRepository;
+import com.viglet.vecchio.persistence.repository.oauth.VecOAuthAuthorizationCodeRepository;
 import com.viglet.vecchio.persistence.service.VecAppService;
-import com.viglet.vecchio.persistence.service.VecOAuthAccessTokenService;
-import com.viglet.vecchio.persistence.service.VecOAuthAuthorizationCodeService;
 
 import io.swagger.annotations.Api;
 
@@ -39,12 +40,14 @@ import java.util.Date;
 @RequestMapping("/authorize")
 @Api(value = "/authorize", tags = "Authorize", description = "Authorize")
 public class AuthEndpoint {
-
+	@Autowired
+	private VecOAuthAuthorizationCodeRepository vecOAuthAuthorizationCodeRepository;
+	@Autowired
+	private VecOAuthAccessTokenRepository vecOAuthAccessTokenRepository;
+	
 	@GetMapping
 	@ResponseBody
 	public ResponseEntity<String> authorize(HttpServletRequest request) throws URISyntaxException, OAuthSystemException {
-		VecOAuthAuthorizationCodeService vecOAuthAuthorizationCodeService = new VecOAuthAuthorizationCodeService();
-		VecOAuthAccessTokenService vecOAuthAccessTokenService = new VecOAuthAccessTokenService();
 
 		OAuthAuthzRequest oauthRequest = null;
 
@@ -74,10 +77,9 @@ public class AuthEndpoint {
 
 			if (responseType.equals(ResponseType.CODE.toString())) {
 
-				VecOAuthAuthorizationCode vecOAuthAuthorizationCode = vecOAuthAuthorizationCodeService
-						.getAuthCodeByClientId(clientId);
+				VecOAuthAuthorizationCode vecOAuthAuthorizationCode = vecOAuthAuthorizationCodeRepository.findByClientId(clientId);
 				if (vecOAuthAuthorizationCode != null) {
-					vecOAuthAuthorizationCodeService.deletetAuthCode(vecOAuthAuthorizationCode.getId());
+					vecOAuthAuthorizationCodeRepository.delete(vecOAuthAuthorizationCode);
 				}
 				vecOAuthAuthorizationCode = new VecOAuthAuthorizationCode();
 				VecOAuthAuthorizationCodePK id = new VecOAuthAuthorizationCodePK();
@@ -92,13 +94,13 @@ public class AuthEndpoint {
 				vecOAuthAuthorizationCode.setScope(oauthRequest.getParam(OAuth.OAUTH_SCOPE));
 				vecOAuthAuthorizationCode.setUserId("userId");
 
-				vecOAuthAuthorizationCodeService.save(vecOAuthAuthorizationCode);
+				vecOAuthAuthorizationCodeRepository.saveAndFlush(vecOAuthAuthorizationCode);
 				builder.setCode(id.getAuthorizationCode());
 			}
 			if (responseType.equals(ResponseType.TOKEN.toString())) {
-				VecOAuthAccessToken vecOAuthAccessToken = vecOAuthAccessTokenService.getAccessTokenByClientId(clientId);
+				VecOAuthAccessToken vecOAuthAccessToken = vecOAuthAccessTokenRepository.findByClientId(clientId);
 				if (vecOAuthAccessToken != null) {
-					vecOAuthAccessTokenService.deletetAccessToken(vecOAuthAccessToken.getId());
+					vecOAuthAccessTokenRepository.delete(vecOAuthAccessToken);
 				}
 				vecOAuthAccessToken = new VecOAuthAccessToken();
 				VecOAuthAccessTokenPK id = new VecOAuthAccessTokenPK();
@@ -110,7 +112,7 @@ public class AuthEndpoint {
 				vecOAuthAccessToken.setExpires(expires);
 				vecOAuthAccessToken.setScope("email");
 
-				vecOAuthAccessTokenService.save(vecOAuthAccessToken);
+				vecOAuthAccessTokenRepository.saveAndFlush(vecOAuthAccessToken);
 
 				builder.setAccessToken(id.getAccessToken());
 				builder.setExpiresIn(3600l);

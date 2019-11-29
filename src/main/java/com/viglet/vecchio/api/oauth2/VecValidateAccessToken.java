@@ -12,6 +12,7 @@ import org.apache.oltu.oauth2.common.message.types.ParameterStyle;
 import org.apache.oltu.oauth2.common.utils.OAuthUtils;
 import org.apache.oltu.oauth2.rs.request.OAuthAccessResourceRequest;
 import org.apache.oltu.oauth2.rs.response.OAuthRSResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,8 +26,8 @@ import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.viglet.vecchio.api.oauth2.demo.TestContent;
 import com.viglet.vecchio.persistence.model.oauth.VecOAuthAccessToken;
-import com.viglet.vecchio.persistence.service.VecMappingService;
-import com.viglet.vecchio.persistence.service.VecOAuthAccessTokenService;
+import com.viglet.vecchio.persistence.repository.VecMappingRepository;
+import com.viglet.vecchio.persistence.repository.oauth.VecOAuthAccessTokenRepository;
 
 import io.swagger.annotations.Api;
 
@@ -34,15 +35,17 @@ import io.swagger.annotations.Api;
 @RequestMapping("/token_validate")
 @Api(value = "/token_validate", tags = "Token Validate", description = "Token Validate")
 public class VecValidateAccessToken {
+	@Autowired
+	private VecOAuthAccessTokenRepository vecOAuthAccessTokenRepository;
+	@Autowired
+	private VecMappingRepository vecMappingRepository;
 
 	@GetMapping
 	public ResponseEntity<String> get(HttpServletRequest request) throws OAuthSystemException {
 
-		VecOAuthAccessTokenService vecOAuthAccessTokenService = new VecOAuthAccessTokenService();
-		VecMappingService vecMappingService = new VecMappingService();
 		String clientContext = request.getHeader("VecContext");
 		System.out.println("VecContext: " + clientContext);
-		if (vecMappingService.contextExists(clientContext)) {
+		if (vecMappingRepository.existsByPattern(clientContext)) {
 			try {
 				System.out.println("Context exists");
 
@@ -52,7 +55,7 @@ public class VecValidateAccessToken {
 				// Get the access token
 				String accessToken = oauthRequest.getAccessToken();
 
-				VecOAuthAccessToken vecOAuthAccessToken = vecOAuthAccessTokenService.getAccessToken(accessToken);
+				VecOAuthAccessToken vecOAuthAccessToken = vecOAuthAccessTokenRepository.findByAccessToken(accessToken);
 
 				// Validate the access token
 				if (vecOAuthAccessToken == null) {
@@ -102,8 +105,7 @@ public class VecValidateAccessToken {
 				e.printStackTrace();
 				return ResponseEntity.badRequest().build();
 			}
-		} 
-		else {
+		} else {
 			return ResponseEntity.ok().build();
 		}
 	}
