@@ -8,7 +8,7 @@ vecchioApp.controller('VecMappingNewCtrl', [
 		$scope.mapping = {};
 		$scope.mappingSave = function () {
 			var parameter = JSON.stringify($scope.mapping);
-			$http.post("../api/mapping/",
+			$http.post("../api/v2/mapping/",
 				parameter).then(
 				function (data, status, headers, config) {
 					$state.go('mapping');

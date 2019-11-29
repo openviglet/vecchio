@@ -12,7 +12,7 @@ vecchioApp.controller('VecMappingEditCtrl', [
 		$scope.mappingSave = function () {
 			$scope.mappings = null;
 			var parameter = JSON.stringify($scope.mapping);
-			$http.put("../api/mapping/" + $scope.mappingId,
+			$http.put("../api/v2/mapping/" + $scope.mappingId,
 				parameter).then(
 				function (data, status, headers, config) {
 					   $state.go('mapping');

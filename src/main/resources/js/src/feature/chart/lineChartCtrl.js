@@ -57,7 +57,7 @@ vecchioApp.controller('lineChartCtrl', [
 		$scope.accesses = null;
 
 		$scope.$evalAsync($http.get(
-			"../api/access/response_time").then(
+			"../api/v2/access/response_time").then(
 				function (response) {
 					$scope.data = response.data;
 					// $scope.data = sinAndCos();

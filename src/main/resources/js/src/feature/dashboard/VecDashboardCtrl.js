@@ -7,7 +7,7 @@ vecchioApp.controller('VecDashboardCtrl', [
 		$scope.accesses = null;
 		$rootScope.$state = $state;
 		$scope.$evalAsync($http.get(
-			"../api/access/").then(
+			"../api/v2/access/").then(
 			function (response) {
 				$scope.accesses = response.data;
 			}));

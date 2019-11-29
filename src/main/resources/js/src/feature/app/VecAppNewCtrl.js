@@ -8,7 +8,7 @@ vecchioApp.controller('VecAppNewCtrl', [
 		$scope.app = {};
 		$scope.appSave = function () {
 			var parameter = JSON.stringify($scope.app);
-			$http.post("../api/app/",
+			$http.post("../api/v2/app/",
 				parameter).then(
 				function (data, status, headers, config) {
 					$state.go('app');
