@@ -61,14 +61,14 @@ public class VecGroup implements Serializable {
 		this.description = description;
 	}
 
-	public Set<VecUser> getShUsers() {
+	public Set<VecUser> getVecUsers() {
 		return this.vecUsers;
 	}
 
-	public void setShUsers(Set<VecUser> shUsers) {
+	public void setVecUsers(Set<VecUser> vecUsers) {
 		this.vecUsers.clear();
-		if (shUsers != null) {
-			this.vecUsers.addAll(shUsers);
+		if (vecUsers != null) {
+			this.vecUsers.addAll(vecUsers);
 		}
 	}
 }

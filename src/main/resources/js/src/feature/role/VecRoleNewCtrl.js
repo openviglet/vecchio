@@ -3,18 +3,18 @@ vecchioApp.controller('VecRoleNewCtrl', [
 	"$http",
 	"$state",
 	"$rootScope",
-	function ($scope, $http, $state, $rootScope) {
+	"vecRoleFactory",
+	"vecAPIServerService",
+	function($scope, $http, $state, $rootScope,
+			vecRoleFactory, vecAPIServerService) {
 		$rootScope.$state = $state;
 		$scope.role = {};
-		$scope.roleSave = function () {
-			var parameter = JSON.stringify($scope.role);
-			$http.post("../api/role/",
-				parameter).then(
-				function (data, status, headers, config) {
-					  $state.go('organization.role');
-				}, function (data, status, headers, config) {
-					  $state.go('organization.role');
-				});
+		$scope.$evalAsync($http.get(
+				vecAPIServerService.get().concat("/v2/role/model")).then(
+				function(response) {
+					$scope.role = response.data;
+				}));
+		$scope.roleSave = function() {
+			vecRoleFactory.save($scope.role);
 		}
-	}
-]);
+	} ]);

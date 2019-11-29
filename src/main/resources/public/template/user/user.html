@@ -5,7 +5,7 @@
 		style="padding: 10px; border-bottom-color: rgb(217, 217, 217); border-bottom-style: solid; border-bottom-width: thin;">
 		<div class="row">
 			<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-				<p style="font-size: 18px; color: #f0ad4e; margin: 0px;"
+				<p style="font-size: 18px; color: #FF874B; margin: 0px;"
 					class="ng-binding">Users</p>
 				<p style="font-size: 14px; color: rgb(182, 182, 182); margin: 0px;"
 					class="ng-binding">Users Directory</p>
@@ -13,7 +13,7 @@
 			</div>
 			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"
 				style="text-align: right">
-				<a ui-sref="organization.user-new" class="btn btn-warning"
+				<a ui-sref="organization.user-new" class="btn btn-viglet"
 					role="button" aria-pressed="true"
 					style="margin-bottom: 5px; color: white">New</a>
 			</div>
@@ -30,22 +30,22 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr ng-repeat="user in users">
+				<tr ng-repeat="user in users | orderBy:'username'">
 					<td><a ui-sref="organization.user-edit({userId: user.username})" >{{user.username}}</a></td>
 					<td><a ui-sref="organization.user-edit({userId: user.username})" >{{user.firstName}}</a></td>
 					<td><a ui-sref="organization.user-edit({userId: user.username})" >{{user.lastName}}</a></td>
 					<td style="text-align: right">
 						<div class="btn-group">
 							<button type="button" ui-sref="organization.user-edit({userId: user.username})"
-								class="btn btn-warning">Edit</button>
-							<button type="button" class="btn btn-warning dropdown-toggle"
+								class="btn btn-viglet">Edit</button>
+							<button type="button" class="btn btn-viglet dropdown-toggle"
 								data-toggle="dropdown" aria-haspopup="true"
 								aria-expanded="false">
 								<span class="caret"></span> <span class="sr-only">Toggle
 									Dropdown</span>
 							</button>
 							<ul class="dropdown-menu">
-								<li><a href ng-click="userDelete(user.username)" >Delete</a></li>
+								<li><a href ng-click="userDelete(user)" >Delete</a></li>
 							</ul>
 						</div>
 					</td>

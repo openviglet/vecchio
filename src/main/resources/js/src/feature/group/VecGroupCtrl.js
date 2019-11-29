@@ -1,25 +1,15 @@
 vecchioApp.controller('VecGroupCtrl', [
 	"$scope",
-	"$http",
 	"$state",
 	"$rootScope",
 	"vecGroupResource",
-	function ($scope, $http, $state, $rootScope, vecGroupResource) {
+	"vecGroupFactory",
+	function ($scope, $state, $rootScope, vecGroupResource, vecGroupFactory) {
 		$rootScope.$state = $state;
+		$scope.groups = null;
 		$scope.groups = vecGroupResource.query();
 
-		$scope.groupDelete = function (groupId) {
-			$http.delete("../api/group/" + groupId).then(
-				function (data, status, headers, config) {
-					$http.get(
-						"../api/group/").then(
-						function (response) {
-							$scope.groups = response.data;
-						});
-				}, function (data, status, headers, config) {
-					// called asynchronously if an error occurs
-					// or server returns response with an error
-					// status.
-				});
+		$scope.groupDelete = function (vecGroup) {
+			vecGroupFactory.delete(vecGroup);
 		}
 	}]);

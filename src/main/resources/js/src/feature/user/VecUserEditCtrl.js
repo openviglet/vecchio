@@ -1,28 +1,32 @@
 vecchioApp.controller('VecUserEditCtrl', [
 	"$scope",
 	"$http",
+	"$window",
 	"$stateParams",
 	"$state",
 	"$rootScope",
 	"$translate",
 	"vigLocale",
 	"vecUserResource",
-	function ($scope, $http, $stateParams, $state, $rootScope, $translate, vigLocale, vecUserResource) {
+	"vecUserFactory",
+	function ($scope, $http, $window, $stateParams, $state, $rootScope, $translate, vigLocale, vecUserResource, vecUserFactory) {
 		$scope.vigLanguage = vigLocale.getLocale().substring(0, 2);
 		$translate.use($scope.vigLanguage);
 		$rootScope.$state = $state;
 		$scope.userId = $stateParams.userId;
+
 		$scope.user = vecUserResource.get({ id: $stateParams.userId });
+
 		$scope.userSave = function () {
-			$scope.users = null;
-			var parameter = JSON.stringify($scope.user);
-			$http.put("../api/user/" + $scope.userId,
-				parameter).then(
-				function (data, status, headers, config) {
-					  $state.go('organization.user');
-				}, function (data, status, headers, config) {
-					  $state.go('organization.user');
-				});
+			vecUserFactory.save($scope.user, false);
+		}
+
+		$scope.addGroups = function () {
+			vecUserFactory.addGroups($scope.user);
+		}
+
+		$scope.removeGroup = function (index) {
+			$scope.user.vecGroups.splice(index, 1);
 		}
 	}
 ]);

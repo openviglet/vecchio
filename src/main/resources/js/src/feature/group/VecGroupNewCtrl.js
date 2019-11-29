@@ -3,18 +3,18 @@ vecchioApp.controller('VecGroupNewCtrl', [
 	"$http",
 	"$state",
 	"$rootScope",
-	function ($scope, $http, $state, $rootScope) {
+	"vecGroupFactory",
+	"vecAPIServerService",
+	function($scope, $http, $state, $rootScope,
+			vecGroupFactory, vecAPIServerService) {
 		$rootScope.$state = $state;
 		$scope.group = {};
-		$scope.groupSave = function () {
-			var parameter = JSON.stringify($scope.group);
-			$http.post("../api/group/",
-				parameter).then(
-				function (data, status, headers, config) {
-					$state.go('organization.group');
-				}, function (data, status, headers, config) {
-					$state.go('organization.group');
-				});
+		$scope.$evalAsync($http.get(
+				vecAPIServerService.get().concat("/v2/group/model")).then(
+				function(response) {
+					$scope.group = response.data;
+				}));
+		$scope.groupSave = function() {
+			vecGroupFactory.save($scope.group);
 		}
-	}
-]);
+	} ]);

@@ -1,25 +1,35 @@
 vecchioApp.controller('VecGroupEditCtrl', [
 	"$scope",
-	"$http",
-	"$stateParams",
 	"$state",
 	"$rootScope",
 	"vecGroupResource",
-	function ($scope, $http, $stateParams, $state, $rootScope, vecGroupResource) {
+	"vecGroupFactory",
+	"$stateParams",
+	"Notification",
+	function ($scope, $state, $rootScope,
+		vecGroupResource, vecGroupFactory, $stateParams, Notification) {
 		$rootScope.$state = $state;
 		$scope.groupId = $stateParams.groupId;
-		$scope.group = vecGroupResource.get({ id: $stateParams.groupId });
+
+		$scope.group = vecGroupResource.get({
+			id: $scope.groupId
+		});
 
 		$scope.groupSave = function () {
-			$scope.groups = null;
-			var parameter = JSON.stringify($scope.group);
-			$http.put("../api/group/" + $scope.groupId,
-				parameter).then(
-				function (data, status, headers, config) {
-					$state.go('organization.group');
-				}, function (data, status, headers, config) {
-					$state.go('organization.group');
-				});
+			angular.forEach($scope.group.vecUsers, function (vecUser, key) {
+				console.log("removendo atributo: " + vecUser.username);
+				delete vecUser.vecGroups;									
+			});
+			$scope.group.$update(function () {
+				Notification.warning('The ' + $scope.group.name + ' Group was updated.');
+			});
 		}
-	}
-]);
+
+		$scope.addUsers = function () {
+			vecGroupFactory.addUsers($scope.group);
+		}
+
+		$scope.removeUser = function (index) {
+			$scope.group.vecUsers.splice(index, 1);
+		}
+	}]);
