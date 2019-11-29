@@ -60,23 +60,23 @@ tasks.withType(JavaCompile) {
 
 // Combine JS files
 task combineSystemJs(type: com.eriwen.gradle.js.tasks.CombineJsTask) {
-    source = "${projectDir}/src/main/resources/public/js/build/extract/system"
-    dest = "${projectDir}/src/main/resources/public/js/build/aggregate/turSystem.js"
+    source = "${projectDir}/src/main/resources/js/src/system"
+    dest = "${projectDir}/src/main/resources/js/build/vecSystem.js"
 }
 
 task combineFeatureJs(dependsOn: ':combineSystemJs', type: com.eriwen.gradle.js.tasks.CombineJsTask) {
-    source = "${projectDir}/src/main/resources/public/js/build/extract/feature"
-    dest = "${projectDir}/src/main/resources/public/js/build/aggregate/turFeature.js"
+    source = "${projectDir}/src/main/resources/js/src/feature"
+    dest = "${projectDir}/src/main/resources/js/build/vecFeature.js"
 }
 
 task combineAllJs(dependsOn: ':combineFeatureJs', type: com.eriwen.gradle.js.tasks.CombineJsTask) {
-    source = ["${projectDir}/src/main/resources/public/js/build/extract/main/__turFactory.js", "${projectDir}/src/main/resources/public/js/build/aggregate/turSystem.js", "${projectDir}/src/main/resources/public/js/build/aggregate/turFeature.js"]
-    dest = "${projectDir}/src/main/resources/public/js/build/aggregate/turing.js"
+    source = ["${projectDir}/src/main/resources/js/src/main/__vecFactory.js", "${projectDir}/src/main/resources/js/build/vecSystem.js", "${projectDir}/src/main/resources/js/build/vecFeature.js"]
+    dest = "${projectDir}/src/main/resources/js/build/vecchio.js"
 }
 
 task minifyAllJs(dependsOn: ':combineAllJs', type: com.eriwen.gradle.js.tasks.MinifyJsTask) {
- 	source = "${projectDir}/src/main/resources/public/js/build/aggregate/turing.js"
-    dest = file("${projectDir}/src/main/resources/public/js/dist/turing-min.js")
+ 	source = "${projectDir}/src/main/resources/js/build/vecchio.js"
+    dest = file("${projectDir}/src/main/resources/public/console/js/dist/vecchio.min.js")
     closure {
         warningLevel = 'QUIET'
     }
