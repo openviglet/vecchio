@@ -1,4 +1,4 @@
-![banner_vecchio.jpg](https://openviglet.github.io/vecchio/img/banner_vecchio.jpg)
+![banner_vecchio.jpg](https://openvecchio.github.io/vecchio/img/banner_vecchio.jpg)
 ------
 **Viglet Vecchio** allows to create authentication and authorization layers to access API.
 
@@ -21,26 +21,38 @@ $ docker run -d -p 2702:2702 --name vecchio viglet/vecchio
 
 # Option 2. Installing manually 
 
-## Maven
-Install Apache Maven. [https://maven.apache.org/install.html](https://maven.apache.org/install.html)
-
-## Bower
-Bower is a command line utility. Install it with npm.
+## Download
 
 ```shell
-$ npm install -g bower
+$ git clone --recurse-submodules https://github.com/openvecchio/vecchio.git
+$ cd vecchio
 ```
 
-Bower requires node, npm and git.
+## Deploy 
 
-More details: [https://bower.io/#install-bower](https://bower.io/#install-bower)
+### 1. Runtime
 
-## Execute
-
-Execute the following command to run Viglet Vecchio:
+Use Gradle to execute Vecchio API, without generate jar file.
 
 ```shell
-$ mvn jetty:run
+$ ./gradlew bootrun
+```
+
+
+### 2. Or Generate JAR File
+
+Use Gradle to generate Vecchio API executable JAR file.
+
+```shell
+$ ./gradlew build
+```
+
+#### 2.1 Run
+
+To run Vecchio API executable JAR file, just execute the following line:
+
+```shell
+$ java -jar build/libs/viglet-vecchio.jar
 ```
 
 # Test
@@ -56,13 +68,13 @@ For example, in Mapping Console ([http://localhost:2702/console/#!/mapping](http
 	- URL: [/github/openviglet](http://localhost:2702/github/openviglet)
 	- Proxy: [https://api.github.com/users/openviglet](https://api.github.com/users/openviglet)
 
-![mapping.png](https://openviglet.github.io/vecchio/img/mapping.png)
+![mapping.png](https://openvecchio.github.io/vecchio/img/mapping.png)
 
 ## Apps
 
 Create a new App ([http://localhost:2702/console/#!/app/new](http://localhost:2702/console/#!/app/new)) and copy the values of  "Keys and Access Tokens" tab.
 
-![vecchio_oauth2.png](https://openviglet.github.io/vecchio/img/vecchio_oauth2.png)
+![vecchio_oauth2.png](https://openvecchio.github.io/vecchio/img/vecchio_oauth2.png)
 
 Will generate the following keys an tokens for your App, for instance:
 
@@ -130,4 +142,4 @@ curl -X GET "localhost:2702/github/openviglet" -H  "accept: application/json" -H
 
 Dashboard Console ([http://localhost:2702/console/#!/dashboard](http://localhost:2702/console/#!/dashboard)) shows response time report.
 
-![dashboard.png](https://openviglet.github.io/vecchio/img/dashboard.png)
+![dashboard.png](https://openvecchio.github.io/vecchio/img/dashboard.png)

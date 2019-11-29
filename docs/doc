@@ -1,0 +1,6 @@
+#!/bin/bash
+asciidoctor index.htmladoc
+
+asciidoctor getting-started.adoc
+asciidoctor developer-guide.adoc
+asciidoctor-pdf developer-guide.adoc
