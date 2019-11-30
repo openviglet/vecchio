@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.viglet.vecchio.persistence.model.VecApp;
+import com.viglet.vecchio.persistence.model.app.VecApp;
 import com.viglet.vecchio.persistence.model.auth.VecUser;
 import com.viglet.vecchio.persistence.model.oauth.VecOAuthAccessToken;
 import com.viglet.vecchio.persistence.model.oauth.VecOAuthAccessTokenPK;

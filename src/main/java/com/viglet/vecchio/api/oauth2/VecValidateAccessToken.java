@@ -26,7 +26,7 @@ import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.viglet.vecchio.api.oauth2.demo.TestContent;
 import com.viglet.vecchio.persistence.model.oauth.VecOAuthAccessToken;
-import com.viglet.vecchio.persistence.repository.VecMappingRepository;
+import com.viglet.vecchio.persistence.repository.app.VecMappingRepository;
 import com.viglet.vecchio.persistence.repository.oauth.VecOAuthAccessTokenRepository;
 
 import io.swagger.annotations.Api;

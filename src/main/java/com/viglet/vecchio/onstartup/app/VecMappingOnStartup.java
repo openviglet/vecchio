@@ -15,31 +15,30 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.viglet.vecchio.persistence.repository.app;
+package com.viglet.vecchio.onstartup.app;
 
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.viglet.vecchio.persistence.model.app.VecMapping;
+import com.viglet.vecchio.persistence.repository.app.VecMappingRepository;
 
-@Repository
-public interface VecMappingRepository extends JpaRepository<VecMapping, String> {
+@Component
+public class VecMappingOnStartup {
+	public final static String SAMPLE_MAPPING_ID = "2c3d7fda-2d32-428c-ab0b-a5040ee9a61b";
+	@Autowired
+	private VecMappingRepository vecMappingRepository;
 
-	List<VecMapping> findAll();
+	public void createDefaultRows() {
 
-	Optional<VecMapping> findById(String id);
+		if (vecMappingRepository.findAll().isEmpty()) {
+			VecMapping vecMapping = new VecMapping();
+			vecMapping.setId(SAMPLE_MAPPING_ID);
+			vecMapping.setPattern("https://api.github.com/users/openviglet");
+			vecMapping.setUrl("/github/openviglet");
 
-	@SuppressWarnings("unchecked")
-	VecMapping save(VecMapping vecMapping);
-	
-	boolean existsByPattern(String pattern);
-	
-	@Modifying
-	@Query("delete from VecMapping m where m.id = ?1")
-	void delete(String id);
+			vecMappingRepository.saveAndFlush(vecMapping);
+		}
+
+	}
 }

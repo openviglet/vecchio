@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.viglet.vecchio.persistence.repository;
+package com.viglet.vecchio.persistence.repository.app;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,9 +23,11 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
-import com.viglet.vecchio.persistence.model.VecAccess;
+import com.viglet.vecchio.persistence.model.app.VecAccess;
 
+@Repository
 public interface VecAccessRepository extends JpaRepository<VecAccess, String> {
 
 	List<VecAccess> findAll();

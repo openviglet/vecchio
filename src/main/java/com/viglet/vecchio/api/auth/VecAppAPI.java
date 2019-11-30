@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.viglet.vecchio.persistence.model.VecApp;
-import com.viglet.vecchio.persistence.repository.VecAppRepository;
+import com.viglet.vecchio.persistence.model.app.VecApp;
+import com.viglet.vecchio.persistence.repository.app.VecAppRepository;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

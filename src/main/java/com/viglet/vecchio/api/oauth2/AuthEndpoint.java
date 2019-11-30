@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.viglet.vecchio.persistence.model.VecApp;
+import com.viglet.vecchio.persistence.model.app.VecApp;
 import com.viglet.vecchio.persistence.model.oauth.VecOAuthAccessToken;
 import com.viglet.vecchio.persistence.model.oauth.VecOAuthAccessTokenPK;
 import com.viglet.vecchio.persistence.model.oauth.VecOAuthAuthorizationCode;

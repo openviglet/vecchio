@@ -20,9 +20,11 @@ package com.viglet.vecchio.persistence.repository.system;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import com.viglet.vecchio.persistence.model.system.VecLocale;
 
+@Repository
 public interface VecLocaleRepository extends JpaRepository<VecLocale, String> {
 
 	static final String EN_US = "en_US";

@@ -22,8 +22,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.viglet.vecchio.api.oauth2.demo.TestContent;
-import com.viglet.vecchio.persistence.model.VecMapping;
-import com.viglet.vecchio.persistence.repository.VecMappingRepository;
+import com.viglet.vecchio.persistence.model.app.VecMapping;
+import com.viglet.vecchio.persistence.repository.app.VecMappingRepository;
 import com.viglet.vecchio.persistence.service.VecAppService;
 import com.viglet.vecchio.proxy.VigProxy;
 

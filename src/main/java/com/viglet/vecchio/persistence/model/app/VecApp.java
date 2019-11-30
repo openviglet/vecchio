@@ -1,4 +1,4 @@
-package com.viglet.vecchio.persistence.model;
+package com.viglet.vecchio.persistence.model.app;
 
 import java.io.Serializable;
 import javax.persistence.*;

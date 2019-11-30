@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.viglet.vecchio.persistence.model.VecAccess;
-import com.viglet.vecchio.persistence.repository.VecAccessRepository;
+import com.viglet.vecchio.persistence.model.app.VecAccess;
+import com.viglet.vecchio.persistence.repository.app.VecAccessRepository;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

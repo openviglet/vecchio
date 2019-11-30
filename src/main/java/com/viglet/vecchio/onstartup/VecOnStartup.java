@@ -22,6 +22,8 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
+import com.viglet.vecchio.onstartup.app.VecAppOnStartup;
+import com.viglet.vecchio.onstartup.app.VecMappingOnStartup;
 import com.viglet.vecchio.onstartup.auth.VecGroupOnStartup;
 import com.viglet.vecchio.onstartup.auth.VecUserOnStartup;
 import com.viglet.vecchio.onstartup.system.VecConfigVarOnStartup;
@@ -40,6 +42,10 @@ public class VecOnStartup implements ApplicationRunner {
 	@Autowired
 	private VecUserOnStartup vecUserOnStartup;
 	@Autowired
+	private VecAppOnStartup vecAppOnStartup;
+	@Autowired
+	private VecMappingOnStartup vecMappingOnStartup;
+	@Autowired
 	private VecConfigVarOnStartup vecConfigVarOnStartup;
 
 	@Override
@@ -53,6 +59,8 @@ public class VecOnStartup implements ApplicationRunner {
 			vecLocaleOnStartup.createDefaultRows();
 			vecGroupOnStartup.createDefaultRows();
 			vecUserOnStartup.createDefaultRows();
+			vecAppOnStartup.createDefaultRows();
+			vecMappingOnStartup.createDefaultRows();
 			vecConfigVarOnStartup.createDefaultRows();
 
 			System.out.println("Configuration finished.");
