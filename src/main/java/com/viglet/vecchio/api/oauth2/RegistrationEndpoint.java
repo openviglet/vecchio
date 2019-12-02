@@ -19,7 +19,7 @@ import com.viglet.vecchio.api.oauth2.demo.ServerContent;
 import io.swagger.annotations.Api;
 
 @RestController
-@RequestMapping("/register")
+@RequestMapping("/oauth/register")
 @Api(value = "/register", tags = "Register", description = "Register")
 public class RegistrationEndpoint {
 

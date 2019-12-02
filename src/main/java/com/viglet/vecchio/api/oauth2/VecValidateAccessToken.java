@@ -32,7 +32,7 @@ import com.viglet.vecchio.persistence.repository.oauth.VecOAuthAccessTokenReposi
 import io.swagger.annotations.Api;
 
 @RestController
-@RequestMapping("/token_validate")
+@RequestMapping("/oauth/token_validate")
 @Api(value = "/token_validate", tags = "Token Validate", description = "Token Validate")
 public class VecValidateAccessToken {
 	@Autowired

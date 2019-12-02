@@ -50,7 +50,7 @@ public class VecSecurityConfigProduction extends WebSecurityConfigurerAdapter {
 		// Prevent the HTTP response header of "Pragma: no-cache".
 		http.headers().frameOptions().disable().cacheControl().disable();
 		http.httpBasic().and().authorizeRequests()
-				.antMatchers("/index.html", "/welcome/**", "/", "/store/**", "/thirdparty/**", "/js/**", "/css/**",
+				.antMatchers("/oauth/**", "/index.html", "/welcome/**", "/", "/store/**", "/thirdparty/**", "/js/**", "/css/**",
 						"/template/**", "/img/**", "/sites/**", "/__tur/**", "/swagger-resources/**", "/h2/**","/image/**", "/login-page/**", "/logout-page/**", "/proxy/**")
 				.permitAll()
 				.anyRequest().authenticated().and()

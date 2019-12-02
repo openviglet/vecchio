@@ -25,7 +25,7 @@ import io.swagger.annotations.Api;
 
 
 @RestController
-@RequestMapping("/resource_query")
+@RequestMapping("/oauth/resource_query")
 @Api(value = "/resource_query", tags = "Resource Query", description = "Resource Query")
 public class ResourceQueryEndpoint {
 

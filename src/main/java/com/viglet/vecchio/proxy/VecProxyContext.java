@@ -7,6 +7,7 @@ import java.security.Principal;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -23,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.HandlerMapping;
 
 import com.viglet.vecchio.api.oauth2.demo.TestContent;
-import com.viglet.vecchio.persistence.model.app.VecApp;
 import com.viglet.vecchio.persistence.model.app.VecMapping;
 import com.viglet.vecchio.persistence.repository.app.VecMappingRepository;
 import com.viglet.vecchio.persistence.service.VecAppService;
@@ -40,7 +40,8 @@ public class VecProxyContext {
 	private Pattern regExIdPattern = Pattern.compile("/resource/([0-9]*)");
 
 	@RequestMapping("/proxy/**")
-	private void indexAnyRequest(HttpServletRequest request, HttpServletResponse response, final Principal principal) {
+	private void indexAnyRequest(HttpServletRequest request, HttpServletResponse response, final Principal principal)
+			throws ServletException {
 		String pathInfo = (String) request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
 		OutputStream ops;
 		try {
@@ -58,8 +59,7 @@ public class VecProxyContext {
 						String accessToken = oauthRequest.getAccessToken();
 
 						// Validate the access token
-						VecApp vecApp = vecAppService.getAppByAccessToken(accessToken);
-						if ( vecApp == null) {
+						if ( vecAppService.getAppByAccessToken(accessToken) == null) {
 							// Return the OAuth error message
 							OAuthRSResponse.errorResponse(HttpServletResponse.SC_UNAUTHORIZED)
 									.setRealm(TestContent.RESOURCE_SERVER_NAME)
@@ -100,7 +100,7 @@ public class VecProxyContext {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-						return;
+					
 					} catch (OAuthSystemException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -123,5 +123,6 @@ public class VecProxyContext {
 		if (matcher.find()) {
 			return;
 		}
+		throw new ServletException("Invalid URI");
 	}
 }

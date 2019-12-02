@@ -59,12 +59,9 @@ $ java -jar build/libs/viglet-vecchio.jar
 
 ## Mapping Resources
 
-For example, in Mapping Console ([http://localhost:2702/console/#!/mapping](http://localhost:2702/console/#!/mapping)) add the following URLs:
+For example, in Mapping Console ([http://localhost:2702/console/#!/mapping](http://localhost:2702/console/#!/mapping)) add the following URL:
 
-1. Viglet Turing Entity
-	- URL: [/turing/entity](http://localhost:2702/turing/entity)
-	- Proxy: [https://api.viglet.ai/turing/entity](https://api.viglet.ai/turing/entity)
-2. GitHub - openviglet
+GitHub - openviglet
 	- URL: [/github/openviglet](http://localhost:2702/github/openviglet)
 	- Proxy: [https://api.github.com/users/openviglet](https://api.github.com/users/openviglet)
 
@@ -94,7 +91,7 @@ You can access the API Resources using your Access Token, ou generate new Access
 Use the **Consumer Key (API Key)** to generate the *Authorization Code*:
 
 ```bash
-curl -I -X GET 'http://localhost:2702/api/authorize?response_type=code&client_id=8d0304f37e2c0bbf1d9ab602e916ef34&redirect_uri=http://localhost:2702/console/oauth2/receive_authcode'
+curl -I -X GET 'http://localhost:2702/oauth/authorize?response_type=code&client_id=8d0304f37e2c0bbf1d9ab602e916ef34&redirect_uri=http://localhost:2702/console/oauth2/receive_authcode'
 ```
 Will return the *Location*, so get the **Authorization Code**:
 
@@ -105,7 +102,7 @@ Location: http://localhost:2702/console/oauth2/receive_authcode?code=e31d6626d20
 Use the *Authorization Code* to generate the **Access Token**, for instance: `b516216e45610d4be3716c8dfab70985`:
 
 ```bash
-curl -I -X GET 'http://localhost:2702/api/token' -d 'grant_type=authorization_code&code=e31d6626d203aaea0811305e33136d59'
+curl -X GET 'http://localhost:2702/oauth/token' -d 'grant_type=authorization_code&code=e31d6626d203aaea0811305e33136d59'
 ```
 
 ### Implicit
@@ -113,7 +110,7 @@ curl -I -X GET 'http://localhost:2702/api/token' -d 'grant_type=authorization_co
 Use the **Consumer Key (API Key)** to generate the *Authorization Code*:
 
 ```bash
-curl -I -X GET 'http://localhost:2702/api/authorize?response_type=token&client_id=8d0304f37e2c0bbf1d9ab602e916ef34&redirect_uri=http://localhost:2702/console/oauth2/receive_implicit_token'
+curl -I -X GET 'http://localhost:2702/oauth/authorize?response_type=token&client_id=8d0304f37e2c0bbf1d9ab602e916ef34&redirect_uri=http://localhost:2702/console/oauth2/receive_implicit_token'
 ```
 
 Will return the *Location*, so get the **Access Token**, for instance: `b516216e45610d4be3716c8dfab70985`:
@@ -125,12 +122,6 @@ Location: http://localhost:2702/console/oauth2/receive_implicit_token?access_tok
 ## Using API Resources
 
 Ready! You can access the following API Resources using the **Access Token** from Authorization Code or Implicit Grant Types or App Settings (Your Access Token), for instance `fb803d96bb541ba658d514b3f4d88363`, if you use an invalid Access Token, it will return empty response.
-
-* Viglet Turing - Entity:
-
-```bash
-curl -X GET "http://localhost:2702/turing/entity" -H  "accept: application/json" -H  "content-type: application/json" -H  "authorization: Bearer fb803d96bb541ba658d514b3f4d88363"
-```
 
 * GitHub - openviglet:
 

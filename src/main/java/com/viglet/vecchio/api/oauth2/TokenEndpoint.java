@@ -25,7 +25,7 @@ import com.viglet.vecchio.api.oauth2.demo.TestContent;
 import io.swagger.annotations.Api;
 
 @RestController
-@RequestMapping("/token")
+@RequestMapping("/oauth/token")
 @Api(value = "/token", tags = "Token", description = "Token")
 public class TokenEndpoint {
 

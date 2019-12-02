@@ -26,7 +26,7 @@ import com.viglet.vecchio.persistence.repository.oauth.VecOAuthAccessTokenReposi
 import io.swagger.annotations.Api;
 
 @RestController
-@RequestMapping("/tokeninfo")
+@RequestMapping("/oauth/tokeninfo")
 @Api(value = "/tokeninfo", tags = "Token Info", description = "Token Info")
 public class VecTokenInfo {
 	@Autowired

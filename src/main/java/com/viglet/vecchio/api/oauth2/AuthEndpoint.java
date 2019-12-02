@@ -37,7 +37,7 @@ import java.net.URISyntaxException;
 import java.util.Date;
 
 @RestController
-@RequestMapping("/authorize")
+@RequestMapping("/oauth/authorize")
 @Api(value = "/authorize", tags = "Authorize", description = "Authorize")
 public class AuthEndpoint {
 	@Autowired
@@ -78,7 +78,7 @@ public class AuthEndpoint {
 
 			if (responseType.equals(ResponseType.CODE.toString())) {
 
-				VecOAuthAuthorizationCode vecOAuthAuthorizationCode = vecOAuthAuthorizationCodeRepository.findByClientId(clientId);
+				VecOAuthAuthorizationCode vecOAuthAuthorizationCode = vecOAuthAuthorizationCodeRepository.findById_ClientId(clientId);
 				if (vecOAuthAuthorizationCode != null) {
 					vecOAuthAuthorizationCodeRepository.delete(vecOAuthAuthorizationCode);
 				}

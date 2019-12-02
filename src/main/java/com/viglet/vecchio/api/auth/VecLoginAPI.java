@@ -93,7 +93,7 @@ public class VecLoginAPI {
 
 			if (responseType.equals(ResponseType.CODE.toString())) {
 
-				VecOAuthAuthorizationCode vecOAuthAuthorizationCode = vecOAuthAuthorizationCodeRepository.findByClientId(clientId);
+				VecOAuthAuthorizationCode vecOAuthAuthorizationCode = vecOAuthAuthorizationCodeRepository.findById_ClientId(clientId);
 				if (vecOAuthAuthorizationCode != null) {
 					vecOAuthAuthorizationCodeRepository.delete(vecOAuthAuthorizationCode);
 				}

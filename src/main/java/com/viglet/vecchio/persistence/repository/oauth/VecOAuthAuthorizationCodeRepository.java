@@ -37,9 +37,7 @@ public interface VecOAuthAuthorizationCodeRepository extends JpaRepository<VecOA
 	@SuppressWarnings("unchecked")
 	VecOAuthAuthorizationCode save(VecOAuthAuthorizationCode vecOAuthAuthorizationCode);
 
-	@Modifying
-	@Query("SELECT a FROM VecOAuthAuthorizationCode a where a.id.clientId = ?1")	
-	VecOAuthAuthorizationCode findByClientId(String clientId);
+	VecOAuthAuthorizationCode findById_ClientId(String clientId);
 	
 	@Modifying
 	@Query("delete from VecOAuthAuthorizationCode oac where oac.id = ?1")
