@@ -23,14 +23,10 @@ public class VecAppService {
 		
 			VecOAuthAccessToken vecOAuthAccessToken = vecOAuthAccessTokenRepository.findById_AccessToken(accessToken);
 			if (vecOAuthAccessToken != null) {
-				vecApp = this.getAppByClientId(vecOAuthAccessToken.getId().getClientId());
+				vecApp = vecAppRepository.findByApiKey(vecOAuthAccessToken.getId().getClientId());
 			}
 		}
 		return vecApp;
 
-	}
-
-	public VecApp getAppByClientId(String clientId) {
-		return vecAppRepository.findByApiKey(clientId);
 	}
 }

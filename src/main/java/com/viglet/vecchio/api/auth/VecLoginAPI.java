@@ -30,10 +30,10 @@ import com.viglet.vecchio.persistence.model.oauth.VecOAuthAccessToken;
 import com.viglet.vecchio.persistence.model.oauth.VecOAuthAccessTokenPK;
 import com.viglet.vecchio.persistence.model.oauth.VecOAuthAuthorizationCode;
 import com.viglet.vecchio.persistence.model.oauth.VecOAuthAuthorizationCodePK;
+import com.viglet.vecchio.persistence.repository.app.VecAppRepository;
 import com.viglet.vecchio.persistence.repository.auth.VecUserRepository;
 import com.viglet.vecchio.persistence.repository.oauth.VecOAuthAccessTokenRepository;
 import com.viglet.vecchio.persistence.repository.oauth.VecOAuthAuthorizationCodeRepository;
-import com.viglet.vecchio.persistence.service.VecAppService;
 
 import io.swagger.annotations.Api;
 
@@ -42,7 +42,7 @@ import io.swagger.annotations.Api;
 @Api(value = "/login", tags = "Login", description = "Login")
 public class VecLoginAPI {
 	@Autowired
-	private VecAppService vecAppService;
+	private VecAppRepository vecAppRepository;
 	@Autowired
 	private VecUserRepository vecUserRepository;
 	@Autowired
@@ -74,7 +74,7 @@ public class VecLoginAPI {
 
 				return ResponseEntity.status(HttpStatus.FOUND).body("OAuth callback url needs client_id");
 			} else {
-				VecApp vecApp = vecAppService.getAppByClientId(clientId);
+				VecApp vecApp =  vecAppRepository.findByApiKey(clientId);
 				if (vecApp == null) {
 					return ResponseEntity.status(HttpStatus.FOUND).body("OAuth callback url needs valid client_id");
 				}

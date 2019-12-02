@@ -33,7 +33,7 @@ public class VecProxyContext {
 	@Autowired
 	private VecMappingRepository vecMappingRepository;
 	@Autowired
-	private VigProxy vigProxy;
+	private VecProxy vecProxy;
 	@Autowired
 	private VecAppService vecAppService;
 	
@@ -41,7 +41,6 @@ public class VecProxyContext {
 
 	@RequestMapping("/proxy/**")
 	private void indexAnyRequest(HttpServletRequest request, HttpServletResponse response, final Principal principal) {
-		System.out.println("indexAnyRequest");
 		String pathInfo = (String) request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
 		OutputStream ops;
 		try {
@@ -71,7 +70,7 @@ public class VecProxyContext {
 						}
 
 						// Return the resource
-						vigProxy.run(new URL(vecMapping.getUrl()), ops, vecMapping);
+						vecProxy.run(new URL(vecMapping.getUrl()), ops, vecMapping);
 						return;
 
 					} catch (OAuthProblemException e) {
@@ -93,7 +92,6 @@ public class VecProxyContext {
 						}
 
 						try {
-							System.out.println("GG");
 							OAuthRSResponse.errorResponse(HttpServletResponse.SC_UNAUTHORIZED)
 									.setRealm(TestContent.RESOURCE_SERVER_NAME).setError(e.getError())
 									.setErrorDescription(e.getDescription()).setErrorUri(e.getDescription())

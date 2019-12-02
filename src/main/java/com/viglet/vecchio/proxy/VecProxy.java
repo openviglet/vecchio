@@ -14,7 +14,7 @@ import com.viglet.vecchio.persistence.model.app.VecMapping;
 import com.viglet.vecchio.persistence.repository.app.VecAccessRepository;
 
 @Component
-public class VigProxy {
+public class VecProxy {
 	@Autowired
 	private VecAccessRepository vecAccessRepository;
 	private static final int BUFFER_SIZE = 32768;
@@ -30,15 +30,7 @@ public class VigProxy {
 				conn.setDoInput(true);
 				// not doing HTTP posts
 				conn.setDoOutput(false);
-				// System.out.println("Type is: " + conn.getContentType());
-				// System.out.println("content length: " +
-				// conn.getContentLength());
-				// System.out.println("allowed user interaction: " +
-				// conn.getAllowUserInteraction());
-				// System.out.println("content encoding: " +
-				// conn.getContentEncoding());
-				// System.out.println("content type: " + conn.getContentType());
-
+		
 				// Get the response
 				InputStream is = null;
 				try {
