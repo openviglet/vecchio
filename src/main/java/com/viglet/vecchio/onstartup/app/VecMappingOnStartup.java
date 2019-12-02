@@ -34,8 +34,8 @@ public class VecMappingOnStartup {
 		if (vecMappingRepository.findAll().isEmpty()) {
 			VecMapping vecMapping = new VecMapping();
 			vecMapping.setId(SAMPLE_MAPPING_ID);
-			vecMapping.setPattern("https://api.github.com/users/openviglet");
-			vecMapping.setUrl("/github/openviglet");
+			vecMapping.setUrl("https://api.github.com/users/openviglet");
+			vecMapping.setPattern("/proxy/github/openviglet");
 
 			vecMappingRepository.saveAndFlush(vecMapping);
 		}

@@ -55,7 +55,7 @@ public class VecValidateAccessToken {
 				// Get the access token
 				String accessToken = oauthRequest.getAccessToken();
 
-				VecOAuthAccessToken vecOAuthAccessToken = vecOAuthAccessTokenRepository.findByAccessToken(accessToken);
+				VecOAuthAccessToken vecOAuthAccessToken = vecOAuthAccessTokenRepository.findById_AccessToken(accessToken);
 
 				// Validate the access token
 				if (vecOAuthAccessToken == null) {

@@ -114,7 +114,7 @@ public class VecLoginAPI {
 				builder.setCode(id.getAuthorizationCode());
 			}
 			if (responseType.equals(ResponseType.TOKEN.toString())) {
-				VecOAuthAccessToken vecOAuthAccessToken = vecOAuthAccessTokenRepository.findByClientId(clientId);						
+				VecOAuthAccessToken vecOAuthAccessToken = vecOAuthAccessTokenRepository.findById_ClientId(clientId);						
 				if (vecOAuthAccessToken != null) {
 					vecOAuthAccessTokenRepository.delete(vecOAuthAccessToken);
 				}

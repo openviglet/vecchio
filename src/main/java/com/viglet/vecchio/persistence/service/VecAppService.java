@@ -21,7 +21,7 @@ public class VecAppService {
 		VecApp vecApp = vecAppRepository.findByAccessToken(accessToken);
 		if (vecApp == null) {
 		
-			VecOAuthAccessToken vecOAuthAccessToken = vecOAuthAccessTokenRepository.findByAccessToken(accessToken);
+			VecOAuthAccessToken vecOAuthAccessToken = vecOAuthAccessTokenRepository.findById_AccessToken(accessToken);
 			if (vecOAuthAccessToken != null) {
 				vecApp = this.getAppByClientId(vecOAuthAccessToken.getId().getClientId());
 			}
