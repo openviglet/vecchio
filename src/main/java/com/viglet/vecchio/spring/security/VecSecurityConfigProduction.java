@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.viglet.vecchio.security;
+package com.viglet.vecchio.spring.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -44,18 +44,20 @@ import org.springframework.security.web.firewall.StrictHttpFirewall;
 public class VecSecurityConfigProduction extends WebSecurityConfigurerAdapter {
 	@Autowired
 	UserDetailsService userDetailsService;
+	@Autowired
+	VecAuthenticationEntryPoint vecAuthenticationEntryPoint;
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		// Prevent the HTTP response header of "Pragma: no-cache".
 		http.headers().frameOptions().disable().cacheControl().disable();
-		http.httpBasic().and().authorizeRequests()
-				.antMatchers("/oauth/**", "/index.html", "/welcome/**", "/", "/store/**", "/thirdparty/**", "/js/**", "/css/**",
-						"/template/**", "/img/**", "/sites/**", "/__tur/**", "/swagger-resources/**", "/h2/**","/image/**", "/login-page/**", "/logout-page/**", "/proxy/**")
-				.permitAll()
-				.anyRequest().authenticated().and()
+		http.httpBasic().authenticationEntryPoint(vecAuthenticationEntryPoint).and().authorizeRequests()
+				.antMatchers("/oauth/**", "/index.html", "/welcome/**", "/", "/store/**", "/thirdparty/**", "/js/**",
+						"/css/**", "/template/**", "/img/**", "/sites/**", "/__tur/**", "/swagger-resources/**",
+						"/h2/**", "/image/**", "/login-page/**", "/logout-page/**", "/proxy/**")
+				.permitAll().anyRequest().authenticated().and()
 				.addFilterAfter(new VecCsrfHeaderFilter(), CsrfFilter.class).csrf()
-				.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and().logout();		
+				.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and().logout();
 	}
 
 	@Override

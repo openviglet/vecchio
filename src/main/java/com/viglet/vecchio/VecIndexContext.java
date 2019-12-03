@@ -29,15 +29,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class VecIndexContext {
 
-	
 	@RequestMapping("/")
 	private void index(HttpServletRequest request, HttpServletResponse response, final Principal principal)
 			throws IOException {
-		response.sendRedirect("/console");
+		if (principal != null)
+			response.sendRedirect("/console");
+		else
+			response.sendRedirect("/welcome");
 
 	}
 
-	
-
-	 
 }

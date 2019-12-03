@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.viglet.vecchio.security;
+package com.viglet.vecchio.spring.security;
 
 import java.util.Collection;
 import java.util.List;

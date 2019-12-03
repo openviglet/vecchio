@@ -1,6 +1,20 @@
 vecchioApp.config([
-	'$stateProvider', '$urlRouterProvider', '$translateProvider', 
-	function ($stateProvider, $urlRouterProvider, $translateProvider) {
+	'$stateProvider', '$urlRouterProvider', '$translateProvider', 'NotificationProvider', '$httpProvider',
+	function ($stateProvider, $urlRouterProvider, $translateProvider, NotificationProvider, $httpProvider) {
+
+		$httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
+		$httpProvider.interceptors.push('vecAuthInterceptor');
+
+		NotificationProvider.setOptions({
+			delay : 5000,
+			startTop : 20,
+			startRight : 10,
+			verticalSpacing : 20,
+			horizontalSpacing : 20,
+			positionX : 'right',
+			positionY : 'bottom'
+		});
+
 		$translateProvider.useSanitizeValueStrategy('escaped');
 		$translateProvider
 			.translations(
@@ -87,47 +101,47 @@ vecchioApp.config([
 				url: '/user',
 				templateUrl: 'template/user/user.html',
 				controller: 'VecUserCtrl',
-				data : { pageTitle: 'Users | Viglet Vecchio' }
+				data: { pageTitle: 'Users | Viglet Vecchio' }
 			}).state('organization.user-new', {
 				url: '/user/new',
 				templateUrl: 'template/user/user-item.html',
 				controller: 'VecUserNewCtrl',
-				data : { pageTitle: 'New User | Viglet Vecchio' }
+				data: { pageTitle: 'New User | Viglet Vecchio' }
 			}).state('organization.user-edit', {
 				url: '/user/:userId',
 				templateUrl: 'template/user/user-item.html',
 				controller: 'VecUserEditCtrl',
-				data : { pageTitle: 'Edit User | Viglet Vecchio' }
+				data: { pageTitle: 'Edit User | Viglet Vecchio' }
 			}).state('organization.role', {
 				url: '/role',
 				templateUrl: 'template/role/role.html',
 				controller: 'VecRoleCtrl',
-				data : { pageTitle: 'Roles | Viglet Vecchio' }
+				data: { pageTitle: 'Roles | Viglet Vecchio' }
 			}).state('admin.role-new', {
 				url: '/role/new',
 				templateUrl: 'template/role/role-item.html',
 				controller: 'VecRoleNewCtrl',
-				data : { pageTitle: 'New Role | Viglet Vecchio' }
+				data: { pageTitle: 'New Role | Viglet Vecchio' }
 			}).state('organization.role-edit', {
 				url: '/role/:roleId',
 				templateUrl: 'template/role/role-item.html',
 				controller: 'VecRoleEditCtrl',
-				data : { pageTitle: 'Edit Role | Viglet Vecchio' }
+				data: { pageTitle: 'Edit Role | Viglet Vecchio' }
 			}).state('organization.group', {
 				url: '/group',
 				templateUrl: 'template/group/group.html',
 				controller: 'VecGroupCtrl',
-				data : { pageTitle: 'Groups | Viglet Vecchio' }
+				data: { pageTitle: 'Groups | Viglet Vecchio' }
 			}).state('organization.group-new', {
 				url: '/group/new',
 				templateUrl: 'template/group/group-item.html',
 				controller: 'VecGroupNewCtrl',
-				data : { pageTitle: 'New Group | Viglet Vecchio' }
+				data: { pageTitle: 'New Group | Viglet Vecchio' }
 			}).state('organization.group-edit', {
 				url: '/group/:groupId',
 				templateUrl: 'template/group/group-item.html',
 				controller: 'VecGroupEditCtrl',
-				data : { pageTitle: 'Edit Group | Viglet Vecchio' }
+				data: { pageTitle: 'Edit Group | Viglet Vecchio' }
 			});
 
 	}]);
