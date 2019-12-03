@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -76,7 +77,7 @@ public class VecAppAPI {
 
 	@ApiOperation(value = "Update a App")
 	@PutMapping("/{id}")
-	public VecApp update(@PathVariable String id, VecApp vecApp) {
+	public VecApp update(@PathVariable String id, @RequestBody VecApp vecApp) {
 		VecApp vecAppEdit = vecAppRepository.findById(id).get();
 		vecAppEdit.setName(vecApp.getName());
 		vecAppEdit.setDescription(vecApp.getDescription());
@@ -94,7 +95,7 @@ public class VecAppAPI {
 
 	@ApiOperation(value = "Create a App")
 	@PostMapping
-	public VecApp add(VecApp vecApp) {
+	public VecApp add(@RequestBody VecApp vecApp) {
 		MD5Generator tokenSecret = new MD5Generator();
 		OAuthIssuer oauthIssuerImpl = new OAuthIssuerImpl(tokenSecret);
 		try {

@@ -9,17 +9,7 @@ vecchioApp.controller('VecMappingCtrl', [
 		$scope.mappings = vecMappingResource.query();
 
 		$scope.mappingDelete = function (mappingId) {
-			$http.delete("../api/v2/mapping/" + mappingId).then(
-				function (data, status, headers, config) {
-					$http.get(
-							"../api/v2/mapping/").then(
-						function (response) {
-							$scope.mappings = response.data;
-						});
-				}, function (data, status, headers, config) {
-					// called asynchronously if an error occurs
-					// or server returns response with an error
-					// status.
-				});
+
+			shFolderFactory.deleteFromList(shFolder, $scope.shFolders);
 		}
 	}]);
