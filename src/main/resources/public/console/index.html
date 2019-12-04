@@ -202,14 +202,26 @@
 				</div>
 				<nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
 					<ul class="nav navbar-nav navbar-left">
-						<li ng-class="{'active':$state.current.name == 'dashboard'}"><a ui-sref="dashboard"
+						<li ng-class="{'active':$state.current.name == 'console.dashboard'}"><a ui-sref="console.dashboard"
 								data-target="#dummy">Dashboard</a></li>
-						<li ng-class="{'active':$state.current.name.indexOf('mapping') == 0}"><a ui-sref="mapping"
+						<li ng-class="{'active':$state.current.name.indexOf('console.mapping') == 0}"><a ui-sref="console.mapping"
 								data-target="#dummy">Mapping</a></li>
-						<li ng-class="{'active':$state.current.name.indexOf('organization') == 0}"><a
-								ui-sref="organization" data-target="#dummy">Organization</a></li>
-						<li ng-class="{'active':$state.current.name.indexOf('app') == 0}"><a ui-sref="app"
+						<li ng-class="{'active':$state.current.name.indexOf('console.organization') == 0}"><a
+								ui-sref="console.organization" data-target="#dummy">Organization</a></li>
+						<li ng-class="{'active':$state.current.name.indexOf('console.app') == 0}"><a ui-sref="console.app"
 								data-target="#dummy">Apps</a></li>
+
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li class="dropdown"><a href class="dropdown-toggle" data-toggle="dropdown" role="button"
+								aria-haspopup="true" aria-expanded="false">{{principal.firstName}}
+								{{principal.lastName}}
+								<span class="caret"></span>
+							</a>
+							<ul class="dropdown-menu">
+								<li><a href ng-click="logout()">Sign out</a></li>
+							</ul>
+						</li>
 					</ul>
 				</nav>
 			</div>

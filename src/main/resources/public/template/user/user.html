@@ -13,7 +13,7 @@
 			</div>
 			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"
 				style="text-align: right">
-				<a ui-sref="organization.user-new" class="btn btn-vecchio"
+				<a ui-sref="console.organization.user-new" class="btn btn-vecchio"
 					role="button" aria-pressed="true"
 					style="margin-bottom: 5px; color: white">New</a>
 			</div>
@@ -31,12 +31,12 @@
 			</thead>
 			<tbody>
 				<tr ng-repeat="user in users | orderBy:'username'">
-					<td><a ui-sref="organization.user-edit({userId: user.username})" >{{user.username}}</a></td>
-					<td><a ui-sref="organization.user-edit({userId: user.username})" >{{user.firstName}}</a></td>
-					<td><a ui-sref="organization.user-edit({userId: user.username})" >{{user.lastName}}</a></td>
+					<td><a ui-sref="console.organization.user-edit({userId: user.username})" >{{user.username}}</a></td>
+					<td><a ui-sref="console.organization.user-edit({userId: user.username})" >{{user.firstName}}</a></td>
+					<td><a ui-sref="console.organization.user-edit({userId: user.username})" >{{user.lastName}}</a></td>
 					<td style="text-align: right">
 						<div class="btn-group">
-							<button type="button" ui-sref="organization.user-edit({userId: user.username})"
+							<button type="button" ui-sref="console.organization.user-edit({userId: user.username})"
 								class="btn btn-vecchio">Edit</button>
 							<button type="button" class="btn btn-vecchio dropdown-toggle"
 								data-toggle="dropdown" aria-haspopup="true"
