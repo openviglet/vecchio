@@ -4,13 +4,13 @@
 	<div class="panel-title"
 		style="padding: 10px; border-bottom-color: rgb(217, 217, 217); border-bottom-style: solid; border-bottom-width: thin;">
 		<div ng-hide="$state.current.name.indexOf('app-edit') == 0">
-		<p style="font-size: 18px; color: #FF874B; margin: 0px;"
+		<p style="font-size: 18px; color: mediumseagreen; margin: 0px;"
 			class="ng-binding">New App</p>
 		<p style="font-size: 14px; color: rgb(182, 182, 182); margin: 0px;"
 			class="ng-binding">Add new App</p>
 		</div>
 		<div ng-show="$state.current.name.indexOf('app-edit') == 0">
-		<p style="font-size: 18px; color: #FF874B; margin: 0px;"
+		<p style="font-size: 18px; color: mediumseagreen; margin: 0px;"
 			class="ng-binding">{{app.name}}</p>
 		<p style="font-size: 14px; color: rgb(182, 182, 182); margin: 0px;"
 			class="ng-binding">{{app.description}}</p>
@@ -45,7 +45,7 @@
 					class="form-control" id="callbackURL" ng-model="app.callbackURL"
 					placeholder="Callback URL">
 			</div>
-			<button type="submit" ng-click="appSave()" class="btn btn-viglet" ng-bind="$state.current.data.saveButton">Save</button>
+			<button type="submit" ng-click="appSave()" class="btn btn-vecchio" ng-bind="$state.current.data.saveButton">Save</button>
 		</div>
 	</div>
 </div>

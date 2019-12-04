@@ -1,5 +1,5 @@
 <div class="list-group" style="overflow-x: hidden;overflow-y: auto;max-height: 400px;padding: 15px;">
-	<div class="list-group-item" style="color: white;background-color: #FF874B;">
+	<div class="list-group-item" style="color: white;background-color: mediumseagreen;">
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
 				<input type="checkbox" ng-model="$ctrl.checkAll" ng-click="$ctrl.selectEverything()">
@@ -10,11 +10,12 @@
 	<div ng-repeat="vecUser in $ctrl.vecUsers" class="list-group-item">
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-				<input type="checkbox" ng-model="$ctrl.vecStateObjects[vecUser.username]" ng-click="$ctrl.checkSomeItemSelected()">
+				<input type="checkbox" ng-model="$ctrl.vecStateObjects[vecUser.username]"
+					ng-click="$ctrl.checkSomeItemSelected()">
 			</div>
 			<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">{{vecUser.username}}</div>
 			<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-				<span class="label label-warning">User</span>
+				<span class="label" style="background-color:mediumaquamarine;">User</span>
 			</div>
 		</div>
 	</div>

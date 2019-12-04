@@ -2,15 +2,15 @@
 	<div class="panel-title"
 		style="padding: 10px; border-bottom-color: rgb(217, 217, 217); border-bottom-style: solid; border-bottom-width: thin;">
 		<div class="pull-right">
-			<button type="submit" ng-click="userSave()" class="btn btn-viglet">{{'SETTINGS_SAVE_CHANGES'
+			<button type="submit" ng-click="userSave()" class="btn btn-vecchio">{{'SETTINGS_SAVE_CHANGES'
 				| translate }}</button>
 		</div>
 		<div ng-if="user.username === null">
-			<p style="font-size: 18px; color: #FF874B; margin: 0px;" class="ng-binding">New User</p>
+			<p style="font-size: 18px; color: mediumseagreen; margin: 0px;" class="ng-binding">New User</p>
 			<p style="font-size: 14px; color: rgb(182, 182, 182); margin: 0px;" class="ng-binding">Add new User</p>
 		</div>
 		<div ng-if="user.username !== null">
-			<p style="font-size: 18px; color: #FF874B; margin: 0px;" class="ng-binding">{{user.username}}</p>
+			<p style="font-size: 18px; color: mediumseagreen; margin: 0px;" class="ng-binding">{{user.username}}</p>
 			<p style="font-size: 14px; color: rgb(182, 182, 182); margin: 0px;" class="ng-binding">{{user.firstName}}
 				{{user.lastName}}
 			</p>
@@ -50,7 +50,7 @@
 		<div style="border-color: #f5f5f5; border-style: solid; border-width: 2px;">
 
 			<div style="background-color: #f5f5f5; padding: 10px">
-				<button ng-click="addGroups()" class="btn btn-viglet">Add Group</button>
+				<button ng-click="addGroups()" class="btn btn-vecchio">Add Group</button>
 			</div>
 			<div style="padding: 10px">
 				<div class="list-group-item" ng-repeat="vecGroup in user.vecGroups">
