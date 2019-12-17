@@ -34,6 +34,6 @@ public interface VecRoleRepository extends JpaRepository<VecRole, String> {
 	Set<VecRole> findByVecGroupsIn(Collection<VecGroup> vecGroup);
 
 	@Modifying
-	@Query("delete from VecGroup g where g.id = ?1")
+	@Query("delete from VecRole r where r.id = ?1")
 	void delete(String id);
 }

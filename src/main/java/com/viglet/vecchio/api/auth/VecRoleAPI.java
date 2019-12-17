@@ -17,6 +17,7 @@
 
 package com.viglet.vecchio.api.auth;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -32,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.viglet.vecchio.persistence.model.auth.VecRole;
+import com.viglet.vecchio.persistence.repository.auth.VecGroupRepository;
 import com.viglet.vecchio.persistence.repository.auth.VecRoleRepository;
 
 import io.swagger.annotations.Api;
@@ -43,6 +45,8 @@ public class VecRoleAPI {
 
 	@Autowired
 	private VecRoleRepository vecRoleRepository;
+	@Autowired
+	private VecGroupRepository vecGroupRepository;
 
 	@GetMapping
 	public List<VecRole> vecRoleList() {
@@ -51,13 +55,26 @@ public class VecRoleAPI {
 
 	@GetMapping("/{id}")
 	public VecRole vecRoleEdit(@PathVariable String id) {
-		return vecRoleRepository.findById(id).get();
+		VecRole vecRole = vecRoleRepository.findById(id).orElse(null);
+		if (vecRole != null) {
+			List<VecRole> vecRoles = new ArrayList<>();
+			vecRoles.add(vecRole);
+			vecRole.setVecGroups(vecGroupRepository.findByVecRolesIn(vecRoles));
+		}
+		return vecRole;
 	}
 
 	@PutMapping("/{id}")
 	public VecRole vecRoleUpdate(@PathVariable String id, @RequestBody VecRole vecRole) {
-		vecRoleRepository.save(vecRole);
-		return vecRole;
+
+		VecRole vecRoleEdit = vecRoleRepository.findById(id).orElse(null);
+		if (vecRoleEdit != null) {
+			vecRoleEdit.setName(vecRole.getName());
+			vecRoleEdit.setDescription(vecRole.getDescription());
+			vecRoleEdit.setVecGroups(vecRole.getVecGroups());
+			vecRoleRepository.save(vecRoleEdit);
+		}
+		return vecRoleEdit;
 	}
 
 	@Transactional

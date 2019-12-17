@@ -121,12 +121,12 @@ vecchioApp.config([
 				templateUrl: 'template/role/role.html',
 				controller: 'VecRoleCtrl',
 				data: { pageTitle: 'Roles | Viglet Vecchio' }
-			}).state('console.role-new', {
+			}).state('console.organization.role-new', {
 				url: '/role/new',
 				templateUrl: 'template/role/role-item.html',
 				controller: 'VecRoleNewCtrl',
 				data: { pageTitle: 'New Role | Viglet Vecchio' }
-			}).state('organization.role-edit', {
+			}).state('console.organization.role-edit', {
 				url: '/role/:roleId',
 				templateUrl: 'template/role/role-item.html',
 				controller: 'VecRoleEditCtrl',
