@@ -54,7 +54,8 @@ public class VecSecurityConfigProduction extends WebSecurityConfigurerAdapter {
 		http.httpBasic().authenticationEntryPoint(vecAuthenticationEntryPoint).and().authorizeRequests()
 				.antMatchers("/oauth/**", "/index.html", "/welcome/**", "/", "/store/**", "/thirdparty/**", "/js/**",
 						"/css/**", "/template/**", "/img/**", "/sites/**", "/__tur/**", "/swagger-resources/**",
-						"/h2/**", "/image/**", "/login-page/**", "/logout-page/**", "/proxy/**")
+						"/h2/**", "/image/**", "/login-page/**", "/logout-page/**", "/proxy/**", "/manifest.json",
+						"/*.png", "/*.ico")
 				.permitAll().anyRequest().authenticated().and()
 				.addFilterAfter(new VecCsrfHeaderFilter(), CsrfFilter.class).csrf()
 				.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and().logout();
