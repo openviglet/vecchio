@@ -2,15 +2,16 @@
 	<div class="panel-title"
 		style="padding: 10px; border-bottom-color: rgb(217, 217, 217); border-bottom-style: solid; border-bottom-width: thin;">
 		<div class="pull-right">
-			<button type="submit" ng-click="roleSave()" class="btn btn-viglet">Save</button>
+			<button type="submit" ng-click="roleSave()" class="btn btn-vecchio">Save</button>
 		</div>
-		<div  ng-if="role.id === null">
-			<p style="font-size: 18px; color: #FF874B; margin: 0px;" class="ng-binding">New Role</p>
+		<div ng-if="role.id === null">
+			<p style="font-size: 18px; color: mediumseagreen; margin: 0px;" class="ng-binding">New Role</p>
 			<p style="font-size: 14px; color: rgb(182, 182, 182); margin: 0px;" class="ng-binding">Add new Role</p>
 		</div>
-		<div  ng-if="role.id !== null">
-			<p style="font-size: 18px; color: #FF874B; margin: 0px;" class="ng-binding">{{role.name}}</p>
-			<p style="font-size: 14px; color: rgb(182, 182, 182); margin: 0px;" class="ng-binding">{{role.description}}</p>
+		<div ng-if="role.id !== null">
+			<p style="font-size: 18px; color: mediumseagreen; margin: 0px;" class="ng-binding">{{role.name}}</p>
+			<p style="font-size: 14px; color: rgb(182, 182, 182); margin: 0px;" class="ng-binding">{{role.description}}
+			</p>
 		</div>
 	</div>
 	<div class="panel-body">
@@ -25,21 +26,18 @@
 		<div style="border-color: #f5f5f5; border-style: solid; border-width: 2px;">
 
 			<div style="background-color: #f5f5f5; padding: 10px">
-				<button ng-click="addRelatorItem(vecPost, vecPostAttr)" class="btn btn-viglet">Add Group</button>
+				<button ng-click="addGroups()" class="btn btn-vecchio">Add Group</button>
 			</div>
 			<div style="padding: 10px">
-				<div>
-					<div class="list-group-item">
-						<div style="display: inline-table; width: calc(100% - 120px);">
-							<a href ng-click="selectRelatorItem(vecPostAttr, vecChildrenRelatorItem)">Admin</a>
-						</div>
-						<div style="display: inline-table">
-							<button type="button" class="btn btn-link btn-xs pull-right" style="display: block;"
-								ng-click="relatorDelete(vecPostAttr,$index)">
-								<i class="fa fa-travec-o" aria-hidden="true"></i> Delete
-							</button>
-						</div>
-
+				<div class="list-group-item" ng-repeat="vecGroup in role.vecGroups">
+					<div style="display: inline-table; width: calc(100% - 120px);">
+						{{vecGroup.name}}
+					</div>
+					<div style="display: inline-table">
+						<button type="button" class="btn btn-link btn-xs pull-right" style="display: block;"
+							ng-click="removeGroup($index)">
+							<i class="fa fa-travec-o" aria-hidden="true"></i> Remove
+						</button>
 					</div>
 				</div>
 			</div>

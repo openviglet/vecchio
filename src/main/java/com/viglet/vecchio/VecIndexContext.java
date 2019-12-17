@@ -20,39 +20,23 @@ package com.viglet.vecchio;
 import java.io.IOException;
 import java.security.Principal;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.viglet.vecchio.rest.VigRestRequest;
-
 @Controller
 public class VecIndexContext {
-	@Autowired
-	VigRestRequest vigRestRequest;
-	
+
 	@RequestMapping("/")
 	private void index(HttpServletRequest request, HttpServletResponse response, final Principal principal)
 			throws IOException {
-		response.sendRedirect("/console");
+		if (principal != null)
+			response.sendRedirect("/console");
+		else
+			response.sendRedirect("/welcome");
 
 	}
 
-	/*
-	 * @RequestMapping("/**") private void indexAnyRequest(HttpServletRequest
-	 * request, HttpServletResponse response, final Principal principal) throws
-	 * IOException { try { vigRestRequest.run(request.getPathInfo(),
-	 * response.getOutputStream(), request); } catch (ServletException |
-	 * OAuthSystemException e) { response.setStatus(400); response.resetBuffer();
-	 * e.printStackTrace();
-	 * 
-	 * }
-	 * 
-	 * }
-	 */
 }

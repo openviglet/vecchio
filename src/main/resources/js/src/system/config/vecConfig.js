@@ -1,6 +1,20 @@
 vecchioApp.config([
-	'$stateProvider', '$urlRouterProvider', '$translateProvider', 
-	function ($stateProvider, $urlRouterProvider, $translateProvider) {
+	'$stateProvider', '$urlRouterProvider', '$translateProvider', 'NotificationProvider', '$httpProvider',
+	function ($stateProvider, $urlRouterProvider, $translateProvider, NotificationProvider, $httpProvider) {
+
+		$httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
+		$httpProvider.interceptors.push('vecAuthInterceptor');
+
+		NotificationProvider.setOptions({
+			delay : 5000,
+			startTop : 20,
+			startRight : 10,
+			verticalSpacing : 20,
+			horizontalSpacing : 20,
+			positionX : 'right',
+			positionY : 'bottom'
+		});
+
 		$translateProvider.useSanitizeValueStrategy('escaped');
 		$translateProvider
 			.translations(
@@ -29,105 +43,109 @@ vecchioApp.config([
 				});
 		$translateProvider.fallbackLanguage('en');
 
-		$urlRouterProvider.otherwise('/dashboard');
-		$stateProvider
-			.state('dashboard', {
+		$urlRouterProvider.otherwise('');
+		$stateProvider.state('console', {	
+				url : '',
+				controller : 'VecConsoleCtrl',
+				redirectTo: 'console.dashboard'
+			})
+			.state('console.dashboard', {
 				url: '/dashboard',
 				templateUrl: '/template/dashboard/dashboard.html',
 				controller: 'VecDashboardCtrl',
 				data: { pageTitle: 'Dashboard | Viglet Vecchio' }
 			})
-			.state('organization', {
+			.state('console.organization', {
 				url: '/org',
 				templateUrl: '/template/organization/organization.html',
 				data: { pageTitle: 'Organization | Viglet Vecchio' }
 			})
-			.state('mapping', {
+			.state('console.mapping', {
 				url: '/mapping',
 				templateUrl: '/template/mapping/mapping.html',
 				controller: 'VecMappingCtrl',
 				data: { pageTitle: 'Mapping | Viglet Vecchio' }
 			})
-			.state('mapping-new', {
+			.state('console.mapping-new', {
 				url: '/mapping/new',
 				templateUrl: '/template/mapping/mapping-item.html',
 				controller: 'VecMappingNewCtrl',
 				data: { pageTitle: 'New Mapping | Viglet Vecchio' }
 			})
-			.state('mapping-edit', {
+			.state('console.mapping-edit', {
 				url: '/mapping/:mappingId',
 				templateUrl: '/template/mapping/mapping-item.html',
 				controller: 'VecMappingEditCtrl',
 				data: { pageTitle: 'Edit Mapping | Viglet Vecchio' }
 			})
-			.state('app', {
+			.state('console.app', {
 				url: '/app',
 				templateUrl: '/template/app/app.html',
 				controller: 'VecAppCtrl',
 				data: { pageTitle: 'Apps | Viglet Vecchio' }
 			})
-			.state('app-new', {
+			.state('console.app-new', {
 				url: '/app/new',
 				templateUrl: '/template/app/app-item.html',
 				controller: 'VecAppNewCtrl',
 				data: { pageTitle: 'New App | Viglet Vecchio', saveButton: 'Save' }
 			})
-			.state('app-edit', {
+			.state('console.app-edit', {
 				url: '/app/:appId',
 				templateUrl: '/template/app/app-item.html',
 				controller: 'VecAppEditCtrl',
 				data: { pageTitle: 'Edit App | Viglet Vecchio', saveButton: 'Update Settings' }
 			})
-			.state('app-edit.keys', {
+			.state('console.app-edit.keys', {
 				url: '/keys',
 				templateUrl: '/template/app/app-item-keys.html',
 				controller: 'VecAppEditCtrl',
 				data: { pageTitle: 'Edit App Keys | Viglet Vecchio' }
-			}).state('organization.user', {
+			}).state('console.organization.user', {
 				url: '/user',
 				templateUrl: 'template/user/user.html',
 				controller: 'VecUserCtrl',
-				data : { pageTitle: 'Users | Viglet Vecchio' }
-			}).state('organization.user-new', {
+				data: { pageTitle: 'Users | Viglet Vecchio' }
+			}).state('console.organization.user-new', {
 				url: '/user/new',
 				templateUrl: 'template/user/user-item.html',
 				controller: 'VecUserNewCtrl',
-				data : { pageTitle: 'New User | Viglet Vecchio' }
-			}).state('organization.user-edit', {
+				data: { pageTitle: 'New User | Viglet Vecchio' }
+			}).state('console.organization.user-edit', {
 				url: '/user/:userId',
 				templateUrl: 'template/user/user-item.html',
 				controller: 'VecUserEditCtrl',
-				data : { pageTitle: 'Edit User | Viglet Vecchio' }
-			}).state('organization.role', {
+				data: { pageTitle: 'Edit User | Viglet Vecchio' }
+			}).state('console.organization.role', {
 				url: '/role',
 				templateUrl: 'template/role/role.html',
 				controller: 'VecRoleCtrl',
-				data : { pageTitle: 'Roles | Viglet Vecchio' }
-			}).state('admin.role-new', {
+				data: { pageTitle: 'Roles | Viglet Vecchio' }
+			}).state('console.organization.role-new', {
 				url: '/role/new',
 				templateUrl: 'template/role/role-item.html',
 				controller: 'VecRoleNewCtrl',
-				data : { pageTitle: 'New Role | Viglet Vecchio' }
-			}).state('organization.role-edit', {
+				data: { pageTitle: 'New Role | Viglet Vecchio' }
+			}).state('console.organization.role-edit', {
 				url: '/role/:roleId',
 				templateUrl: 'template/role/role-item.html',
 				controller: 'VecRoleEditCtrl',
-				data : { pageTitle: 'Edit Role | Viglet Vecchio' }
-			}).state('organization.group', {
+				data: { pageTitle: 'Edit Role | Viglet Vecchio' }
+			}).state('console.organization.group', {
 				url: '/group',
 				templateUrl: 'template/group/group.html',
 				controller: 'VecGroupCtrl',
-				data : { pageTitle: 'Groups | Viglet Vecchio' }
-			}).state('organization.group-new', {
+				data: { pageTitle: 'Groups | Viglet Vecchio' }
+			}).state('console.organization.group-new', {
 				url: '/group/new',
 				templateUrl: 'template/group/group-item.html',
 				controller: 'VecGroupNewCtrl',
-				data : { pageTitle: 'New Group | Viglet Vecchio' }
-			}).state('organization.group-edit', {
+				data: { pageTitle: 'New Group | Viglet Vecchio' }
+			}).state('console.organization.group-edit', {
 				url: '/group/:groupId',
 				templateUrl: 'template/group/group-item.html',
 				controller: 'VecGroupEditCtrl',
-				data : { pageTitle: 'Edit Group | Viglet Vecchio' }
+				data: { pageTitle: 'Edit Group | Viglet Vecchio' }
 			});
 
 	}]);

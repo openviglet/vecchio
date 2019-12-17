@@ -18,19 +18,15 @@ vecchioApp.controller('VecModalSelectGroupListCtrl', [
 		$ctrl.itemSelected = false;
 		$ctrl.ok = function () {			
 			var objects = [];
-			console.log("ok");
             for (var stateKey in $ctrl.vecStateObjects) {
 				console.log($ctrl.vecStateObjects[stateKey]);
                 if ($ctrl.vecStateObjects[stateKey] === true) {
-					console.log("Add");
-					objects.puvec($ctrl.vecObjects[stateKey]);
+					objects.push($ctrl.vecObjects[stateKey]);
                 }
 			}
-			console.log("Valida");
 			angular.forEach(objects, function (vecGroup, key) {
 				console.log(vecGroup.name)
 			});
-			console.log("Termina");
 			$uibModalInstance.close(objects);
 		};
 
@@ -46,7 +42,6 @@ vecchioApp.controller('VecModalSelectGroupListCtrl', [
 					$ctrl.itemSelected = true;
 				}
 			}
-			console.log("checkSomeItemSelected");
 			for (var stateKey in $ctrl.vecStateObjects) {
 				console.log($ctrl.vecStateObjects[stateKey]);
             }

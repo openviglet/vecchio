@@ -24,10 +24,13 @@ import java.util.Set;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import com.viglet.vecchio.persistence.model.auth.VecGroup;
+import com.viglet.vecchio.persistence.model.auth.VecRole;
 import com.viglet.vecchio.persistence.model.auth.VecUser;
 
+@Repository
 public interface VecGroupRepository extends JpaRepository<VecGroup, String> {
 
 	List<VecGroup> findAll();
@@ -38,6 +41,8 @@ public interface VecGroupRepository extends JpaRepository<VecGroup, String> {
 	VecGroup findByName(String name);
 	
 	Set<VecGroup> findByVecUsersIn(Collection<VecUser> users);
+	
+	Set<VecGroup> findByVecRolesIn(Collection<VecRole> roles);
 	
 	int countByNameAndVecUsersIn(String name, Collection<VecUser> vecUsers);
 	

@@ -21,7 +21,7 @@ vecchioApp.controller('VecGroupEditCtrl', [
 				delete vecUser.vecGroups;									
 			});
 			$scope.group.$update(function () {
-				Notification.warning('The ' + $scope.group.name + ' Group was updated.');
+				Notification.info('The ' + $scope.group.name + ' Group was updated.');
 			});
 		}
 

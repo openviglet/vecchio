@@ -26,13 +26,13 @@ import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.viglet.vecchio.api.oauth2.demo.TestContent;
 import com.viglet.vecchio.persistence.model.oauth.VecOAuthAccessToken;
-import com.viglet.vecchio.persistence.repository.VecMappingRepository;
+import com.viglet.vecchio.persistence.repository.app.VecMappingRepository;
 import com.viglet.vecchio.persistence.repository.oauth.VecOAuthAccessTokenRepository;
 
 import io.swagger.annotations.Api;
 
 @RestController
-@RequestMapping("/token_validate")
+@RequestMapping("/oauth/token_validate")
 @Api(value = "/token_validate", tags = "Token Validate", description = "Token Validate")
 public class VecValidateAccessToken {
 	@Autowired
@@ -55,7 +55,7 @@ public class VecValidateAccessToken {
 				// Get the access token
 				String accessToken = oauthRequest.getAccessToken();
 
-				VecOAuthAccessToken vecOAuthAccessToken = vecOAuthAccessTokenRepository.findByAccessToken(accessToken);
+				VecOAuthAccessToken vecOAuthAccessToken = vecOAuthAccessTokenRepository.findById_AccessToken(accessToken);
 
 				// Validate the access token
 				if (vecOAuthAccessToken == null) {

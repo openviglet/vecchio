@@ -1,20 +1,18 @@
 vecchioApp.controller('VecAppNewCtrl', [
 	"$scope",
-	"$http",
 	"$state",
 	"$rootScope",
-	function ($scope, $http, $state, $rootScope) {
+	"vecAppResource",
+	"Notification",
+	function ($scope, $state, $rootScope, vecAppResource, Notification) {
 		$rootScope.$state = $state;
 		$scope.app = {};
 		$scope.appSave = function () {
-			var parameter = JSON.stringify($scope.app);
-			$http.post("../api/v2/app/",
-				parameter).then(
-				function (data, status, headers, config) {
-					$state.go('app');
-				}, function (data, status, headers, config) {
-					$state.go('app');
-				});
+			delete $scope.app.id;
+			vecAppResource.save($scope.app, function (response) {
+				Notification.info('The ' + $scope.app.name + ' App was created.');
+				$state.go('console.app');
+			});
 		}
 	}
 ]);

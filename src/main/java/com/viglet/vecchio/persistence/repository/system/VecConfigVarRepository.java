@@ -21,9 +21,11 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import com.viglet.vecchio.persistence.model.system.VecConfigVar;
 
+@Repository
 public interface VecConfigVarRepository extends JpaRepository<VecConfigVar, String> {
 
 	List<VecConfigVar> findAll();

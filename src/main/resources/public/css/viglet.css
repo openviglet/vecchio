@@ -56,6 +56,17 @@
     background-color: #FF691F;
     color: white !important;
 }
+
+.btn-vecchio {
+    background-color: mediumseagreen;
+    color: antiquewhite !important;
+}
+
+.btn-vecchio:hover {
+    background-color: mediumseagreen;
+    color: antiquewhite !important;
+}
+
 .video-container {
     position: relative;
     padding-bottom: 56.25%;

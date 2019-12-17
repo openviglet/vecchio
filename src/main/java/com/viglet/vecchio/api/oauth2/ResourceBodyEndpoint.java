@@ -23,7 +23,7 @@ import com.viglet.vecchio.api.oauth2.demo.TestContent;
 import io.swagger.annotations.Api;
 
 @RestController
-@RequestMapping("/resource_body")
+@RequestMapping("/oauth/resource_body")
 @Api(value = "/resource_body", tags = "Resource Body", description = "Resource Body")
 public class ResourceBodyEndpoint {
 

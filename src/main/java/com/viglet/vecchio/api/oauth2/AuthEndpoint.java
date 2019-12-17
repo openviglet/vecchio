@@ -21,14 +21,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.viglet.vecchio.persistence.model.VecApp;
+import com.viglet.vecchio.persistence.model.app.VecApp;
 import com.viglet.vecchio.persistence.model.oauth.VecOAuthAccessToken;
 import com.viglet.vecchio.persistence.model.oauth.VecOAuthAccessTokenPK;
 import com.viglet.vecchio.persistence.model.oauth.VecOAuthAuthorizationCode;
 import com.viglet.vecchio.persistence.model.oauth.VecOAuthAuthorizationCodePK;
+import com.viglet.vecchio.persistence.repository.app.VecAppRepository;
 import com.viglet.vecchio.persistence.repository.oauth.VecOAuthAccessTokenRepository;
 import com.viglet.vecchio.persistence.repository.oauth.VecOAuthAuthorizationCodeRepository;
-import com.viglet.vecchio.persistence.service.VecAppService;
 
 import io.swagger.annotations.Api;
 
@@ -37,13 +37,15 @@ import java.net.URISyntaxException;
 import java.util.Date;
 
 @RestController
-@RequestMapping("/authorize")
+@RequestMapping("/oauth/authorize")
 @Api(value = "/authorize", tags = "Authorize", description = "Authorize")
 public class AuthEndpoint {
 	@Autowired
 	private VecOAuthAuthorizationCodeRepository vecOAuthAuthorizationCodeRepository;
 	@Autowired
 	private VecOAuthAccessTokenRepository vecOAuthAccessTokenRepository;
+	@Autowired
+	VecAppRepository vecAppRepository;
 	
 	@GetMapping
 	@ResponseBody
@@ -63,13 +65,12 @@ public class AuthEndpoint {
 
 			OAuthASResponse.OAuthAuthorizationResponseBuilder builder = OAuthASResponse.authorizationResponse(request,
 					HttpServletResponse.SC_FOUND);
-			VecAppService vecAppService = new VecAppService();
 
 			if (clientId == null) {
 				return ResponseEntity.status(HttpStatus.FOUND).body("OAuth callback url needs client_id");
 
 			} else {
-				VecApp vecApp = vecAppService.getAppByClientId(clientId);
+				VecApp vecApp =  vecAppRepository.findByApiKey(clientId);
 				if (vecApp == null) {
 					return ResponseEntity.status(HttpStatus.FOUND).body("OAuth callback url needs valid client_id");
 				}
@@ -77,7 +78,7 @@ public class AuthEndpoint {
 
 			if (responseType.equals(ResponseType.CODE.toString())) {
 
-				VecOAuthAuthorizationCode vecOAuthAuthorizationCode = vecOAuthAuthorizationCodeRepository.findByClientId(clientId);
+				VecOAuthAuthorizationCode vecOAuthAuthorizationCode = vecOAuthAuthorizationCodeRepository.findById_ClientId(clientId);
 				if (vecOAuthAuthorizationCode != null) {
 					vecOAuthAuthorizationCodeRepository.delete(vecOAuthAuthorizationCode);
 				}
@@ -98,7 +99,7 @@ public class AuthEndpoint {
 				builder.setCode(id.getAuthorizationCode());
 			}
 			if (responseType.equals(ResponseType.TOKEN.toString())) {
-				VecOAuthAccessToken vecOAuthAccessToken = vecOAuthAccessTokenRepository.findByClientId(clientId);
+				VecOAuthAccessToken vecOAuthAccessToken = vecOAuthAccessTokenRepository.findById_ClientId(clientId);
 				if (vecOAuthAccessToken != null) {
 					vecOAuthAccessTokenRepository.delete(vecOAuthAccessToken);
 				}

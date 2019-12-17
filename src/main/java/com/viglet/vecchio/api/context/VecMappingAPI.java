@@ -3,16 +3,18 @@ package com.viglet.vecchio.api.context;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.viglet.vecchio.persistence.model.VecMapping;
-import com.viglet.vecchio.persistence.repository.VecMappingRepository;
+import com.viglet.vecchio.persistence.model.app.VecMapping;
+import com.viglet.vecchio.persistence.repository.app.VecMappingRepository;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -38,14 +40,16 @@ public class VecMappingAPI {
 
 	@ApiOperation(value = "Update a Mapping")
 	@PutMapping("/{id}")
-	public VecMapping update(@PathVariable String id, VecMapping vecMapping) {
+	public VecMapping update(@PathVariable String id, @RequestBody VecMapping vecMapping) {
 		VecMapping vecMappingEdit = vecMappingRepository.findById(id).get();
+
 		vecMappingEdit.setPattern(vecMapping.getPattern());
 		vecMappingEdit.setUrl(vecMapping.getUrl());
 		vecMappingRepository.save(vecMappingEdit);
 		return vecMappingEdit;
 	}
 
+	@Transactional
 	@ApiOperation(value = "Delete a Mapping")
 	@DeleteMapping("/{id}")
 	public boolean delete(@PathVariable String id) {
@@ -55,7 +59,7 @@ public class VecMappingAPI {
 
 	@ApiOperation(value = "Create a Mapping")
 	@PostMapping
-	public VecMapping add(VecMapping vecMapping) {
+	public VecMapping add(@RequestBody VecMapping vecMapping) {
 		vecMappingRepository.save(vecMapping);
 		return vecMapping;
 

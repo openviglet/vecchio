@@ -20,7 +20,7 @@ import java.net.URISyntaxException;
  */
 
 @RestController
-@RequestMapping("/redirect")
+@RequestMapping("/oauth/redirect")
 @Api(value = "/redirect", tags = "Redirect", description = "Redirect")
 public class RedirectUriEndpoint {
 

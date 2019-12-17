@@ -23,9 +23,11 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import com.viglet.vecchio.persistence.model.oauth.VecOAuthClient;
 
+@Repository
 public interface VecOAuthClientRepository extends JpaRepository<VecOAuthClient, String> {
 
 	List<VecOAuthClient> findAll();

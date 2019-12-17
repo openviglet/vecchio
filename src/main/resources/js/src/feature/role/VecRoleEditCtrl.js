@@ -5,8 +5,9 @@ vecchioApp.controller('VecRoleEditCtrl', [
 	"vecRoleResource",
 	"$stateParams",
 	"Notification",
+	"vecRoleFactory",
 	function ($scope, $state, $rootScope,
-		vecRoleResource, $stateParams, Notification) {
+		vecRoleResource, $stateParams, Notification, vecRoleFactory) {
 		$rootScope.$state = $state;
 		$scope.roleId = $stateParams.roleId;
 
@@ -16,7 +17,15 @@ vecchioApp.controller('VecRoleEditCtrl', [
 
 		$scope.roleSave = function () {
 			$scope.role.$update(function () {
-				Notification.warning('The ' + $scope.role.name + ' Role was updated.');
+				Notification.info('The ' + $scope.role.name + ' Role was updated.');
 			});
+		}
+
+		$scope.addGroups = function () {
+			vecRoleFactory.addGroups($scope.role);
+		}
+
+		$scope.removeGroup = function (index) {
+			$scope.role.vecGroups.splice(index, 1);
 		}
 	}]);

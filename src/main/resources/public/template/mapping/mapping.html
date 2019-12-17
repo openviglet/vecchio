@@ -5,7 +5,7 @@
 		style="padding: 10px; border-bottom-color: rgb(217, 217, 217); border-bottom-style: solid; border-bottom-width: thin;">
 		<div class="row">
 			<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-				<p style="font-size: 18px; color: #FF874B; margin: 0px;"
+				<p style="font-size: 18px; color: mediumseagreen; margin: 0px;"
 					class="ng-binding">Mapping</p>
 				<p style="font-size: 14px; color: rgb(182, 182, 182); margin: 0px;"
 					class="ng-binding">Mapping the Viglet Vecchio Contexts</p>
@@ -13,7 +13,7 @@
 			</div>
 			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"
 				style="text-align: right">
-				<a ui-sref="mapping-new" class="btn btn-viglet"
+				<a ui-sref="console.mapping-new" class="btn btn-vecchio"
 					role="button" aria-pressed="true"
 					style="margin-bottom: 5px; color: white">New</a>
 			</div>
@@ -23,27 +23,27 @@
 		<table class="table table-striped table-hover table-responsive">
 			<thead>
 				<tr>
-					<th>URL</th>
-					<th>Proxy</th>
+					<th>Context</th>
+					<th>Proxy To</th>
 					<th style="text-align: right">Action</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr ng-repeat="mapping in mappings">
-					<td><a ng-href="{{mapping.pattern}}">{{mapping.pattern}}</a></td>
+					<td><a ng-href="/proxy{{mapping.pattern}}">/proxy{{mapping.pattern}}</a></td>
 					<td><a ng-href="{{mapping.url}}" target="_blank">{{mapping.url}}</a></td>
 					<td style="text-align: right">
 						<div class="btn-group">
-							<button type="button" ui-sref="mapping-edit({mappingId: mapping.id})"
-								class="btn btn-viglet">Edit</button>
-							<button type="button" class="btn btn-viglet dropdown-toggle"
+							<button type="button" ui-sref="console.mapping-edit({mappingId: mapping.id})"
+								class="btn btn-vecchio">Edit</button>
+							<button type="button" class="btn btn-vecchio dropdown-toggle"
 								data-toggle="dropdown" aria-haspopup="true"
 								aria-expanded="false">
 								<span class="caret"></span> <span class="sr-only">Toggle
 									Dropdown</span>
 							</button>
 							<ul class="dropdown-menu">
-								<li><a href ng-click="mappingDelete(mapping.id)" >Delete</a></li>
+								<li><a href ng-click="mappingDelete(mapping)" >Delete</a></li>
 							</ul>
 						</div>
 					</td>

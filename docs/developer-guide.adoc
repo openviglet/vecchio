@@ -1,37 +1,130 @@
-= Viglet Vecchio: Guia do Desenvolvedor
+= Viglet Vecchio Auth: Developer Guide
 Viglet Team <opensource@viglet.com>
 :toc: left
-:toc-title: Tabela de Conteúdo
+:toc-title: Table of Contents
 :doctype: book
 :revnumber: 0.3.2 
-:revdate: 29-11-2019
+:revdate: 17-12-2019
 
-[preface]
-= Prefácio
+== About the author
 
-The basis for this documentation germinated when I awoke one morning and was confronted by the dark and stormy eyes of the chinchilla.
-She had conquered the mountain of government reports that, over the course of six months, had eroded into several minor foothills and a creeping alluvial plain of loose papers.
+You can contact Alexandre Oliveira at alexandre.oliveira@viglet.com.
 
-== Sobre o Autor
-
-Você pode contactar Alexandre Oliveira em alexandre.oliveira@viglet.com.
-
-Alexandre Oliveira adora desenvolvimento de aplicações corporativas.
+Alexandre Oliveira loves developing corporate applications.
 
 :numbered:
-== Introdução
-Neste capítulo provém conceitos e outras informações requeridas para realizar tarefas de desenvolvimento no Vecchio API
+== Introduction
 
-Incluem os seguintes tópicos:
+This chapter provides concepts and other information required to perform development tasks in Vecchio Auth.
 
-* <<Sobre o Vecchio API>>
+Include the following topics:
 
-=== Sobre o Vecchio API
+* <<About Vecchio Auth>>
+* <<Features>>
 
-O Viglet Vecchio API criar mapeamentos de serviços com autenticação e autorização, utilizando OAuth2.
+=== About Vecchio Auth
 
-[glossary]
-== Glossário
+Viglet Vecchio Auth allows to create authentication and authorization layers to access API, with proactive monitoring.
 
-[glossary]
-book:: livro, documento
+=== Features
+
+* Significantly lowers integration costs, decreases total cost of ownership, and reduces deployment risks
+* Connects mobile devices to existing enterprise systems
+* Provides a lightweight API gateway for securing and managing APIs
+* Offers rich integration with many identity and access management platforms
+* Helps streamline regulatory compliance through authentication, authorization, and audit capabilities
+
+== Mapping Resources
+For example, in Mapping Console (http://localhost:2702/console/#!/mapping) add the following URLs:
+
+GitHub - openviglet
+
+* Context: /proxy/github/openviglet
+* Proxy: https://api.github.com/users/openviglet
+
+[#mapping-screenshot]
+.Mapping
+image::assets/mapping.png[]
+
+== Apps
+Create a new App (http://localhost:2702/console/#!/app/new) and copy the values of "Keys and Access Tokens" tab.
+
+[#sample-app]
+.Sample App
+image::assets/sample-app.png[]
+
+Will generate the following keys an tokens for your App, for instance:
+
+|===
+|Token |Value
+
+|Consumer Key (API Key)
+|4d2aade33fa53baf07d88165e8ecf58f
+
+|Consumer Secret (API Secret)
+|4b7104ebd32471eef9feda56563ba8f4
+
+|Access Token
+|f7d2c3475cae32d1a464bcea3a57023b
+
+|Access Token Secret
+|2a383e82b72ab6f47dbdccd23c35e3e8
+|===
+
+== Grant Types
+You can access the API Resources using your Access Token, ou generate new Access Token using the followings Grant Types:
+
+=== Authorization Code
+Use the *Consumer Key (API Key)* to generate the Authorization Code:
+
+[source,bash]
+----
+curl -I -X GET 'http://localhost:2702/api/authorize?response_type=code&client_id=4d2aade33fa53baf07d88165e8ecf58f&redirect_uri=http://localhost:2702/console/oauth2/receive_authcode'
+----
+
+Will return the Location, so get the *Authorization Code*:
+
+[source,bash]
+----
+Location: http://localhost:2702/console/oauth2/receive_authcode?code=e31d6626d203aaea0811305e33136d59`
+----
+
+Use the Authorization Code to generate the *Access Token*, for instance: b516216e45610d4be3716c8dfab70985:
+
+[source,bash]
+----
+curl -I -X GET 'http://localhost:2702/api/token' -d 'grant_type=authorization_code&code=e31d6626d203aaea0811305e33136d59'
+----
+
+=== Implicit
+
+Use the *Consumer Key (API Key)* to generate the Authorization Code:
+
+[source,bash]
+----
+curl -I -X GET 'http://localhost:2702/api/authorize?response_type=token&client_id=4d2aade33fa53baf07d88165e8ecf58f&redirect_uri=http://localhost:2702/console/oauth2/receive_implicit_token'
+----
+
+Will return the Location, so get the *Access Token*, for instance: b516216e45610d4be3716c8dfab70985:
+
+[source,bash]
+----
+Location: http://localhost:2702/console/oauth2/receive_implicit_token?access_token=b516216e45610d4be3716c8dfab70985&state=xyz&token_type=bearer&expires_in=3600
+----
+
+=== Using API Resources
+
+Ready! You can access the following API Resources using the *Access Token* from Authorization Code or Implicit Grant Types or App Settings (Your Access Token), for instance f7d2c3475cae32d1a464bcea3a57023b, if you use an invalid Access Token, it will return empty response.
+
+[source,bash]
+----
+curl -X GET "localhost:2702/github/openviglet" -H  "accept: application/json" -H  "content-type: application/json" -H  "authorization: Bearer f7d2c3475cae32d1a464bcea3a57023b"
+----
+
+== Dashboard
+
+Dashboard Console (http://localhost:2702/console/#!/dashboard) shows response time report.
+
+[#dashboard-screenshot]
+.Dashboard shows response time report
+image::assets/dashboard.png[]

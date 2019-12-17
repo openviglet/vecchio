@@ -56,14 +56,14 @@ vecWelcome.service('vecAPIServerService', [
 	} ]);
 
 
-vecWelcome.controller('vecWelcomeCtrl', [
+vecWelcome.controller('VecWelcomeCtrl', [
 		"$scope",
 		"$http",
 		"$window",
 		"vecAPIServerService",
 		function($scope, $http, $window, vecAPIServerService) {
 
-			$scope.vecowLogin = false;
+			$scope.showLogin = false;
 
 			var errorUI = function() {
 				$('.log-status').addClass('wrong-entry');
@@ -88,14 +88,14 @@ vecWelcome.controller('vecWelcomeCtrl', [
 					headers : headers
 				}).then(function(response) {
 					if (response.data.product) {
-						$scope.vecowLogin = false;
-						$window.location.href = "/content";
+						$scope.showLogin = false;
+						$window.location.href = "/console";
 					} else {
-						$scope.vecowLogin = true;
+						$scope.showLogin = true;
 						errorUI();
 					}
 				}, function() {
-					$scope.vecowLogin = true;
+					$scope.showLogin = true;
 					errorUI();
 				});
 			}
@@ -110,12 +110,12 @@ vecWelcome.controller('vecWelcomeCtrl', [
 					.get()
 					.concat("/v2")).then(function(response) {
 				if (response.data.product) {
-					$scope.vecowLogin = false;
+					$scope.showLogin = false;
 					$window.location.href = "/console";
 				} else {
-					$scope.vecowLogin = true;
+					$scope.showLogin = true;
 				}
 			}, function() {
-				$scope.vecowLogin = true;
+				$scope.showLogin = true;
 			});
 		} ]);

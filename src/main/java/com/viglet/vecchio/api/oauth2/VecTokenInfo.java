@@ -26,7 +26,7 @@ import com.viglet.vecchio.persistence.repository.oauth.VecOAuthAccessTokenReposi
 import io.swagger.annotations.Api;
 
 @RestController
-@RequestMapping("/tokeninfo")
+@RequestMapping("/oauth/tokeninfo")
 @Api(value = "/tokeninfo", tags = "Token Info", description = "Token Info")
 public class VecTokenInfo {
 	@Autowired
@@ -43,7 +43,7 @@ public class VecTokenInfo {
 			// Get the access token
 			String accessToken = oauthRequest.getAccessToken();
 
-			VecOAuthAccessToken vecOAuthAccessToken = vecOAuthAccessTokenRepository.findByAccessToken(accessToken);
+			VecOAuthAccessToken vecOAuthAccessToken = vecOAuthAccessTokenRepository.findById_AccessToken(accessToken);
 
 			// Validate the access token
 			if (vecOAuthAccessToken == null) {

@@ -1,24 +1,20 @@
 vecchioApp.controller('VecMappingEditCtrl', [
 	"$scope",
-	"$http",
 	"$stateParams",
 	"$state",
 	"$rootScope",
 	"vecMappingResource",
-	function ($scope, $http, $stateParams, $state, $rootScope, vecMappingResource) {
+	"Notification",
+	function ($scope, $stateParams, $state, $rootScope, vecMappingResource, Notification) {
 		$rootScope.$state = $state;
 		$scope.mappingId = $stateParams.mappingId;
 		$scope.mapping = vecMappingResource.get({ id: $stateParams.mappingId });
 		$scope.mappingSave = function () {
-			$scope.mappings = null;
-			var parameter = JSON.stringify($scope.mapping);
-			$http.put("../api/v2/mapping/" + $scope.mappingId,
-				parameter).then(
-				function (data, status, headers, config) {
-					   $state.go('mapping');
-				}, function (data, status, headers, config) {
-					   $state.go('mapping');
+			$scope.mapping
+				.$update(function () {
+					Notification.info('The Mapping was updated.');
+					$state.go('console.mapping');
 				});
-		}
+		};
 	}
 ]);
