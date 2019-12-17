@@ -4,8 +4,7 @@
 
 		<div class="panel-title"
 			style="padding: 10px; border-bottom-color: rgb(217, 217, 217); border-bottom-style: solid; border-bottom-width: thin;">
-			<p style="font-size: 18px; color: mediumseagreen; margin: 0px;"
-				class="ng-binding">Application Settings</p>
+			<p style="font-size: 18px; color: mediumseagreen; margin: 0px;" class="ng-binding">Application Settings</p>
 		</div>
 
 		<div class="panel-body">Keep the "Consumer Secret" a secret.
@@ -22,45 +21,54 @@
 				</tr>
 			</tbody>
 		</table>
-		<div
-			style="background-color: #f8f8f8; padding: 15px; margin-top: 15px">
+		<div style="background-color: #f8f8f8; padding: 15px; margin-top: 15px">
 			<h4>Application Actions</h4>
-			<a ui-sref="console.mapping-new" class="btn btn-vecchio" role="button"
-				aria-pressed="true" style="margin-bottom: 5px; color: white">Regenerate
-				Consumer Key and Secret</a>
+			<button ng-click="genKey()" class="btn btn-vecchio" role="button" aria-pressed="true"
+				style="margin-bottom: 5px; color: white">Regenerate
+				Consumer Key and Secret</button>
 		</div>
 	</div>
 	<div class="panel panel-default">
 
 		<div class="panel-title"
 			style="padding: 10px; border-bottom-color: rgb(217, 217, 217); border-bottom-style: solid; border-bottom-width: thin;">
-			<p style="font-size: 18px; color: mediumseagreen; margin: 0px;"
-				class="ng-binding">Your Access Token</p>
+			<p style="font-size: 18px; color: mediumseagreen; margin: 0px;" class="ng-binding">Your Access Token</p>
 		</div>
 
-		<div class="panel-body">This access token can be used to make
-			API requests on your own account's behalf. Do not share your access
-			token secret with anyone.</div>
-		<table class="table table-hover table-responsive">
-			<tbody>
-				<tr>
-					<td>Access Token</td>
-					<td>{{app.accessToken}}</td>
-				</tr>
-				<tr>
-					<td>Access Token Secret</td>
-					<td>{{app.accessTokenSecret}}</td>
-				</tr>
-			</tbody>
-		</table>
-		<div
-			style="background-color: #f8f8f8; padding: 15px; margin-top: 15px">
-			<h4>Token Actions</h4>
-			<a ui-sref="console.mapping-new" class="btn btn-vecchio" role="button"
-				aria-pressed="true" style="margin-bottom: 5px; color: white">Regenerate
-				My Access Token and Token Secret</a> <a ui-sref="console.mapping-new"
-				class="btn btn-vecchio" role="button" aria-pressed="true"
-				style="margin-bottom: 5px; color: white">Revoke Token Access </a>
+		
+		<div ng-if="!app.revokeAcessTokens">
+			<div class="panel-body">This access token can be used to make
+				API requests on your own account's behalf. Do not share your access
+				token secret with anyone.</div>
+			<table class="table table-hover table-responsive">
+				<tbody>
+					<tr>
+						<td>Access Token</td>
+						<td>{{app.accessToken}}</td>
+					</tr>
+					<tr>
+						<td>Access Token Secret</td>
+						<td>{{app.accessTokenSecret}}</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<div style="background-color: #f8f8f8; padding: 15px; margin-top: 15px">
+				<h4>Token Actions</h4>
+				<button ng-click="genToken()" class="btn btn-vecchio" role="button" aria-pressed="true"
+					style="margin-bottom: 5px; color: white">Regenerate
+					My Access Token and Token Secret</button> <button ng-click="revokeAccessTokens()"
+					class="btn btn-vecchio" role="button" aria-pressed="true"
+					style="margin-bottom: 5px; color: white">Revoke Token Access </button>
+			</div>
+		</div>
+		<div ng-if="app.revokeAcessTokens">
+			<div class="panel-body">None</div>
+			<div style="background-color: #f8f8f8; padding: 15px; margin-top: 15px">
+				<h4>Token Actions</h4>
+				<button ng-click="genToken()" class="btn btn-vecchio" role="button" aria-pressed="true"
+					style="margin-bottom: 5px; color: white">Create</button>
+			</div>
 		</div>
 	</div>
 
@@ -68,8 +76,7 @@
 
 		<div class="panel-title"
 			style="padding: 10px; border-bottom-color: rgb(217, 217, 217); border-bottom-style: solid; border-bottom-width: thin;">
-			<p style="font-size: 18px; color: mediumseagreen; margin: 0px;"
-				class="ng-binding">Endpoint</p>
+			<p style="font-size: 18px; color: mediumseagreen; margin: 0px;" class="ng-binding">Endpoint</p>
 		</div>
 
 		<div class="panel-body">Information about endpoint.</div>
@@ -77,19 +84,19 @@
 			<tbody>
 				<tr>
 					<td>App-only authentication</td>
-					<td>http://localhost:2702/oauth2/token</td>
+					<td>{{serviceURL}}/oauth/token</td>
 				</tr>
 				<tr>
 					<td>Request token URL</td>
-					<td>https://localhost:2702/oauth/request_token</td>
+					<td>{{serviceURL}}/oauth/request_token</td>
 				</tr>
 				<tr>
 					<td>Authorize URL</td>
-					<td>https://localhost:2702/oauth/authorize</td>
+					<td>{{serviceURL}}/oauth/authorize</td>
 				</tr>
 				<tr>
 					<td>Access token URL</td>
-					<td>https://localhost:2702/oauth/access_token</td>
+					<td>{{serviceURL}}/oauth/access_token</td>
 				</tr>
 			</tbody>
 		</table>

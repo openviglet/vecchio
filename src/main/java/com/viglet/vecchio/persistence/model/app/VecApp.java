@@ -21,26 +21,28 @@ public class VecApp implements Serializable {
 	@Column(name = "id", updatable = false, nullable = false)
 	private String id;
 
-	@Column(name="name", nullable=false, length=50)
+	@Column(name = "name", nullable = false, length = 50)
 	private String name;
 
-	@Column(name="description", nullable=true, length=255)
+	@Column(name = "description", nullable = true, length = 255)
 	private String description;
-	
-	@Column(name="api_key", nullable=true, length=50)
+
+	@Column(name = "api_key", nullable = true, length = 50)
 	private String apiKey;
-	
-	@Column(name="api_secret", nullable=true, length=50)
+
+	@Column(name = "api_secret", nullable = true, length = 50)
 	private String apiSecret;
-	
-	@Column(name="access_token", nullable=true, length=50)
+
+	@Column(name = "access_token", nullable = true, length = 50)
 	private String accessToken;
-	
-	@Column(name="access_token_secret", nullable=true, length=50)
+
+	@Column(name = "access_token_secret", nullable = true, length = 50)
 	private String accessTokenSecret;
-	
-	@Column(name="callback_url", nullable=true, length=255)
+
+	@Column(name = "callback_url", nullable = true, length = 255)
 	private String callbackURL;
+
+	private boolean revokeAcessTokens = false;
 
 	public String getId() {
 		return id;
@@ -105,6 +107,13 @@ public class VecApp implements Serializable {
 	public void setCallbackURL(String callbackURL) {
 		this.callbackURL = callbackURL;
 	}
-	
+
+	public boolean isRevokeAcessTokens() {
+		return revokeAcessTokens;
+	}
+
+	public void setRevokeAcessTokens(boolean revokeAcessTokens) {
+		this.revokeAcessTokens = revokeAcessTokens;
+	}
 
 }

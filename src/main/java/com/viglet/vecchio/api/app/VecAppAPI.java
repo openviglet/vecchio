@@ -45,7 +45,7 @@ public class VecAppAPI {
 	}
 
 	@ApiOperation(value = "Generate Key to App")
-	@GetMapping("/{id}/gen_key")
+	@PutMapping("/{id}/gen_key")
 	public VecApp genKey(@PathVariable String id) {
 		VecApp vecAppEdit = vecAppRepository.findById(id).get();
 		try {
@@ -60,7 +60,7 @@ public class VecAppAPI {
 	}
 
 	@ApiOperation(value = "Generate Toket to App")
-	@GetMapping("/{id}/gen_token")
+	@PutMapping("/{id}/gen_token")
 	public VecApp genToken(@PathVariable String id) {
 		MD5Generator tokenSecret = new MD5Generator();
 		OAuthIssuer oauthIssuerImpl = new OAuthIssuerImpl(tokenSecret);
@@ -68,11 +68,25 @@ public class VecAppAPI {
 		try {
 			vecAppEdit.setAccessToken(tokenSecret.generateValue());
 			vecAppEdit.setAccessTokenSecret(oauthIssuerImpl.accessToken());
+			vecAppEdit.setRevokeAcessTokens(false);
 		} catch (OAuthSystemException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		vecAppRepository.save(vecAppEdit);
+		return vecAppEdit;
+	}
+
+	@ApiOperation(value = "Revoke Access Tokens")
+	@DeleteMapping("/{id}/accessTokens")
+	public VecApp revokeAccessTokens(@PathVariable String id) {
+		VecApp vecAppEdit = vecAppRepository.findById(id).orElse(null);
+		if (vecAppEdit != null) {
+			vecAppEdit.setAccessToken(null);
+			vecAppEdit.setAccessTokenSecret(null);
+			vecAppEdit.setRevokeAcessTokens(true);
+			vecAppRepository.save(vecAppEdit);
+		}
 		return vecAppEdit;
 	}
 
