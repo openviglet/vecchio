@@ -3,12 +3,12 @@
 :toc-title: Table of Contents
 :doctype: book
 :revnumber: 0.3.2 
-:revdate: 29-11-2019
+:revdate: 17-12-2019
 :numbered:
 
 [[getting-started-installing-vecchio-api]]
-== Installing Vecchio API
-Vecchio API can be used with "`classic`" Java development tools or installed as a command line tool.
+== Installing Vecchio Auth
+Vecchio Auth can be used with "`classic`" Java development tools or installed as a command line tool.
 Either way, you need https://www.java.com[Java SDK v1.8] or higher.
 Before you begin, you should check your current Java installation by using the following command:
 

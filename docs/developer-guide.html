@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
 <meta name="author" content="Viglet Team">
-<title>Viglet Vecchio: Guia do Desenvolvedor</title>
+<title>Viglet Vecchio Auth: Developer Guide</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -439,82 +439,247 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="book toc2 toc-left">
 <div id="header">
-<h1>Viglet Vecchio: Guia do Desenvolvedor</h1>
+<h1>Viglet Vecchio Auth: Developer Guide</h1>
 <div class="details">
 <span id="author" class="author">Viglet Team</span><br>
 <span id="email" class="email"><a href="mailto:opensource@viglet.com">opensource@viglet.com</a></span><br>
 <span id="revnumber">version 0.3.2,</span>
-<span id="revdate">29-11-2019</span>
+<span id="revdate">17-12-2019</span>
 </div>
 <div id="toc" class="toc2">
-<div id="toctitle">Tabela de Conteúdo</div>
+<div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_prefácio">Prefácio</a></li>
-<li><a href="#_sobre_o_autor">Sobre o Autor</a></li>
-<li><a href="#_introdução">1. Introdução</a>
+<li><a href="#_about_the_author">About the author</a></li>
+<li><a href="#_introduction">1. Introduction</a>
 <ul class="sectlevel2">
-<li><a href="#_sobre_o_vecchio_api">1.1. Sobre o Vecchio API</a></li>
+<li><a href="#_about_vecchio_auth">1.1. About Vecchio Auth</a></li>
+<li><a href="#_features">1.2. Features</a></li>
 </ul>
 </li>
-<li><a href="#_glossário">Glossário</a></li>
+<li><a href="#_mapping_resources">2. Mapping Resources</a></li>
+<li><a href="#_apps">3. Apps</a></li>
+<li><a href="#_grant_types">4. Grant Types</a>
+<ul class="sectlevel2">
+<li><a href="#_authorization_code">4.1. Authorization Code</a></li>
+<li><a href="#_implicit">4.2. Implicit</a></li>
+<li><a href="#_using_api_resources">4.3. Using API Resources</a></li>
+</ul>
+</li>
+<li><a href="#_dashboard">5. Dashboard</a></li>
 </ul>
 </div>
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_prefácio">Prefácio</h2>
+<h2 id="_about_the_author">About the author</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The basis for this documentation germinated when I awoke one morning and was confronted by the dark and stormy eyes of the chinchilla.
-She had conquered the mountain of government reports that, over the course of six months, had eroded into several minor foothills and a creeping alluvial plain of loose papers.</p>
+<p>You can contact Alexandre Oliveira at <a href="mailto:alexandre.oliveira@viglet.com">alexandre.oliveira@viglet.com</a>.</p>
+</div>
+<div class="paragraph">
+<p>Alexandre Oliveira loves developing corporate applications.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_sobre_o_autor">Sobre o Autor</h2>
+<h2 id="_introduction">1. Introduction</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Você pode contactar Alexandre Oliveira em <a href="mailto:alexandre.oliveira@viglet.com">alexandre.oliveira@viglet.com</a>.</p>
+<p>This chapter provides concepts and other information required to perform development tasks in Vecchio Auth.</p>
 </div>
 <div class="paragraph">
-<p>Alexandre Oliveira adora desenvolvimento de aplicações corporativas.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_introdução">1. Introdução</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Neste capítulo provém conceitos e outras informações requeridas para realizar tarefas de desenvolvimento no Vecchio API</p>
-</div>
-<div class="paragraph">
-<p>Incluem os seguintes tópicos:</p>
+<p>Include the following topics:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="#_sobre_o_vecchio_api">Sobre o Vecchio API</a></p>
+<p><a href="#_about_vecchio_auth">About Vecchio Auth</a></p>
+</li>
+<li>
+<p><a href="#_features">Features</a></p>
 </li>
 </ul>
 </div>
 <div class="sect2">
-<h3 id="_sobre_o_vecchio_api">1.1. Sobre o Vecchio API</h3>
+<h3 id="_about_vecchio_auth">1.1. About Vecchio Auth</h3>
 <div class="paragraph">
-<p>O Viglet Vecchio API criar mapeamentos de serviços com autenticação e autorização, utilizando OAuth2.</p>
+<p>Viglet Vecchio Auth allows to create authentication and authorization layers to access API, with proactive monitoring.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_features">1.2. Features</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Significantly lowers integration costs, decreases total cost of ownership, and reduces deployment risks</p>
+</li>
+<li>
+<p>Connects mobile devices to existing enterprise systems</p>
+</li>
+<li>
+<p>Provides a lightweight API gateway for securing and managing APIs</p>
+</li>
+<li>
+<p>Offers rich integration with many identity and access management platforms</p>
+</li>
+<li>
+<p>Helps streamline regulatory compliance through authentication, authorization, and audit capabilities</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_glossário">Glossário</h2>
+<h2 id="_mapping_resources">2. Mapping Resources</h2>
 <div class="sectionbody">
-<div class="dlist glossary">
-<dl>
-<dt>book</dt>
-<dd>
-<p>livro, documento</p>
-</dd>
-</dl>
+<div class="paragraph">
+<p>For example, in Mapping Console (<a href="http://localhost:2702/console/#!/mapping" class="bare">http://localhost:2702/console/#!/mapping</a>) add the following URLs:</p>
+</div>
+<div class="paragraph">
+<p>GitHub - openviglet</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Context: /proxy/github/openviglet</p>
+</li>
+<li>
+<p>Proxy: <a href="https://api.github.com/users/openviglet" class="bare">https://api.github.com/users/openviglet</a></p>
+</li>
+</ul>
+</div>
+<div id="mapping-screenshot" class="imageblock">
+<div class="content">
+<img src="assets/mapping.png" alt="mapping">
+</div>
+<div class="title">Figure 1. Mapping</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_apps">3. Apps</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Create a new App (<a href="http://localhost:2702/console/#!/app/new" class="bare">http://localhost:2702/console/#!/app/new</a>) and copy the values of "Keys and Access Tokens" tab.</p>
+</div>
+<div id="sample-app" class="imageblock">
+<div class="content">
+<img src="assets/sample-app.png" alt="sample app">
+</div>
+<div class="title">Figure 2. Sample App</div>
+</div>
+<div class="paragraph">
+<p>Will generate the following keys an tokens for your App, for instance:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Token</th>
+<th class="tableblock halign-left valign-top">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Consumer Key (API Key)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4d2aade33fa53baf07d88165e8ecf58f</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Consumer Secret (API Secret)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4b7104ebd32471eef9feda56563ba8f4</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Access Token</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">f7d2c3475cae32d1a464bcea3a57023b</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Access Token Secret</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2a383e82b72ab6f47dbdccd23c35e3e8</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_grant_types">4. Grant Types</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You can access the API Resources using your Access Token, ou generate new Access Token using the followings Grant Types:</p>
+</div>
+<div class="sect2">
+<h3 id="_authorization_code">4.1. Authorization Code</h3>
+<div class="paragraph">
+<p>Use the <strong>Consumer Key (API Key)</strong> to generate the Authorization Code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">curl -I -X GET 'http://localhost:2702/api/authorize?response_type=code&amp;client_id=4d2aade33fa53baf07d88165e8ecf58f&amp;redirect_uri=http://localhost:2702/console/oauth2/receive_authcode'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Will return the Location, so get the <strong>Authorization Code</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">Location: http://localhost:2702/console/oauth2/receive_authcode?code=e31d6626d203aaea0811305e33136d59`</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Use the Authorization Code to generate the <strong>Access Token</strong>, for instance: b516216e45610d4be3716c8dfab70985:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">curl -I -X GET 'http://localhost:2702/api/token' -d 'grant_type=authorization_code&amp;code=e31d6626d203aaea0811305e33136d59'</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_implicit">4.2. Implicit</h3>
+<div class="paragraph">
+<p>Use the <strong>Consumer Key (API Key)</strong> to generate the Authorization Code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">curl -I -X GET 'http://localhost:2702/api/authorize?response_type=token&amp;client_id=4d2aade33fa53baf07d88165e8ecf58f&amp;redirect_uri=http://localhost:2702/console/oauth2/receive_implicit_token'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Will return the Location, so get the <strong>Access Token</strong>, for instance: b516216e45610d4be3716c8dfab70985:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">Location: http://localhost:2702/console/oauth2/receive_implicit_token?access_token=b516216e45610d4be3716c8dfab70985&amp;state=xyz&amp;token_type=bearer&amp;expires_in=3600</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_using_api_resources">4.3. Using API Resources</h3>
+<div class="paragraph">
+<p>Ready! You can access the following API Resources using the <strong>Access Token</strong> from Authorization Code or Implicit Grant Types or App Settings (Your Access Token), for instance f7d2c3475cae32d1a464bcea3a57023b, if you use an invalid Access Token, it will return empty response.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">curl -X GET "localhost:2702/github/openviglet" -H  "accept: application/json" -H  "content-type: application/json" -H  "authorization: Bearer f7d2c3475cae32d1a464bcea3a57023b"</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_dashboard">5. Dashboard</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Dashboard Console (<a href="http://localhost:2702/console/#!/dashboard" class="bare">http://localhost:2702/console/#!/dashboard</a>) shows response time report.</p>
+</div>
+<div id="dashboard-screenshot" class="imageblock">
+<div class="content">
+<img src="assets/dashboard.png" alt="dashboard">
+</div>
+<div class="title">Figure 3. Dashboard shows response time report</div>
 </div>
 </div>
 </div>
@@ -522,7 +687,7 @@ She had conquered the mountain of government reports that, over the course of si
 <div id="footer">
 <div id="footer-text">
 Version 0.3.2<br>
-Last updated 2019-11-29 09:59:41 -0300
+Last updated 2019-12-17 14:05:22 -0300
 </div>
 </div>
 </body>
