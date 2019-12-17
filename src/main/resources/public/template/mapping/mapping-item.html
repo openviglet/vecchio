@@ -1,27 +1,23 @@
-
-<div class="panel panel-default"
-	style="font-weight: 400; min-height: 175px; margin-bottom: 0px; padding-bottom: 0px;">
+<div class="panel panel-default" style="font-weight: 400; min-height: 175px; margin-bottom: 0px; padding-bottom: 0px;">
 	<div class="panel-title"
 		style="padding: 10px; border-bottom-color: rgb(217, 217, 217); border-bottom-style: solid; border-bottom-width: thin;">
-		<p style="font-size: 18px; color: mediumseagreen; margin: 0px;"
-			class="ng-binding">New Mapping</p>
-		<p style="font-size: 14px; color: rgb(182, 182, 182); margin: 0px;"
-			class="ng-binding">Add new Context</p>
+		<p style="font-size: 18px; color: mediumseagreen; margin: 0px;" class="ng-binding">New Mapping</p>
+		<p style="font-size: 14px; color: rgb(182, 182, 182); margin: 0px;" class="ng-binding">Add new Context</p>
 
 	</div>
 	<div class="panel-body">
 		<div class="form-group">
-			<label for="context">Context</label> 
-			<input
-				type="input" class="form-control" id="context" ng-model="mapping.pattern"
-				placeholder="Context Pattern">
+			<label for="context">Context</label>
+			<div class="input-group">
+				<span class="input-group-addon" id="proxy-text">/proxy</span>
+				<input type="input" class="form-control" id="context" ng-model="mapping.pattern"
+					placeholder="Context Pattern">
+			</div>
 		</div>
 		<div class="form-group">
-			<label for="context">Proxy</label> 
-			<input
-				type="input" class="form-control" id="proxy" ng-model="mapping.url"
-				placeholder="URL">
+			<label for="context">Proxy To</label>
+			<input type="input" class="form-control" id="proxy" ng-model="mapping.url" placeholder="URL">
 		</div>
-		 <button type="submit" ng-click="mappingSave()" class="btn btn-vecchio">Save</button>
+		<button type="submit" ng-click="mappingSave()" class="btn btn-vecchio">Save</button>
 	</div>
 </div>

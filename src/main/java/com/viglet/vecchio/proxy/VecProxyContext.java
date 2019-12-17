@@ -42,7 +42,7 @@ public class VecProxyContext {
 	@RequestMapping("/proxy/**")
 	private void indexAnyRequest(HttpServletRequest request, HttpServletResponse response, final Principal principal)
 			throws ServletException {
-		String pathInfo = (String) request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
+		String pathInfo = ((String) request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE)).replaceFirst("/proxy","");
 		OutputStream ops;
 		try {
 			ops = response.getOutputStream();
