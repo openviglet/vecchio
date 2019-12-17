@@ -12,8 +12,8 @@ vecchioApp.controller('VecMappingEditCtrl', [
 		$scope.mappingSave = function () {
 			$scope.mapping
 				.$update(function () {
-					Notification.warning('The Mapping was updated.');
-					$state.go('mapping');
+					Notification.info('The Mapping was updated.');
+					$state.go('console.mapping');
 				});
 		};
 	}

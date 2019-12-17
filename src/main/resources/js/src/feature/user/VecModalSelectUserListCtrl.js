@@ -18,19 +18,15 @@ vecchioApp.controller('VecModalSelectUserListCtrl', [
 		$ctrl.itemSelected = false;
 		$ctrl.ok = function () {			
 			var objects = [];
-			console.log("ok");
             for (var stateKey in $ctrl.vecStateObjects) {
 				console.log($ctrl.vecStateObjects[stateKey]);
                 if ($ctrl.vecStateObjects[stateKey] === true) {
-					console.log("Add");
-					objects.puvec($ctrl.vecObjects[stateKey]);
+					objects.push($ctrl.vecObjects[stateKey]);
                 }
 			}
-			console.log("Valida");
 			angular.forEach(objects, function (vecUser, key) {
 				console.log(vecUser.name)
 			});
-			console.log("Termina");
 			$uibModalInstance.close(objects);
 		};
 

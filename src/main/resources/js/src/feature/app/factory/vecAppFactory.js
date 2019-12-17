@@ -1,28 +1,29 @@
-vecchioApp.factory('vecMappingFactory', [
-	'$uibModal', 'vecMappingResource', 'Notification', '$filter',
-	function ($uibModal, vecMappingResource, Notification, $filter) {
+vecchioApp.factory('vecAppFactory', [
+	'$uibModal', 'vecAppResource', 'Notification', '$filter',
+	function ($uibModal, vecAppResource, Notification, $filter) {
 		return {
-			deleteFromList: function (mapping, mappings) {
-				var modalInstance = this.modalDelete(mapping);
+			deleteFromList: function (app, apps) {
+				var modalInstance = this.modalDelete(app, app.name + " App");
 				modalInstance.result.then(function (removeInstance) {
-					deletedMessage = 'The Mapping was deleted.';
-					vecMappingResource
+					deletedMessage = 'The ' +  app.name +' App was deleted.';
+					vecAppResource
 						.delete({
-							id: mapping.id
+							id: app.id
 						}, function () {
 							// filter the array
-							var foundItem = $filter('filter')(mappings, { id: mapping.id }, true)[0];
+							var foundItem = $filter('filter')(apps, { id: app.id }, true)[0];
 							// get the index
-							var index = mappings.indexOf(foundItem);
+							var index = apps.indexOf(foundItem);
 							// remove the item from array
-							mappings.splice(index, 1);
+							apps.splice(index, 1);
 							Notification.error(deletedMessage);
 						});
 				}, function () {
 					// Selected NO
 				});
 			},			
-			modalDelete: function (mapping) {
+			modalDelete: function (app, appTitle) {
+	
 				var $ctrl = this;
 				return $uibModal.open({
 					animation: true
@@ -35,7 +36,10 @@ vecchioApp.factory('vecMappingFactory', [
 					, appendTo: undefined
 					, resolve: {
 						vecObject: function () {
-							return mapping;
+							return app;
+						},
+						vecObjectTitle: function () {
+							return appTitle;
 						}
 					}
 				});

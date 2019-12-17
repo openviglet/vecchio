@@ -1,4 +1,4 @@
-package com.viglet.vecchio.api.auth;
+package com.viglet.vecchio.api.oauth2;
 
 import java.net.URI;
 import java.util.Date;

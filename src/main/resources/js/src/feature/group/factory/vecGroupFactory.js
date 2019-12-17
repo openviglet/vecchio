@@ -12,7 +12,7 @@ vecchioApp.factory('vecGroupFactory', [
 							id: vecGroup.id
 						}, function () {
 							Notification.error(deletedMessage);
-							$state.go('admin.group', {}, { reload: true });
+							$state.go('console.organization.group', {}, { reload: true });
 						});
 				}, function () {
 					// Selected NO
@@ -22,15 +22,15 @@ vecchioApp.factory('vecGroupFactory', [
 				if (vecGroup.id > 0) {
 					var updateMessage = 'The ' + vecGroup.name + ' was saved.';
 					vecGroup.$update(function () {
-						Notification.warning(updateMessage);
-						$state.go('admin.group');
+						Notification.info(updateMessage);
+						$state.go('console.organization.group');
 					});
 				} else {
 					var saveMessage = 'The ' + vecGroup.name + ' was updated.';
 					delete vecGroup.id;
 					vecGroupResource.save(vecGroup, function (response) {
-						Notification.warning(saveMessage);
-						$state.go('admin.group');
+						Notification.info(saveMessage);
+						$state.go('console.organization.group');
 					});
 				}
 			}, addUsers: function (vecGroup) {
@@ -39,7 +39,7 @@ vecchioApp.factory('vecGroupFactory', [
 					if (vecGroup.vecUsers != null) {
 						angular.forEach(vecUsers, function (vecUser, key) {
 							console.log(vecUser.username);							
-							vecGroup.vecUsers.puvec(vecUser);
+							vecGroup.vecUsers.push(vecUser);
 						});
 					}
 					else {

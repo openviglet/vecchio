@@ -1,15 +1,14 @@
 vecchioApp.controller('VecMappingCtrl', [
 	"$scope",
-	"$http",
 	"$state",
 	"$rootScope",
 	"vecMappingResource",
-	function ($scope, $http, $state, $rootScope, vecMappingResource) {
+	"vecMappingFactory",
+	function ($scope, $state, $rootScope, vecMappingResource, vecMappingFactory) {
 		$rootScope.$state = $state;
 		$scope.mappings = vecMappingResource.query();
 
-		$scope.mappingDelete = function (mappingId) {
-
-			shFolderFactory.deleteFromList(shFolder, $scope.shFolders);
+		$scope.mappingDelete = function (mapping) {
+			vecMappingFactory.deleteFromList(mapping, $scope.mappings);
 		}
 	}]);

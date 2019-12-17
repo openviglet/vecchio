@@ -3,13 +3,13 @@
 	style="font-weight: 400; min-height: 175px; margin-bottom: 0px; padding-bottom: 0px;">
 	<div class="panel-title"
 		style="padding: 10px; border-bottom-color: rgb(217, 217, 217); border-bottom-style: solid; border-bottom-width: thin;">
-		<div ng-hide="$state.current.name.indexOf('app-edit') == 0">
+		<div ng-hide="$state.current.name.indexOf('console.app-edit') == 0">
 		<p style="font-size: 18px; color: mediumseagreen; margin: 0px;"
 			class="ng-binding">New App</p>
 		<p style="font-size: 14px; color: rgb(182, 182, 182); margin: 0px;"
 			class="ng-binding">Add new App</p>
 		</div>
-		<div ng-show="$state.current.name.indexOf('app-edit') == 0">
+		<div ng-show="$state.current.name.indexOf('console.app-edit') == 0">
 		<p style="font-size: 18px; color: mediumseagreen; margin: 0px;"
 			class="ng-binding">{{app.name}}</p>
 		<p style="font-size: 14px; color: rgb(182, 182, 182); margin: 0px;"
@@ -17,13 +17,13 @@
 		</div>
 	</div>
 	<div class="panel-body">
-		<ul class="nav nav-tabs" role="tablist" ng-show="$state.current.name.indexOf('app-edit') == 0">
+		<ul class="nav nav-tabs" role="tablist" ng-show="$state.current.name.indexOf('console.app-edit') == 0">
 			<li role="presentation"
-				ng-class="{'active':$state.current.name == 'app-edit'}"><a
+				ng-class="{'active':$state.current.name == 'console.app-edit'}"><a
 				ui-sref="console.app-edit" data-target="#dummy" aria-controls="home"
 				role="tab" data-toggle="tab">Details</a></li>
 			<li role="presentation"
-				ng-class="{'active':$state.current.name.indexOf('app-edit.keys') == 0}"><a
+				ng-class="{'active':$state.current.name.indexOf('console.app-edit.keys') == 0}"><a
 				ui-sref="console.app-edit.keys" data-target="#dummy"
 				aria-controls="messages" role="tab" data-toggle="tab">Keys and
 					Access Tokens</a></li>

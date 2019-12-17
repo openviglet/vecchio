@@ -10,8 +10,8 @@ vecchioApp.controller('VecMappingNewCtrl', [
 		$scope.mappingSave = function () {
 			delete $scope.mapping.id;
 			vecMappingResource.save($scope.mapping, function (response) {
-				Notification.warning('The Mapping was created.');
-				$state.go('mapping');
+				Notification.info('The Mapping was created.');
+				$state.go('console.mapping');
 			});
 		}
 	}

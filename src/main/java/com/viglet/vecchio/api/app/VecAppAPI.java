@@ -1,4 +1,4 @@
-package com.viglet.vecchio.api.auth;
+package com.viglet.vecchio.api.app;
 
 import java.util.List;
 
@@ -7,6 +7,7 @@ import org.apache.oltu.oauth2.as.issuer.OAuthIssuer;
 import org.apache.oltu.oauth2.as.issuer.OAuthIssuerImpl;
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -86,6 +87,7 @@ public class VecAppAPI {
 		return vecAppEdit;
 	}
 
+	@Transactional
 	@ApiOperation(value = "Delete a App")
 	@DeleteMapping("/{id}")
 	public boolean delete(@PathVariable String id) throws Exception {
