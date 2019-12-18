@@ -1,11 +1,11 @@
-[[vecchio-api-reference-documentation]]
-= Vecchio API Reference Documentation
-Alexandre Oliveira
+[[vecchio-auth-reference-documentation]]
+= Vecchio Auth Reference Documentation
+Viglet Team <opensource@viglet.com>
 :docinfo: shared
 
 The reference documentation consists of the following sections:
 
 [horizontal]
 
-<<getting-started.adoc#,Getting Started>> :: Introducing Vecchio API, System Requirements
-<<developer-guide.adoc#,Installation Guide>> :: About the Documentation, Getting Help, First Steps, and more.
+<<getting-started.adoc#,Getting Started>> :: Introducing Vecchio Auth, System Requirements
+<<developer-guide.adoc#,Developer Guide>> :: About the Documentation, Getting Help, First Steps, and more.
