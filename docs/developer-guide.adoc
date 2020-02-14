@@ -1,10 +1,14 @@
 = Viglet Vecchio Auth: Developer Guide
 Viglet Team <opensource@viglet.com>
+:organization: Viglet Vecchio Auth
 :toc: left
 :toc-title: Table of Contents
 :doctype: book
 :revnumber: 0.3.2 
 :revdate: 17-12-2019
+:title-logo-image: image:assets/vecchio-logo.png[pdfwidth=4.25in,align=center]
+:pdf-theme: viglet
+:pdf-themesdir: {docdir}
 
 == About the author
 
