@@ -20,6 +20,7 @@ buildscript {
 
 plugins {
   id "com.eriwen.gradle.js" version "2.14.1"
+  id "com.gorylenko.gradle-git-properties" version "2.2.1"
 }
 
 apply plugin: 'java'
@@ -36,13 +37,30 @@ sourceSets {
       }
   }
 }
+
 jar {
     baseName = 'viglet-vecchio'
-    version =  '0.3.2'
+    version =  '0.3.3'
 }
 
 bootJar {
-    launchScript()
+    manifest {
+    	attributes(    
+        'Implementation-Version': "${-> project.jar.version + '-' + project.ext.gitProps['git.commit.id.abbrev']}"
+    	)
+  	}
+    
+}
+
+gitProperties {
+    extProperty = 'gitProps' // git properties will be put in a map at project.ext.gitProps
+}
+generateGitProperties.outputs.upToDateWhen { false } // make sure the generateGitProperties task always executes (even when git.properties is not changed)
+
+task printGitProperties(dependsOn: 'generateGitProperties') { // make sure generateGitProperties task to execute before accessing generated properties
+    doLast {
+        println "git.commit.id.abbrev=" + project.ext.gitProps['git.commit.id.abbrev']
+    }
 }
 
 repositories {
