@@ -1,4 +1,3 @@
-
 buildscript {
     ext { springBootVersion = '2.2.4.RELEASE'
 	      hibernateVersion = '5.11.0.Final'
@@ -30,17 +29,13 @@ apply plugin: 'io.spring.dependency-management'
 apply plugin: 'jacoco'
 apply plugin: 'project-report'
 
-sourceSets {
-  main {
-      java {
-         srcDirs = ['src/main/java', 'libs/search/src/main/java','libs/core/src/main/java','libs/nlp/src/main/java']
-      }
-  }
-}
-
 jar {
     baseName = 'viglet-vecchio'
     version =  '0.3.3'
+}
+
+gitProperties {
+    extProperty = 'gitProps' // git properties will be put in a map at project.ext.gitProps
 }
 
 bootJar {
@@ -48,13 +43,9 @@ bootJar {
     	attributes(    
         'Implementation-Version': "${-> project.jar.version + '-' + project.ext.gitProps['git.commit.id.abbrev']}"
     	)
-  	}
-    
+  	} 
 }
 
-gitProperties {
-    extProperty = 'gitProps' // git properties will be put in a map at project.ext.gitProps
-}
 generateGitProperties.outputs.upToDateWhen { false } // make sure the generateGitProperties task always executes (even when git.properties is not changed)
 
 task printGitProperties(dependsOn: 'generateGitProperties') { // make sure generateGitProperties task to execute before accessing generated properties
