@@ -1,18 +1,12 @@
-
 buildscript {
-    ext { springBootVersion = '2.2.2.RELEASE'
+    ext { springBootVersion = '2.3.1.RELEASE'
 	      hibernateVersion = '5.11.0.Final'
-		  httpClientVersion = '4.5.6'
+		  httpClientVersion = '4.5.11'
 		  swaggerVersion = '2.9.2'
 		  jasyptVersion = '2.1.1'
 		 }
 		repositories {
-		mavenCentral()
-		maven { url "https://repo.spring.io/snapshot" }
-		maven { url "https://repo.spring.io/milestone" }
-        maven { url 'https://jitpack.io' }
-        maven { url "https://code.lds.org/nexus/content/groups/main-repo" }
-		jcenter()
+			mavenCentral()		
 		}
     dependencies { classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
     			   classpath files("lib/gradle-js-plugin-2.14.2-SNAPSHOT.jar") }
@@ -20,6 +14,7 @@ buildscript {
 
 plugins {
   id "com.eriwen.gradle.js" version "2.14.1"
+  id "com.gorylenko.gradle-git-properties" version "2.2.1"
 }
 
 apply plugin: 'java'
@@ -29,29 +24,45 @@ apply plugin: 'io.spring.dependency-management'
 apply plugin: 'jacoco'
 apply plugin: 'project-report'
 
-sourceSets {
-  main {
-      java {
-         srcDirs = ['src/main/java', 'libs/search/src/main/java','libs/core/src/main/java','libs/nlp/src/main/java']
-      }
-  }
-}
 jar {
-    baseName = 'viglet-vecchio'
-    version =  '0.3.2'
+    archiveBaseName = 'viglet-vecchio'
+    archiveVersion =  '0.3.3'
+}
+
+eclipse {
+    classpath {
+        file {
+            whenMerged {
+                def src = entries.find { it.path == 'src/main/resources' }
+                src.excludes = ['**']
+            }
+        }
+    }
+}
+
+gitProperties {
+    extProperty = 'gitProps' // git properties will be put in a map at project.ext.gitProps
 }
 
 bootJar {
-    launchScript()
+	launchScript() // executable jar
+    manifest {
+    	attributes(    
+        'Implementation-Version': "${-> project.jar.version + '-' + project.ext.gitProps['git.commit.id.abbrev']}"
+    	)
+  	} 
+}
+
+generateGitProperties.outputs.upToDateWhen { false } // make sure the generateGitProperties task always executes (even when git.properties is not changed)
+
+task printGitProperties(dependsOn: 'generateGitProperties') { // make sure generateGitProperties task to execute before accessing generated properties
+    doLast {
+        println "git.commit.id.abbrev=" + project.ext.gitProps['git.commit.id.abbrev']
+    }
 }
 
 repositories {
 	mavenCentral()
-	maven { url "https://repo.spring.io/snapshot" }
-	maven { url "https://repo.spring.io/milestone" }
-    maven { url 'https://jitpack.io' }
-    maven { url "https://code.lds.org/nexus/content/groups/main-repo" }
-	jcenter()
 }
 
 sourceCompatibility = 1.8
@@ -100,82 +111,82 @@ javadoc {
 dependencies {
 		
  	// Spring Boot
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: "${springBootVersion}"
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version:"${springBootVersion}"
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-parent', version:"${springBootVersion}"
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version:"${springBootVersion}"
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version:"${springBootVersion}"
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version:"${springBootVersion}"
-//	compile group: 'org.springframework.security.oauth.boot', name: 'spring-security-oauth2-autoconfigure', version:"${springBootVersion}"
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: "${springBootVersion}"
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version:"${springBootVersion}"
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-parent', version:"${springBootVersion}"
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version:"${springBootVersion}"
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version:"${springBootVersion}"
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version:"${springBootVersion}"
+//	implementation group: 'org.springframework.security.oauth.boot', name: 'spring-security-oauth2-autoconfigure', version:"${springBootVersion}"
 
 	// OLTU
-	compile group: 'org.apache.oltu.oauth2', name: 'org.apache.oltu.oauth2.authzserver', version:"1.0.0"
-	compile group: 'org.apache.oltu.oauth2', name: 'org.apache.oltu.oauth2.resourceserver', version:"1.0.0"
-	compile group: 'org.apache.oltu.oauth2', name: 'org.apache.oltu.oauth2.common', version:"1.0.0"
-	compile group: 'org.apache.oltu.oauth2', name: 'org.apache.oltu.oauth2.dynamicreg.server', version:"1.0.0"
-	compile group: 'org.apache.oltu.oauth2', name: 'org.apache.oltu.oauth2.client', version:"1.0.0"
-    compile group: 'org.apache.oltu.oauth2', name: 'org.apache.oltu.oauth2.dynamicreg.client', version:"1.0.0"
+	implementation group: 'org.apache.oltu.oauth2', name: 'org.apache.oltu.oauth2.authzserver', version:"1.0.0"
+	implementation group: 'org.apache.oltu.oauth2', name: 'org.apache.oltu.oauth2.resourceserver', version:"1.0.0"
+	implementation group: 'org.apache.oltu.oauth2', name: 'org.apache.oltu.oauth2.common', version:"1.0.0"
+	implementation group: 'org.apache.oltu.oauth2', name: 'org.apache.oltu.oauth2.dynamicreg.server', version:"1.0.0"
+	implementation group: 'org.apache.oltu.oauth2', name: 'org.apache.oltu.oauth2.client', version:"1.0.0"
+    implementation group: 'org.apache.oltu.oauth2', name: 'org.apache.oltu.oauth2.dynamicreg.client', version:"1.0.0"
 
 	// Oracle	
-	compile group: 'com.oracle', name: 'ojdbc6', version: '11.2.0.3'
+	implementation group: 'com.oracle.ojdbc', name: 'ojdbc8', version: '19.3.0.0'
 	
 	// Jasypt
-	compile group: 'com.github.ulisesbocchio', name: 'jasypt-spring-boot-starter', version: "${jasyptVersion}"
+	implementation group: 'com.github.ulisesbocchio', name: 'jasypt-spring-boot-starter', version: "${jasyptVersion}"
 
 	// Spring
-  	compile group: 'org.springframework', name: 'spring-test', version: '5.2.2.RELEASE'
+  	implementation group: 'org.springframework', name: 'spring-test', version: '5.2.7.RELEASE'
 
  	// Jackson
-   	compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-hibernate5', version: '2.9.7'
+   	implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-hibernate5', version: '2.9.7'
    	  	
   	// H2
-    compile group: 'com.h2database', name: 'h2', version:'1.4.197'
+    implementation group: 'com.h2database', name: 'h2', version:'1.4.197'
     
     // MariaDB
-    compile group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '2.3.0'         
+    implementation group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '2.3.0'         
     
     // JSON
-    compile group: 'org.json', name: 'json', version:'20140107'
+    implementation group: 'org.json', name: 'json', version:'20140107'
           
     // Apache Commons
-    compile group: 'commons-io', name: 'commons-io', version:'2.5'
-    compile group: 'commons-lang', name: 'commons-lang', version:'2.6'
+    implementation group: 'commons-io', name: 'commons-io', version:'2.5'
+    implementation group: 'commons-lang', name: 'commons-lang', version:'2.6'
     	
 	// Swagger 2
-	compile group: 'io.springfox', name: 'springfox-swagger2', version: "${swaggerVersion}"
-	compile group: 'io.springfox', name: 'springfox-swagger-ui', version: "${swaggerVersion}"
+	implementation group: 'io.springfox', name: 'springfox-swagger2', version: "${swaggerVersion}"
+	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: "${swaggerVersion}"
 
 
 	// WebJars
-	compile 'org.webjars.bower:jquery:1.12.4'
-	compile 'org.webjars.bower:jquery.ui:1.11.3'
-	compile 'org.webjars:bootstrap:3.3.7-1' // Content
-	compile 'org.webjars.bower:bootstrap:4.1.1' // Preview
-	compile 'org.webjars.bower:moment:2.20.1'
-	compile 'org.webjars.bower:angular:1.6.9'
-	compile 'org.webjars.bower:ace-builds:1.3.1'
-	compile 'org.webjars.bower:tinymce:4.5.8'
-	compile 'org.webjars.bower:angular-ui-router:1.0.14'
-	compile 'org.webjars.bower:angular-translate:2.17.0'
-	compile 'org.webjars.bower:angular-resource:1.6.9'
-	compile 'org.webjars.bower:angular-animate:1.6.9'
-	compile 'org.webjars.bower:angular-sanitize:1.6.9'
-	compile 'org.webjars.bower:angular-bootstrap:2.5.0'
-	compile 'org.webjars.bower:angular-cookies:1.6.9'
-	compile 'org.webjars.bower:angular-moment:1.2.0'
-	compile 'org.webjars.bower:angular-ui-ace:0.2.3'
-	compile 'org.webjars.bower:font-awesome:4.7.0'
-	compile 'org.webjars.bower:ng-file-upload:12.2.13'
-	compile 'org.webjars.bower:angular-ui-notification:0.3.6'
-	compile 'org.webjars.bower:angular-ui-tinymce:0.0.19'
-	compile 'org.webjars.bower:angular-ui-sortable:0.14.3'
-	compile 'org.webjars.bower:angular-ui-select:0.19.8'
-	compile 'org.webjars.bower:ngInfiniteScroll:1.3.4'
-	compile 'org.webjars.bower:nvd3:1.8.6'
-    compile 'org.webjars:d3js:3.5.17'
-	compile 'org.webjars:angular-nvd3:1.0.5'
+	implementation 'org.webjars.bower:jquery:1.12.4'
+	implementation 'org.webjars.bower:jquery.ui:1.11.3'
+	implementation 'org.webjars:bootstrap:3.3.7-1'
+	implementation 'org.webjars.bower:bootstrap:4.1.1'
+	implementation 'org.webjars.bower:moment:2.20.1'
+	implementation 'org.webjars.bower:angular:1.6.9'
+	implementation 'org.webjars.bower:ace-builds:1.3.1'
+	implementation 'org.webjars.bower:tinymce:4.5.8'
+	implementation 'org.webjars.bower:angular-ui-router:1.0.14'
+	implementation 'org.webjars.bower:angular-translate:2.17.0'
+	implementation 'org.webjars.bower:angular-resource:1.6.9'
+	implementation 'org.webjars.bower:angular-animate:1.6.9'
+	implementation 'org.webjars.bower:angular-sanitize:1.6.9'
+	implementation 'org.webjars.bower:angular-bootstrap:2.5.0'
+	implementation 'org.webjars.bower:angular-cookies:1.6.9'
+	implementation 'org.webjars.bower:angular-moment:1.2.0'
+	implementation 'org.webjars.bower:angular-ui-ace:0.2.3'
+	implementation 'org.webjars.bower:font-awesome:4.7.0'
+	implementation 'org.webjars.bower:ng-file-upload:12.2.13'
+	implementation 'org.webjars.bower:angular-ui-notification:0.3.6'
+	implementation 'org.webjars.bower:angular-ui-tinymce:0.0.19'
+	implementation 'org.webjars.bower:angular-ui-sortable:0.14.3'
+	implementation 'org.webjars.bower:angular-ui-select:0.19.8'
+	implementation 'org.webjars.bower:ngInfiniteScroll:1.3.4'
+	implementation 'org.webjars.bower:nvd3:1.8.6'
+    implementation 'org.webjars:d3js:3.5.17'
+	implementation 'org.webjars:angular-nvd3:1.0.5'
 	
-	testCompile('org.springframework.boot:spring-boot-starter-test')
+	testImplementation('org.springframework.boot:spring-boot-starter-test')
 }
 
 test {

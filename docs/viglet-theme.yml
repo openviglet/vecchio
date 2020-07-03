@@ -1,0 +1,45 @@
+extends: default
+title_page:
+  align: center
+  #background_color: transparent
+  background_image: image:assets/viglet-cover.png[]
+  font_color: #ffffff
+  #font_family: Free Sans
+  #font_size: $heading_h1_font_size
+  #font_style:       # <(inherit)> | normal | italic | bold | bold_italic
+  #text_transform:   # <$heading_text_transform> | uppercase | lowercase | none (clears inherited value)
+  #line_height: 1.15
+role:
+  love:
+    font-color: E0245E
+  wild:
+    font-color: 222222
+    text-transform: uppercase
+    font-style: italic
+    background-color: BCD637
+    border-offset: 1.5
+link:
+  font-color: #ff6347    
+header:
+  font_color: 999999
+  height: 0.5in
+  recto:
+    columns: "<40% =20% >40%"
+    right:
+      content: '_{organization}_'
+    center:
+      content: image:assets/vecchio-logo.png[pdfwidth=0.25in]
+  verso:
+    columns: $header_recto_columns
+    left:
+      content: $header_recto_right_content
+    center:
+      content: $header_recto_center_content
+footer:
+  height: 0.45in
+  recto:
+    right:
+      content: '{section-or-chapter-title} | {page-number}'
+  verso:
+    left:
+      content: '{page-number} | {chapter-title}'

@@ -1,32 +1,28 @@
-#
-# Ubuntu Dockerfile
-#
-# https://github.com/dockerfile/ubuntu
-#
+FROM openjdk:8-jre-alpine
+ 
+ENV JAVA_OPTS=${JAVA_OPTS:-'-Xmx512m'}
+ENV DEBUG_OPTS=${DEBUG_OPTS}
+ENV PORT=${PORT:-2702}
+ENV spring.datasource.url=${DATA_SOURCE:-'jdbc:h2:file:./store/db/vecchioDB'}
+ENV spring.datasource.username=${DB_USER:-'sa'}
+ENV spring.datasource.password=${DB_PASSWORD:-''}
+ENV spring.datasource.driver-class-name=${DB_DRIVER:-'org.h2.Driver'}
+ENV spring.jpa.properties.hibernate.dialect=${DB_DIALECT:-'org.hibernate.dialect.H2Dialect'}
 
-# Pull base image.
-FROM ubuntu:14.04
+RUN adduser -D -g '' java
 
-# Install.
-RUN \
-  sed -i 's/# \(.*multiverse$\)/\1/g' /etc/apt/sources.list && \
-  apt-get update && \
-  apt-get -y upgrade && \
-  apt-get install -y build-essential && \
-  apt-get install -y software-properties-common && \
-  apt-get install -y byobu curl git htop man unzip vim wget && \
-  rm -rf /var/lib/apt/lists/*
+COPY /build/libs/viglet-vecchio.jar /app.jar
 
-# Add files.
-ADD root/.bashrc /root/.bashrc
-ADD root/.gitconfig /root/.gitconfig
-ADD root/.scripts /root/.scripts
 
-# Set environment variables.
-ENV HOME /root
+RUN sh -c 'touch /app.jar'
+RUN sh -c 'mkdir -p /store'
+RUN sh -c 'chown -R java /store'
 
-# Define working directory.
-WORKDIR /root
+VOLUME /tmp
+VOLUME /store
 
-# Define default command.
-CMD ["bash"]
+USER java
+
+EXPOSE ${PORT}
+
+CMD java ${JAVA_OPTS} ${DEBUG_OPTS} -Djava.security.egd=file:/dev/./urandom -jar /app.jar
