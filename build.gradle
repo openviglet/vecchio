@@ -1,5 +1,5 @@
 buildscript {
-    ext { springBootVersion = '2.3.1.RELEASE'
+    ext { springBootVersion = '2.5.5'
 	      hibernateVersion = '5.11.0.Final'
 		  httpClientVersion = '4.5.11'
 		  swaggerVersion = '2.10.5'
@@ -165,7 +165,7 @@ dependencies {
 	implementation 'org.webjars.bower:moment:2.29.1'
 	implementation 'org.webjars.bower:angular:1.8.2'
 	implementation 'org.webjars.bower:ace-builds:1.4.12'
-	implementation 'org.webjars.bower:tinymce:4.5.8'
+	implementation 'org.webjars.bower:tinymce:5.9.2'
 	implementation 'org.webjars.bower:angular-ui-router:1.0.29'
 	implementation 'org.webjars.bower:angular-translate:2.18.3'
 	implementation 'org.webjars.bower:angular-resource:1.6.9'
