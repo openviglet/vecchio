@@ -134,10 +134,10 @@ dependencies {
 	implementation group: 'com.github.ulisesbocchio', name: 'jasypt-spring-boot-starter', version: "${jasyptVersion}"
 
 	// Spring
-  	implementation group: 'org.springframework', name: 'spring-test', version: '5.3.10'
+  	implementation group: 'org.springframework', name: 'spring-test', version: '5.3.12'
 
  	// Jackson
-   	implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-hibernate5', version: '2.9.7'
+   	implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-hibernate5', version: '2.13.0'
    	  	
   	// H2
     implementation group: 'com.h2database', name: 'h2', version:'1.4.200'
@@ -149,7 +149,7 @@ dependencies {
     implementation group: 'org.json', name: 'json', version:'20140107'
           
     // Apache Commons
-    implementation group: 'commons-io', name: 'commons-io', version:'2.5'
+    implementation group: 'commons-io', name: 'commons-io', version:'2.11.0'
     implementation group: 'commons-lang', name: 'commons-lang', version:'2.6'
     	
 	// Swagger 2
