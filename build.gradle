@@ -122,10 +122,10 @@ dependencies {
 	// OLTU
 	implementation group: 'org.apache.oltu.oauth2', name: 'org.apache.oltu.oauth2.authzserver', version:"1.0.0"
 	implementation group: 'org.apache.oltu.oauth2', name: 'org.apache.oltu.oauth2.resourceserver', version:"1.0.2"
-	implementation group: 'org.apache.oltu.oauth2', name: 'org.apache.oltu.oauth2.common', version:"1.0.0"
+	implementation group: 'org.apache.oltu.oauth2', name: 'org.apache.oltu.oauth2.common', version:"1.0.2"
 	implementation group: 'org.apache.oltu.oauth2', name: 'org.apache.oltu.oauth2.dynamicreg.server', version:"1.0.2"
 	implementation group: 'org.apache.oltu.oauth2', name: 'org.apache.oltu.oauth2.client', version:"1.0.0"
-    implementation group: 'org.apache.oltu.oauth2', name: 'org.apache.oltu.oauth2.dynamicreg.client', version:"1.0.0"
+    implementation group: 'org.apache.oltu.oauth2', name: 'org.apache.oltu.oauth2.dynamicreg.client', version:"1.0.2"
 
 	// Oracle	
 	implementation group: 'com.oracle.ojdbc', name: 'ojdbc8', version: '19.3.0.0'
@@ -137,7 +137,7 @@ dependencies {
   	implementation group: 'org.springframework', name: 'spring-test', version: '5.3.12'
 
  	// Jackson
-   	implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-hibernate5', version: '2.9.7'
+   	implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-hibernate5', version: '2.13.0'
    	  	
   	// H2
     implementation group: 'com.h2database', name: 'h2', version:'1.4.200'
