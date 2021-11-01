@@ -149,7 +149,7 @@ dependencies {
     implementation group: 'org.json', name: 'json', version:'20140107'
           
     // Apache Commons
-    implementation group: 'commons-io', name: 'commons-io', version:'2.5'
+    implementation group: 'commons-io', name: 'commons-io', version:'2.11.0'
     implementation group: 'commons-lang', name: 'commons-lang', version:'2.6'
     	
 	// Swagger 2
