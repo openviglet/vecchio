@@ -120,7 +120,7 @@ dependencies {
 //	implementation group: 'org.springframework.security.oauth.boot', name: 'spring-security-oauth2-autoconfigure', version:"${springBootVersion}"
 
 	// OLTU
-	implementation group: 'org.apache.oltu.oauth2', name: 'org.apache.oltu.oauth2.authzserver', version:"1.0.0"
+	implementation group: 'org.apache.oltu.oauth2', name: 'org.apache.oltu.oauth2.authzserver', version:"1.0.2"
 	implementation group: 'org.apache.oltu.oauth2', name: 'org.apache.oltu.oauth2.resourceserver', version:"1.0.2"
 	implementation group: 'org.apache.oltu.oauth2', name: 'org.apache.oltu.oauth2.common', version:"1.0.2"
 	implementation group: 'org.apache.oltu.oauth2', name: 'org.apache.oltu.oauth2.dynamicreg.server', version:"1.0.2"
